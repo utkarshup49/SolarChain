@@ -1,0 +1,86 @@
+/* Base styles */
+:root {
+    --bg-color: #121212;      /* Dark background for the tech feel */
+    --primary-color: #0d6efd; /* Primary blue for buttons and links */
+    --accent-color: #21c7c2;  /* Accent turquoise for highlights and important info */
+    --text-color: #ffffff;    /* Bright text color for readability */
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern, readable font */
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    font-size: 16px;
+
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+}
+
+a {
+    color: var(--text-color);
+    text-decoration: none; /* No underlines for a cleaner look */
+}
+
+a:hover, a:focus {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+button:hover, button:focus {
+    background-color: var(--accent-color);
+}
+
+/* Classes for layout */
+.container {
+    width: 90%;
+    margin: auto;
+    max-width: 1200px;
+}
+
+.header {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    padding: 10px 0;
+    text-align: center;
+}
+
+.footer {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    text-align: left;
+    padding: 10px 10px;
+    margin-top: auto;
+}
+
+.content {
+    padding: 20px;
+    min-height: 80vh; /* Minimum height */
+}
+
+/* Utility classes */
+.text-center {
+    text-align: center;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.margin-top {
+    margin-top: 20px;
+}
