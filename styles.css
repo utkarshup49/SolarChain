@@ -120,8 +120,7 @@ html {
   flex-direction: column;
   background-color: #313338;
   color: #fff;
-  margin: 10vh 0 auto auto;
-  padding: 0.5vw 20vw 5vw 20vw;
+  padding: 0.5vw 0.5vw 0.5vw 0.5vw;
   box-sizing: border-box;
 }
 
@@ -678,6 +677,50 @@ body {
   color: #fff;
   text-decoration: none;
 }
+
+/* General table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Header styles */
+th {
+    background-color: #4CAF50; /* Green shade */
+    color: white;
+    text-align: center;
+    padding: 12px 20px;
+    border-bottom: 1px solid #ddd; /* Light gray border under headers */
+}
+
+/* Hover effect for header */
+th:hover {
+    background-color: #457f47; /* Darker green when mouse hovers over */
+}
+
+/* Table data styles */
+td {
+    padding: 12px 20px;
+    text-align: center;
+}
+
+/* Zebra striping for rows */
+tr:nth-child(odd) {
+    background-color: #3f4148; /* Light gray background for odd rows */
+}
+
+tr:nth-child(even) {
+    background-color: #ffffff; /* White background for even rows */
+}
+
+/* Hover effect for rows */
+
+tr:hover {
+    background-color: #6f5ed7;
+}
+
 
 
 /* animations */
