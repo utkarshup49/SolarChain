@@ -28,5 +28,15 @@ def transactions():
     return render_template("transaction.html")
 
 
+@app.route('/about')
+def about():
+    return render_template("about.html")
+
+
+@app.route('/layout')
+def layout():
+    return render_template("layout.html")
+
+
 if __name__ == "__main__":
     app.run(debug=True, use_reloader=False)

@@ -1,27 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Pinnacle Dynamo: Info</title>
-    <link href="static/style.css" rel="stylesheet" type="text/css">
-    <script src="static/home_page.js"></script>
-</head>
-<body>
-
-<div class="header">
-    <div class="nav-bar">
-        <div class="nav-links">
-            <a href="/home">Home</a>
-            <a href="/transactions">Transactions</a>
-            <a href="/about">About</a>
-        </div>
-    </div>
-</div>
-
-<!--<div class="video-bg">-->
-<!--    <video id="bgVideo" preload="true" autoplay loop muted>-->
-<!--        <source id="videoSource" src="Resources/Videos/many_panels.mp4" type="video/mp4" />-->
-<!--    </video>-->
-<!--</div>-->
+{% extends "layout.html" %}
+{% block content %}
 
 <div class="dashboard_container">
     <div class="dashboard">
@@ -123,12 +101,4 @@
     </div>
 </div>
 
-<div class="footer">
-    <p>2024 &copy; Solar Pool?. All rights reserved.</p>
-    <a class="ext-links" href="https://github.com/GlaucousGlaucus/PinnacleDynamo_Help">
-        <img alt="Lyrics Editor" src="Resources/Icons/github-mark-white.svg"/>
-    </a>
-</div>
-
-</body>
-</html>
+{% endblock content %}
