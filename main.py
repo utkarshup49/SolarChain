@@ -12,9 +12,19 @@ def get_sellers():
     connection = sqlite3.connect('sellers.db')  # Your SQLite database file
     cursor = connection.cursor()
 
+    cursor.execute('''CREATE TABLE IF NOT EXISTS sellers (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        name TEXT NOT NULL,
+                        location TEXT,
+                        reputation REAL,
+                        available INTEGER,
+                        price_per_kwh REAL
+                      )''')
+
     # Fetch data from the sellers table
     cursor.execute("SELECT name, location, reputation, available, price_per_kwh FROM sellers")
     sellers = cursor.fetchall()
+    print(sellers)
 
     connection.close()
     return sellers
@@ -28,7 +38,7 @@ def home():
 
 @app.route('/transactions')
 def transactions():
-    return render_template("transaction.html")
+    return render_template("transaction.html", seller_data=get_sellers())
 
 
 @app.route('/about')

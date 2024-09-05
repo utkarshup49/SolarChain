@@ -1,0 +1,1 @@
+INSERT INTO sellers (name, location, reputation, available, price_per_kwh) VALUES ("Test", "Loc", 4, 1, 5.5);

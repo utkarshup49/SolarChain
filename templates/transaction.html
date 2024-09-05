@@ -17,42 +17,17 @@
             </thead>
 
             <tbody>
-            <tr>
-                <td>UPrk</td>
-                <td>CS</td>
-                <td class="rep" data-rep="2"></td>
-                <td>
-                    <div class="status"><p>1</p></div>
-                </td>
-                <td>Rs. 4</td>
-            </tr>
-            <tr>
-                <td>UPrk</td>
-                <td>CS</td>
-                <td class="rep" data-rep="4"></td>
-                <td class="status-col">
-                    <div class="status"><p>1</p></div>
-                </td>
-                <td class="price">Rs. 4</td>
-            </tr>
-            <tr>
-                <td>UPrk</td>
-                <td>CS</td>
-                <td class="rep" data-rep="5"></td>
-                <td>
-                    <div class="status"><p>1</p></div>
-                </td>
-                <td class="price">Rs. 4</td>
-            </tr>
-            <tr>
-                <td>UPrk</td>
-                <td>CS</td>
-                <td class="rep" data-rep="2"></td>
-                <td>
-                    <div class="status"><p>1</p></div>
-                </td>
-                <td class="price">Rs. 4</td>
-            </tr>
+            {% for row in seller_data %}
+                <tr>
+                    <td>{{row.0}}</td>
+                    <td>{{row.1}}</td>
+                    <td class="rep" data-rep={{row.2}}></td>
+                    <td>
+                        <div class="status"><p>{{row.3}}</p></div>
+                    </td>
+                    <td class="price">Rs. {{row.4}}</td>
+                </tr>
+            {% endfor %}
             </tbody>
         </table>
 
