@@ -784,6 +784,7 @@ video {
     flex-direction: row; /* change from column to row for left-to-right alignment */
     justify-content: space-around; /* space items evenly */
     align-items: center; /* Adjusts alignment along the vertical axis */
+    border-radius: 15px;
 }
 
 .balance_info_cont {
