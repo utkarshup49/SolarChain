@@ -4,6 +4,9 @@ from flask import Flask, render_template
 app = Flask(__name__)
 
 
+dashboard_info = {"balance": "50"}
+
+
 # Connect to the SQLite database
 def get_sellers():
     connection = sqlite3.connect('sellers.db')  # Your SQLite database file
@@ -20,7 +23,7 @@ def get_sellers():
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template("index.html")
+    return render_template("index.html", user_data=dashboard_info)
 
 
 @app.route('/transactions')
