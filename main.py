@@ -18,13 +18,15 @@ def get_sellers():
 
 
 @app.route('/')
-def show_table():
-    # Fetch the seller data
-    # sellers = get_sellers()
-
-    # Pass the data to the HTML template to render
-    return "Test"
+@app.route('/home')
+def home():
+    return render_template("index.html")
 
 
-# if __name__ == '__main__':
-#     app.run(debug=True)
+@app.route('/transactions')
+def transactions():
+    return render_template("transaction.html")
+
+
+if __name__ == "__main__":
+    app.run(debug=True, use_reloader=False)

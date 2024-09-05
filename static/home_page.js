@@ -10,3 +10,19 @@
 //    const alphaValue = Math.max(Math.min(scrollPosition / 500, 0.6), 0.4);
 //    document.querySelector('.video-bg').style.setProperty('--bg-alpha', alphaValue);
 //});
+//
+//console.log("Fetching");
+//fetch('/add', {
+//    method: 'POST',
+//    headers: {
+//        'Content-Type': 'application/json'
+//    },
+//    body: JSON.stringify({
+//        value1: 'some value',
+//        value2: 'another value'
+//    })
+//}).then(response => {
+//    return response.text();
+//}).then(data => {
+//    console.log(data);
+//});
