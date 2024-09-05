@@ -55,44 +55,51 @@ th, td {
     background-image: linear-gradient(to bottom, #483d8b, #6f5ed7);
 }
 
-/* Styling for status cells to indicate something like availability */
+/* General styling for status cells to indicate availability */
+.bordered td.status-col {
+    width: 100px; /* Adjust the width as necessary */
+    max-width: 100px;
+    min-width: 100px;
+}
+
 .bordered td.status {
     border-radius: 0.4rem;
-    padding: 0; /* Reset padding for better control */
 }
 
-.bordered td.status div {
-    display: flex; /* Enable flexbox */
-    width: 100%; /* Make sure it spans the entire width */
-    align-items: center; /* Vertically center the text */
-    justify-content: center; /* Horizontally center the text */
-    background-image: linear-gradient(to bottom, #483d8b, #6f5ed7); /* Apply background */
-    border-radius: 4rem; /* Rounded corners */
-}
-
+/* Paragraph inside status cell div */
 .bordered td.status p {
     text-align: center;
 }
 
-.green {
-    font: bold 0.9em arial;
-    background-color: green;
+/* Styling for different statuses */
+.green, .red, .yellow {
+    font: bold 0.9em Arial; /* Consistent font for green and red, yellow overrides this */
     border-radius: 4rem; /* Rounded corners */
+}
+
+.green {
+    background-color: green;
 }
 
 .red {
-    font: bold 0.9em arial;
     background-color: red;
-    border-radius: 4rem; /* Rounded corners */
 }
 
 .yellow {
-    font: bold 3em arial;
+    font: bold 3em Arial; /* Larger font size for yellow status */
     background-color: yellow;
-    border-radius: 4rem; /* Rounded corners */
+}
+
+.bordered td.price {
+    width: 10em; /* Adjust the width as necessary */
+    max-width: 10em;
+    min-width: 10em;
 }
 
 .bordered td.rep {
+    width: 100px; /* Adjust the width as necessary */
+    max-width: 100px;
+    min-width: 100px;
     padding: 0.4rem 0;
 }
 
@@ -117,7 +124,6 @@ th, td {
 .bordered::-webkit-scrollbar-thumb {
     visibility: hidden; /* More visible than 'hidden' */
 }
-
 
 .nav-bar {
     display: flex;
