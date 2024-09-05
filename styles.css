@@ -15,6 +15,110 @@ html {
   font-style: italic;
 }
 
+/* Base table styles */
+table {
+    width: 100vw; /* Adjust if necessary to fit design */
+    margin: 0;
+    border-spacing: 0px;
+    border-collapse: collapse; /* Use 'collapse' for tighter cell spacing */
+}
+
+/* Styling for all table cells */
+table {
+    padding: 2rem 2rem;
+}
+
+th, td {
+    padding: 1rem 2rem;
+}
+
+/* Bordered table specific styles */
+.bordered {
+    width: 100%;
+    border: none;
+}
+
+/* Hover effect for rows within bordered tables */
+.bordered tr:hover {
+    background-color: #252525;
+    transition: background-color 0.1s ease-in-out;
+}
+
+/* Consistent styling for cells within bordered tables */
+.bordered th, .bordered td {
+    text-align: center;
+}
+
+/* Header cell specific styles */
+.bordered th {
+    background-color: #303030;
+    background-image: linear-gradient(to bottom, #483d8b, #6f5ed7);
+}
+
+/* Styling for status cells to indicate something like availability */
+.bordered td.status {
+    border-radius: 0.4rem;
+    padding: 0; /* Reset padding for better control */
+}
+
+.bordered td.status div {
+    display: flex; /* Enable flexbox */
+    width: 100%; /* Make sure it spans the entire width */
+    align-items: center; /* Vertically center the text */
+    justify-content: center; /* Horizontally center the text */
+    background-image: linear-gradient(to bottom, #483d8b, #6f5ed7); /* Apply background */
+    border-radius: 4rem; /* Rounded corners */
+}
+
+.bordered td.status p {
+    text-align: center;
+}
+
+.green {
+    font: bold 0.9em arial;
+    background-color: green;
+    border-radius: 4rem; /* Rounded corners */
+}
+
+.red {
+    font: bold 0.9em arial;
+    background-color: red;
+    border-radius: 4rem; /* Rounded corners */
+}
+
+.yellow {
+    font: bold 3em arial;
+    background-color: yellow;
+    border-radius: 4rem; /* Rounded corners */
+}
+
+.bordered td.rep {
+    padding: 0.4rem 0;
+}
+
+/* Rounded corners for specific cells in bordered tables */
+.bordered th:first-child {
+    border-radius: 6px 0 0 0;
+}
+.bordered th:last-child {
+    border-radius: 0 6px 0 0;
+}
+.bordered th:only-child {
+    border-radius: 6px 6px 0 0;
+}
+.bordered tr:last-child td:first-child {
+    border-radius: 0 0 0 6px;
+}
+.bordered tr:last-child td:last-child {
+    border-radius: 0 0 6px 0;
+}
+
+/* Improve scrollbar visibility in WebKit browsers */
+.bordered::-webkit-scrollbar-thumb {
+    visibility: hidden; /* More visible than 'hidden' */
+}
+
+
 .nav-bar {
     display: flex;
     justify-content: space-between;
@@ -157,30 +261,6 @@ html {
   width: 60vw;
 }
 
-.page table {
-  text-align: center;
-  border-collapse: collapse;
-}
-
-.page table th{
-  background-color: rgb(30, 31, 34);
-}
-
-.page table th, td{
-  font-size: 1.5em;
-  border: 2px solid rgb(30, 30, 30);
-}
-
-.page table td {
-  padding: 2% 0;
-  text-wrap: pretty;
-}
-
-.page table td img {
-  width: fit-content;
-  height: fit-content;
-}
-
 .page .note {
   font-weight: 900;
   color: #1edbff;
@@ -197,11 +277,6 @@ html {
 .page img {
   border: 0.25vw white solid;
   /* box-shadow: 0px 0px 5px 5px #f201ff; */
-}
-
-.page table td a {
-  text-decoration: none;
-  color: #03f5ff;
 }
 
 /* css for gradient background */
@@ -677,51 +752,6 @@ body {
   color: #fff;
   text-decoration: none;
 }
-
-/* General table styles */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    font-family: 'Arial', sans-serif;
-}
-
-/* Header styles */
-th {
-    background-color: #4CAF50; /* Green shade */
-    color: white;
-    text-align: center;
-    padding: 12px 20px;
-    border-bottom: 1px solid #ddd; /* Light gray border under headers */
-}
-
-/* Hover effect for header */
-th:hover {
-    background-color: #457f47; /* Darker green when mouse hovers over */
-}
-
-/* Table data styles */
-td {
-    padding: 12px 20px;
-    text-align: center;
-}
-
-/* Zebra striping for rows */
-tr:nth-child(odd) {
-    background-color: #3f4148; /* Light gray background for odd rows */
-}
-
-tr:nth-child(even) {
-    background-color: #ffffff; /* White background for even rows */
-}
-
-/* Hover effect for rows */
-
-tr:hover {
-    background-color: #6f5ed7;
-}
-
-
 
 /* animations */
 

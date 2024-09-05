@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
     <title>Pinnacle Dynamo: Info</title>
     <link href="styles.css" rel="stylesheet" type="text/css">
-    <script src="script.js"></script>
+    <script src="transaction.js"></script>
 </head>
 <body>
 
@@ -22,26 +23,27 @@
     <div class="page" style="width: 95vw;">
         <p style="text-align: center;">Sellers near You</p>
         <!--  Have a Table View thing here  -->
-        <table>
-            <thead>
+<table class="bordered">
+    <thead>
             <tr>
                 <th scope="col">Name</th>
                 <th scope="col">Location</th>
+                <th scope="col">Reputation</th>
                 <th scope="col">Available</th>
                 <th scope="col">Price Per kWh</th>
-                <th scope="col">Reputation</th>
             </tr>
-            </thead>
-            <tbody>
+    </thead>
+
+    <tbody>
             <tr>
-                <th scope="row">UPrk</th>
+                <td>UPrk</td>
                 <td>CS</td>
-                <td>1   </td>
+                <td class="rep" data-rep="2">5 stars</td>
+                <td><div class="status"><p>1</p></div></td>
                 <td>Rs. 4</td>
-                <td>5 stars</td>
             </tr>
-            </tbody>
-        </table>
+    </tbody>
+</table>
 
     </div>
 </div>
