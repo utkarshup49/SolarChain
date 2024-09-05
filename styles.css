@@ -675,6 +675,7 @@ body {
     height: 6vh;
     flex-direction: row;
     align-items: center;
+    place-items: center;
     background-color: #56a0ff;
 ;
 }
@@ -762,6 +763,79 @@ video {
     -webkit-filter: blur(0px);
 }
 
+.dashboard_container {
+    font: normal normal bold 6vw arial;
+    user-select: none;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation-name: fadein;
+    animation-duration: 1s;
+    color: white;
+}
+
+.dashboard {
+    width: 70vw;
+    height: 30vw;
+    background-color: #303030;
+    display: flex;
+    flex-direction: row; /* change from column to row for left-to-right alignment */
+    justify-content: space-around; /* space items evenly */
+    align-items: center; /* Adjusts alignment along the vertical axis */
+}
+
+.balance_info_cont {
+    flex-direction: row; /* change from column to row for left-to-right alignment */
+    justify-content: center; /* space items evenly */
+}
+
+.info_options {
+    display: flex;
+    flex-direction: row; /* change from column to row for left-to-right alignment */
+    justify-content: space-around; /* space items evenly */
+    place-content:center;
+    gap: 20px;
+}
+
+.info_options button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #7d9bff;
+    background-color: transparent;
+    border: 2px solid #7d9bff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: color 0.4s ease, background-color 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.info_options button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0088a9;
+    z-index: -1;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+}
+
+.info_options button:hover {
+    color: white;
+}
+
+.info_options button::before {
+    transform: scaleX(1); /* Fill the button background */
+}
+
 
 /* animations */
 
@@ -803,4 +877,59 @@ video {
   100% {
     width: 100%;
   }
+}
+
+@property --p{
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+.pie {
+  --p:50;
+  --b:22px;
+  --c:rgb(125, 155, 255);
+  --w:300px;
+
+  width:var(--w);
+  aspect-ratio:1;
+  position:relative;
+  display:inline-grid;
+  margin:5px;
+  place-content:center;
+  font-size:25px;
+  font-weight:bold;
+  font-family:sans-serif;
+  text-align: center;
+}
+.pie:before,
+.pie:after {
+  content:"";
+  position:absolute;
+  border-radius:50%;
+}
+.pie:before {
+  inset:0;
+  background:
+    radial-gradient(farthest-side,var(--c) 98%,#0000) top/var(--b) var(--b) no-repeat,
+    conic-gradient(var(--c) calc(var(--p)*1%),#0000 0);
+  -webkit-mask:radial-gradient(farthest-side,#0000 calc(99% - var(--b)),#000 calc(100% - var(--b)));
+          mask:radial-gradient(farthest-side,#0000 calc(99% - var(--b)),#000 calc(100% - var(--b)));
+}
+.pie:after {
+  inset:calc(50% - var(--b)/2);
+  background:var(--c);
+  transform:rotate(calc(var(--p)*3.6deg)) translateY(calc(50% - var(--w)/2));
+}
+.animate {
+  animation:p 1s .5s both;
+}
+.no-round:before {
+  background-size:0 0,auto;
+}
+.no-round:after {
+  content:none;
+}
+@keyframes p {
+  from{--p:0}
 }
