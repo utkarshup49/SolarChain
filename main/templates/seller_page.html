@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="content">
+    <div class="page" style="width: 95vw;">
+        <p style="text-align: center;">Sellers near You</p>
+        <!--  Have a Table View thing here  -->
+        <table class="bordered">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Location</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col">Price Per kWh</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for row in seller_data %}
+                <tr>
+                    <td>{{row.0}}</td>
+                    <td>{{row.1}}</td>
+                    <td class="rep" data-rep={{row.2}}></td>
+                    <td>
+                        <div class="status"><p>{{row.3}}</p></div>
+                    </td>
+                    <td class="price">Rs. {{row.4}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+{% endblock content %}

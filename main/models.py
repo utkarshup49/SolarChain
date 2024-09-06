@@ -46,5 +46,4 @@ def get_sellers():
     # sellers = cursor.fetchall()
     #
     # connection.close()
-    print(Sellers.query.all())
     return Sellers.query.all()
