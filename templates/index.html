@@ -3,14 +3,21 @@
 
 <div class="dashboard_container">
     <div class="dashboard">
-        <div class="pie">40 Units Left<br>50%</div>
-            <div class="balance_info_cont">
-                <p style="display:inline">Balance: </p>
-                <p style="display:inline" class="balance_disp">${{user_data.balance}}</p>
-        <div class="info_options">
-            <button>Buy More</button>
-            <button>Sell</button>
+        <div class="user_display">
+            <img style="width: 20vw; height: 20vw" src="static/Resources/images/profile.jpg">
+            <p style="font-size: 0.5em; margin: 0;">Name</p>
+            <p style="font-size: 0.2em; margin: 0;">Title</p>
+            <button>Sign Out</button>
         </div>
+
+        <div style="height: 100%; border: 2px solid white;" class="line"></div>
+
+        <div class="pie">40 Units Left<br>50%</div>
+        <div class="balance_info_cont">
+            <div class="info_options">
+                <button>Buy More</button>
+                <button>Sell</button>
+            </div>
         </div>
     </div>
 </div>
