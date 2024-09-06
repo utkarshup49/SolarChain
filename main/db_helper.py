@@ -1,4 +1,5 @@
-from main import app, db, User, Sellers
+from main import app, db
+from main.models import User, Sellers
 
 with app.app_context():
     db.create_all()
