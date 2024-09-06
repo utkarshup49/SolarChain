@@ -83,9 +83,8 @@ def seller_page():
 
 def get_sell_orders():
     with app.app_context():
-        qry = SellOrder.query.all()
-        print("Q", qry)
-        return SellOrder.query.all()
+        qry = SellOrder.query.filter_by(user_id=current_user.id)
+        return qry
 
 
 @app.route("/logout")
