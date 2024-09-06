@@ -12,16 +12,28 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(50), unique=True, nullable=False)
     image_file = db.Column(db.String(20), nullable=False, default="profile.jpg")
     password = db.Column(db.String(60), unique=True, nullable=False)
-    seller = db.relationship("Sellers", backref="user", lazy=True)
+    seller_rep = db.Column(db.Integer, default=0)
 
     def __repr__(self) -> str:
         return f"{self.id} {self.username} {self.password} {self.image_file}"
 
 
+class SellOrder(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.String(50), nullable=False)
+    units = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Double, nullable=False)
+    status = db.Column(db.Integer, nullable=False, default=0)
+    buyer_id = db.Column(db.String(50))
+
+    def __repr__(self) -> str:
+        return f"{self.id} {self.user_id} {self.units} {self.price}"
+
+
 class Sellers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), unique=True, nullable=False)
-    location = db.Column(db.String(100), unique=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    location = db.Column(db.String(100), nullable=False)
     reputation = db.Column(db.Integer, nullable=False, default=0)
     status = db.Column(db.Integer, nullable=False, default=0)
     price = db.Column(db.Float, nullable=False, default=0)
@@ -46,4 +58,4 @@ def get_sellers():
     # sellers = cursor.fetchall()
     #
     # connection.close()
-    return Sellers.query.all()
+    return SellOrder.query.all()

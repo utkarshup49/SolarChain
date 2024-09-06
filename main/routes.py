@@ -1,9 +1,9 @@
 from flask import flash, redirect, render_template, url_for, request
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_required, login_user, current_user, logout_user
 
 from main import app, bcrypt, db
-from main.forms import LoginForm, RegistrationForm
-from main.models import User, get_sellers
+from main.forms import LoginForm, RegistrationForm, SellOrderForm
+from main.models import SellOrder, User, get_sellers
 
 dashboard_info = {"balance": "50"}
 
@@ -62,6 +62,30 @@ def login():
             return redirect(next_page) if next_page else redirect(url_for('home'))
         flash('Login Unsuccessful. Please check username and password', 'danger')
     return render_template('login.html', title='Login', form=form)
+
+
+@app.route("/seller_page", methods=['GET', 'POST'])
+@login_required
+def seller_page():
+    if not current_user.is_authenticated:
+        return redirect(url_for("home"))
+    form = SellOrderForm()
+    if form.validate_on_submit():
+        units, price = form.unit.data, form.price.data
+        with app.app_context():
+            order = SellOrder(user_id=current_user.id, units=units, price=price)
+            db.session.add(order)
+            db.session.commit()
+
+    sell_orders = get_sell_orders()
+    return render_template("seller_page.html", title="Page", sell_orders=sell_orders, form=form)
+
+
+def get_sell_orders():
+    with app.app_context():
+        qry = SellOrder.query.all()
+        print("Q", qry)
+        return SellOrder.query.all()
 
 
 @app.route("/logout")

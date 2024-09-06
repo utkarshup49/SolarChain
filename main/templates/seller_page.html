@@ -3,34 +3,72 @@
 
 <div class="content">
     <div class="page" style="width: 95vw;">
-        <p style="text-align: center;">Sellers near You</p>
-        <!--  Have a Table View thing here  -->
+        <p style="text-align: center;">Your Sell Orders</p>
+
+        <!-- Form to place a new sell order -->
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <h1 class="heading">Login</h1>
+            <div class="form-group">
+                {{ form.unit.label(class="label") }}
+
+                {% if form.unit.errors %}
+                {{ form.unit(class="input is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.username.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.unit(class="input") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.price.label(class="label") }}
+                {% if form.price.errors %}
+                {{ form.price(class="input is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.password.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.price(class="input") }}
+                {% endif %}
+            </div>
+            <div class="form-container">
+                <div class="form-group">
+                    {{ form.submit(class="norm_btn") }}
+                </div>
+            </div>
+        </form>
+
+
+
+        <!-- Table for listing existing sell orders -->
         <table class="bordered">
             <thead>
             <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Location</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
+                <th scope="col">Order ID</th>
+                <th scope="col">Units Available</th>
                 <th scope="col">Price Per kWh</th>
+                <th scope="col">Status</th>
             </tr>
             </thead>
 
             <tbody>
-            {% for row in seller_data %}
-                <tr>
-                    <td>{{row.0}}</td>
-                    <td>{{row.1}}</td>
-                    <td class="rep" data-rep={{row.2}}></td>
-                    <td>
-                        <div class="status"><p>{{row.3}}</p></div>
-                    </td>
-                    <td class="price">Rs. {{row.4}}</td>
-                </tr>
+            {% for order in sell_orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.units }}</td>
+                <td>Rs. {{ order.price }}</td>
+                <td>
+                    <div class="status"><p>{{ order.status }}</p></div>
+                </td>
+            </tr>
             {% endfor %}
             </tbody>
         </table>
-
     </div>
 </div>
 
