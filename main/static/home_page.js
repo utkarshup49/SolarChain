@@ -1,7 +1,7 @@
 window.addEventListener('scroll', function() {
     const video = document.querySelector('video');
     const scrollPosition = window.scrollY;
-    const blurValue = Math.min(scrollPosition / 100, 8); // Adjust the denominator for sensitivity (100 in this case)
+    const blurValue = Math.max(Math.min(scrollPosition / 100, 12), 0); // Adjust the denominator for sensitivity (100 in this case)
 
     // Apply the blur based on the scroll position
     video.style.filter = `blur(${blurValue}px)`;

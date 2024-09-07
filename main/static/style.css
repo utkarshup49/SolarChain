@@ -944,12 +944,12 @@ button:hover, .norm_btn:hover {
 }
 
 .login_page {
-    width: 90vw;
+    width: 60vw;
     height: 40vw;
     background-color: #303030;
     display: flex;
-    flex-direction: row; /* change from column to row for left-to-right alignment */
-    justify-content: center; /* space items evenly */
+    flex-direction: column; /* change from column to row for left-to-right alignment */
+    justify-content: space-evenly; /* space items evenly */
     align-items: center; /* Adjusts alignment along the vertical axis */
     place-items: center; /* Adjusts alignment along the vertical axis */
     border-radius: 15px;
@@ -961,18 +961,33 @@ button:hover, .norm_btn:hover {
 
 .login_page .input {
     font-size: 2rem;
+    border-radius: 0.5rem;
+    padding: 0.2rem;
+    padding-left: 0.6rem;
+    border: 0.2rem solid transparent; /* Add a transparent border */
+    transition: all 0.3s ease 0s;
+}
+
+.login_page .input:hover {
+    border: 0.2rem solid #56a0ff; /* This will only change the border color */
+}
+
+.login_page .input:focus {
+    border: 0.2rem solid #56a0ff; /* This will only change the border color */
+    box-shadow: 0 0 10px #719ECE;
 }
 
 .login_page .heading {
     font-size: 4rem;
     font-weight: bolder;
     text-align: center;
+    color: white;
 }
 
 .login_page a {
     font-size: 2rem;
-    margin-left: 20px;
-    padding: 10px;
+    padding-top: 10px;
+    width: 50rem;
     color: rgb(255, 255, 255);
     text-decoration: none;
     transition: all 0.3s ease 0s;
@@ -986,11 +1001,6 @@ button:hover, .norm_btn:hover {
     display: flex; /* Use flexbox to align items in a row */
     align-items: center; /* Aligns the button and link vertically */
     gap: 10px; /* Adds space between the button and the link */
-}
-
-.norm_btn {
-    padding: 10px 20px;
-    font-size: 16px;
 }
 
 .form-container a {
@@ -1056,35 +1066,47 @@ div[role="progressbar"]::before {
 .heading {
     color: #333;
     text-align: center;
-    margin-bottom: 20px;
 }
+
 .form-group {
     display: flex;
     flex-direction: column;
-    justify-content: center;  /* Centers the label and input in the middle of the div vertically */
+    gap: 1rem;
+    justify-content: space-between;  /* Centers the label and input in the middle of the div vertically */
 }
+
+.form-group .label{
+    display: block;
+    color: #fff;
+}
+
 .label {
     display: block;
     margin-bottom: 5px;
     color: #fff;
 }
-.input, .norm_btn {
-vertical-align: bottom;
+
+.input {
+    vertical-align: bottom;
     width: 100%;
-    padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    outline: none !important;
 }
+
 .input.is-invalid {
     border-color: #dc3545;
 }
+
 .invalid-feedback {
     color: #dc3545;
     font-size: 14px;
 }
+
 .norm_btn {
-vertical-align: top;
+    vertical-align: top;
     background-color: #007bff;
+    width: 10rem;
     color: white;
     cursor: pointer;
     border-color: #007bff;
@@ -1115,6 +1137,14 @@ th {
     justify-content: center;
     align-items: center;
     gap: 3rem;
+}
+
+
+.horizontal_div {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    gap: 0rem 3rem;
 }
 
 

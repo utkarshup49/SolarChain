@@ -42,6 +42,7 @@ class TransactionHistory(db.Model):
     buyer_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     units = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Double, nullable=False)
+    date = db.Column(db.DateTime, nullable=False)
 
 
 # Connect to the SQLite database

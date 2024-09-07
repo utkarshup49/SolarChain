@@ -1,3 +1,4 @@
+import datetime
 from typing import List
 
 from flask import flash, redirect, render_template, url_for, request
@@ -152,7 +153,8 @@ def checkout_page():
                         seller.units -= units
                         if order.units == 0:
                             db.session.delete(order)
-                        history = TransactionHistory(seller_id=seller.id, seller_username=seller.username, buyer_id=buyer.id, units=units, price=total_price)
+                        history = TransactionHistory(seller_id=seller.id, seller_username=seller.username, buyer_id=buyer.id,
+                                                     units=units, price=total_price, date=datetime.datetime.now())
                         db.session.add(history)
 
                         db.session.commit()
