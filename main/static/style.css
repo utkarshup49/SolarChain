@@ -1132,3 +1132,13 @@ th {
     justify-content: center;  /* Centers the label and input in the middle of the div vertically */
     margin-top:20px;
 }
+
+.profile_picture {
+    width: 20vw;
+    height: 20vw;
+      border-radius: 50%;
+
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}

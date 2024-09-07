@@ -6,7 +6,7 @@
 <div class="dashboard_container">
     <div class="dashboard">
         <div class="user_display">
-            <img style="width: 20vw; height: 20vw" src="static/Resources/images/profile.jpg">
+            <img class="profile_picture" src="static/Resources/images/profile.jpg">
             <p style="font-size: 0.5em; margin: 0;">{{ current_user.username }}</p>
             <p style="font-size: 0.2em; margin: 0;">User ID: {{ current_user.id }}</p>
             <a class="button" href="{{ url_for('logout') }}">Sign Out</a>

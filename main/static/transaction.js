@@ -19,10 +19,10 @@ document.addEventListener("DOMContentLoaded", function() {
         const spanElement = divElement.querySelector('p'); // Find the span inside the div
         const value = spanElement.textContent.trim(); // Get the text content of the span
 
-        if (value === '1') {
+        if (value === '0') {
             divElement.classList.add('green');
             spanElement.textContent = "Available"; // Set the text inside the span
-        } else if (value === '0') {
+        } else if (value === '1') {
             divElement.classList.add('red');
             spanElement.textContent = "Not Available"; // Set the text inside the span
         } else {
