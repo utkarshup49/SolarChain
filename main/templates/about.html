@@ -1,6 +1,17 @@
 {% extends "layout.html" %}
 {% block content %}
 
+<div class="video-bg">
+    <video id="bgVideo" preload="true" autoplay loop muted>
+        <source id="videoSource" src="static/Resources/Videos/many_panels.mp4" type="video/mp4" />
+    </video>
+</div>
+
+<div id="grad1" style="text-align:center;">
+    <h1>Solar Chain</h1>
+    <h2>Channel Your...Solars!</h2>
+    <h2 class="h2-nline">And Save Your...Dollars!</h2>
+</div>
 
 <div class="content">
     <h1>What Does It Offer?</h1>
@@ -39,9 +50,6 @@
             </a>
         </div>
     </div>
-    <!--    <p class="p-anim">-->
-    <!--        Test-->
-    <!--    </p>-->
     <div class="feature_display">
         <div class="feature_desc">
             <h3>Feature Title</h3>
