@@ -8,24 +8,24 @@
         <table class="bordered">
             <thead>
             <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Location</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col">Price Per kWh</th>
+                <th scope="col">ID</th>
+                <th scope="col">Seller ID</th>
+                <th scope="col">Seller Name</th>
+                <th scope="col">Buyer ID</th>
+                <th scope="col">Units</th>
+                <th scope="col">Total Price</th>
             </tr>
             </thead>
 
             <tbody>
-            {% for row in seller_data %}
+            {% for row in history %}
                 <tr>
-                    <td>{{row.0}}</td>
-                    <td>{{row.1}}</td>
-                    <td class="rep" data-rep={{row.2}}></td>
-                    <td>
-                        <div class="status"><p>{{row.3}}</p></div>
-                    </td>
-                    <td class="price">Rs. {{row.4}}</td>
+                    <td>{{row.id}}</td>
+                    <td>{{row.seller_id}}</td>
+                    <td>{{row.seller_username}}</td>
+                    <td>{{row.buyer_id}}</td>
+                    <td>{{row.units}}</td>
+                    <td>{{row.price}}</td>
                 </tr>
             {% endfor %}
             </tbody>

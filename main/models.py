@@ -35,18 +35,13 @@ class SellOrder(db.Model):
         return f"{self.id} {self.user_id} {self.units} {self.price}"
 
 
-class Sellers(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
-    location = db.Column(db.String(100), nullable=False)
-    reputation = db.Column(db.Integer, nullable=False, default=0)
-    status = db.Column(db.Integer, nullable=False, default=0)
-    price = db.Column(db.Float, nullable=False, default=0)
-
-
 class TransactionHistory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-
+    seller_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    seller_username = db.Column(db.String(50), nullable=False)
+    buyer_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    units = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Double, nullable=False)
 
 
 # Connect to the SQLite database

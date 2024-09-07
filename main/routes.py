@@ -1,9 +1,10 @@
 from flask import flash, redirect, render_template, url_for, request
 from flask_login import login_required, login_user, current_user, logout_user
+from sqlalchemy import or_
 
 from main import app, bcrypt, db
 from main.forms import LoginForm, PurchaseForm, RegistrationForm, SellOrderForm
-from main.models import SellOrder, User, get_sellers
+from main.models import SellOrder, TransactionHistory, User, get_sellers
 
 dashboard_info = {"balance": "50"}
 
@@ -32,7 +33,7 @@ def units_used(current, total):
 def transactions():
     if not current_user.is_authenticated:
         return redirect(url_for("login"))
-    return render_template("transaction.html", seller_data=get_sellers())
+    return render_template("transaction.html", history=get_transaction_history(current_user.id))
 
 
 @app.route('/about')
@@ -149,6 +150,9 @@ def checkout_page():
                         seller.units -= units
                         if order.units == 0:
                             db.session.delete(order)
+                        history = TransactionHistory(seller_id=seller.id, seller_username=seller.username, buyer_id=buyer.id, units=units, price=total_price)
+                        db.session.add(history)
+
                         db.session.commit()
                         flash(f"Purchase successful for {form.units.data} units at total {total_price}!")
                         return redirect(url_for('home'))
@@ -165,6 +169,14 @@ def get_user_sell_orders():
     with app.app_context():
         qry = SellOrder.query.filter_by(user_id=current_user.id)
         return qry
+
+
+def get_transaction_history(user_id):
+    with app.app_context():
+        return TransactionHistory.query.filter(or_(
+                TransactionHistory.buyer_id == user_id,
+                TransactionHistory.seller_id == user_id
+            ))
 
 
 def get_sell_orders():
