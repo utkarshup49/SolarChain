@@ -121,13 +121,19 @@ def checkout_page():
     order_id = request.args.get("order_id")
     if order_id is None:
         return redirect(url_for("home"))
-    order: SellOrder = SellOrder.query.filter_by(id=order_id).first()
-    seller = User.query.filter_by(id=order.user_id).first()
 
+    order: SellOrder = SellOrder.query.filter_by(id=order_id).first()
+    seller: User = User.query.filter_by(id=order.user_id).first()
     form = PurchaseForm()
     if form.validate_on_submit():
         if form.units.data <= order.units:
             total_price = order.price * form.units.data
+            with app.app_context():
+                order: SellOrder = SellOrder.query.filter_by(id=order_id).first()
+                order.units -= form.units.data
+                if order.units == 0:
+                    db.session.delete(order)
+                db.session.commit()
             flash(f"Purchase successful for {form.units.data} units at total {total_price}!")
             return redirect(url_for('home'))
         flash('Units exceeded!', 'error')
