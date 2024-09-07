@@ -925,61 +925,6 @@ button:hover, .norm_btn:hover {
   }
 }
 
-@property --p{
-  syntax: '<number>';
-  inherits: true;
-  initial-value: 0;
-}
-
-.pie {
-  --p:50;
-  --b:22px;
-  --c:rgb(125, 155, 255);
-  --w:300px;
-
-  width:var(--w);
-  aspect-ratio:1;
-  position:relative;
-  display:inline-grid;
-  margin:5px;
-  place-content:center;
-  font-size:25px;
-  font-weight:bold;
-  font-family:sans-serif;
-  text-align: center;
-}
-.pie:before,
-.pie:after {
-  content:"";
-  position:absolute;
-  border-radius:50%;
-}
-.pie:before {
-  inset:0;
-  background:
-    radial-gradient(farthest-side,var(--c) 98%,#0000) top/var(--b) var(--b) no-repeat,
-    conic-gradient(var(--c) calc(var(--p)*1%),#0000 0);
-  -webkit-mask:radial-gradient(farthest-side,#0000 calc(99% - var(--b)),#000 calc(100% - var(--b)));
-          mask:radial-gradient(farthest-side,#0000 calc(99% - var(--b)),#000 calc(100% - var(--b)));
-}
-.pie:after {
-  inset:calc(50% - var(--b)/2);
-  background:var(--c);
-  transform:rotate(calc(var(--p)*3.6deg)) translateY(calc(50% - var(--w)/2));
-}
-.animate {
-  animation:p 1s .5s both;
-}
-.no-round:before {
-  background-size:0 0,auto;
-}
-.no-round:after {
-  content:none;
-}
-@keyframes p {
-  from{--p:0}
-}
-
 .user_display {
     width: 30vw;
     display: flex;
@@ -1092,4 +1037,98 @@ div[role="progressbar"] {
 div[role="progressbar"]::before {
   counter-reset: percentage var(--value);
   content: counter(percentage) '%';
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.page {
+    width: 90%;
+    background: #303030;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.heading {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* Centers the label and input in the middle of the div vertically */
+}
+.label {
+    display: block;
+    margin-bottom: 5px;
+    color: #fff;
+}
+.input, .norm_btn {
+vertical-align: bottom;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.input.is-invalid {
+    border-color: #dc3545;
+}
+.invalid-feedback {
+    color: #dc3545;
+    font-size: 14px;
+}
+.norm_btn {
+vertical-align: top;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-color: #007bff;
+}
+.norm_btn:hover {
+    background-color: #0056b3;
+}
+.bordered {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.bordered{
+    border: 1px solid #dee2e6;
+    border-radius:20px;
+}
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+th {
+    background-color: #f0f0f0;
+}
+.status p {
+    margin: 0;
+    padding: 5px 10px;
+    background-color: #28a745;
+    color: white;
+    border-radius: 4px;
+    text-align: center;
+}
+.horizontal_div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+}
+.form-container {
+    display: flex;
+    align-items: center;  /* Ensures vertical alignment */
+}
+
+.form-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* Centers the label and input in the middle of the div vertically */
+    margin-top:20px;
 }

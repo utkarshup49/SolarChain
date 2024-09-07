@@ -2,46 +2,51 @@
 {% block content %}
 
 <div class="content">
-    <div class="page" style="width: 95vw;">
+    <div class="page">
         <!-- Form to place a new sell order -->
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <h1 class="heading">Your Sell Orders</h1>
-            <div class="form-group">
-                {{ form.unit.label(class="label") }}
-
-                {% if form.unit.errors %}
-                {{ form.unit(class="input is-invalid") }}
-                <div class="invalid-feedback">
-                    {% for error in form.username.errors %}
-                    <span>{{ error }}</span>
-                    {% endfor %}
-                </div>
-                {% else %}
-                {{ form.unit(class="input") }}
-                {% endif %}
-            </div>
-            <div class="form-group">
-                {{ form.price.label(class="label") }}
-                {% if form.price.errors %}
-                {{ form.price(class="input is-invalid") }}
-                <div class="invalid-feedback">
-                    {% for error in form.password.errors %}
-                    <span>{{ error }}</span>
-                    {% endfor %}
-                </div>
-                {% else %}
-                {{ form.price(class="input") }}
-                {% endif %}
-            </div>
-            <div class="form-container">
+            <div class="horizontal_div">
                 <div class="form-group">
-                    {{ form.submit(class="norm_btn") }}
+                    {{ form.unit.label(class="label") }}
+                    {% if form.unit.errors %}
+                    {{ form.unit(class="input is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.unit.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.unit(class="input") }}
+                    {% endif %}
                 </div>
+                <div class="form-group">
+                    {{ form.price.label(class="label") }}
+                    {% if form.price.errors %}
+                    {{ form.price(class="input is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.price.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.price(class="input") }}
+                    {% endif %}
+                </div>
+                    <div class="form-btn">
+                        {{ form.submit(class="norm_btn") }}
+                    </div>
             </div>
         </form>
 
-
+        <div>
+            {% for message in get_flashed_messages() %}
+            <div class="invalid-feedback">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
 
         <!-- Table for listing existing sell orders -->
         <table class="bordered">
@@ -53,7 +58,6 @@
                 <th scope="col">Status</th>
             </tr>
             </thead>
-
             <tbody>
             {% for order in sell_orders %}
             <tr>
