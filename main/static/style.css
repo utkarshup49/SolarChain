@@ -1114,6 +1114,7 @@ th {
     border-radius: 4px;
     text-align: center;
 }
+
 .horizontal_div {
     display: flex;
     flex-direction: row;
@@ -1121,6 +1122,16 @@ th {
     align-items: center;
     gap: 3rem;
 }
+
+
+.vertical_div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0rem;
+}
+
 .form-container {
     display: flex;
     align-items: center;  /* Ensures vertical alignment */

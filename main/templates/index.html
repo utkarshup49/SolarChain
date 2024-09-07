@@ -14,18 +14,19 @@
 
         <div style="height: 100%; border: 2px solid white;" class="line"></div>
 
-        <div role="progressbar" aria-valuenow="{{ units_used }}" aria-valuemin="0" aria-valuemax="100" style="--value:{{ units_used }}">
-           {{ current_user.units }}/{{ current_user.capacity }}
-        </div>
+        <div class="vertical_div">
+            <div role="progressbar" aria-valuenow="{{ units_used }}" aria-valuemin="0" aria-valuemax="100" style="--value:{{ units_used }}">
+                {{ current_user.units }}/{{ current_user.capacity }}
+            </div>
+            <div>
+                <p style="font-size: 2rem;"> {{ current_user.units }}/{{ current_user.capacity }} Units Available </p>
+            </div>
 
-        <div>
-            <p style="font-size: 2rem;"> {{ current_user.units }}/{{ current_user.capacity }} Units Available </p>
-        </div>
-
-        <div class="balance_info_cont">
-            <div class="info_options">
-                <a class="button" href="{{ url_for('buyer_page') }}">Buy More</a>
-                <a class="button" href="{{ url_for('seller_page') }}">Sell</a>
+            <div class="balance_info_cont">
+                <div class="info_options">
+                    <a class="button" href="{{ url_for('buyer_page') }}">Buy More</a>
+                    <a class="button" href="{{ url_for('seller_page') }}">Sell</a>
+                </div>
             </div>
         </div>
     </div>
