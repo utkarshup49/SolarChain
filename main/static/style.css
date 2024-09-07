@@ -852,7 +852,7 @@ video {
     color: white;
 }
 
-button, .norm_btn {
+button, .norm_btn, .fill_button {
     display: inline-block;
     padding: 10px 20px;
     font-size: 16px;
@@ -867,7 +867,7 @@ button, .norm_btn {
     overflow: hidden;
 }
 
-button::before, .norm_btn::before {
+button::before, .norm_btn::before, .fill_button::before {
     content: '';
     position: absolute;
     top: 0;
@@ -881,8 +881,14 @@ button::before, .norm_btn::before {
     transition: transform 0.4s ease;
 }
 
-button:hover, .norm_btn:hover {
+button:hover, .norm_btn:hover, .fill_button:hover  {
     color: white;
+}
+
+.fill_button {
+    text-decoration: none;
+    color: white;
+    background-color: #0088a9;
 }
 
 /* animations */

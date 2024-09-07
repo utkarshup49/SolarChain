@@ -15,7 +15,6 @@ dashboard_info = {"balance": "50"}
 def layout():
     return render_template("layout.html")
 
-
 @app.route('/')
 @app.route('/home')
 def home():
