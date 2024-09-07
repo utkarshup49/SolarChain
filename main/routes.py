@@ -1,3 +1,5 @@
+from typing import List
+
 from flask import flash, redirect, render_template, url_for, request
 from flask_login import login_required, login_user, current_user, logout_user
 from sqlalchemy import or_
@@ -173,10 +175,17 @@ def get_user_sell_orders():
 
 def get_transaction_history(user_id):
     with app.app_context():
-        return TransactionHistory.query.filter(or_(
-                TransactionHistory.buyer_id == user_id,
-                TransactionHistory.seller_id == user_id
-            ))
+        history = []
+        transacts = TransactionHistory.query.filter(or_(
+            TransactionHistory.buyer_id == user_id,
+            TransactionHistory.seller_id == user_id
+        ))
+        for transact in transacts:
+            history.append({
+                'row': transact,
+                'type': "CREDIT" if transact.buyer_id == user_id else "DEBIT"
+            })
+        return history
 
 
 def get_sell_orders():

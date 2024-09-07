@@ -9,6 +9,7 @@
             <thead>
             <tr>
                 <th scope="col">ID</th>
+                <th scope="col">Type</th>
                 <th scope="col">Seller ID</th>
                 <th scope="col">Seller Name</th>
                 <th scope="col">Buyer ID</th>
@@ -18,14 +19,15 @@
             </thead>
 
             <tbody>
-            {% for row in history %}
+            {% for items in history %}
                 <tr>
-                    <td>{{row.id}}</td>
-                    <td>{{row.seller_id}}</td>
-                    <td>{{row.seller_username}}</td>
-                    <td>{{row.buyer_id}}</td>
-                    <td>{{row.units}}</td>
-                    <td>{{row.price}}</td>
+                    <td>{{items.row.id}}</td>
+                    <td>{{items.type}}</td>
+                    <td>{{items.row.seller_id}}</td>
+                    <td>{{items.row.seller_username}}</td>
+                    <td>{{items.row.buyer_id}}</td>
+                    <td>{{items.row.units}}</td>
+                    <td>{{items.row.price}}</td>
                 </tr>
             {% endfor %}
             </tbody>
