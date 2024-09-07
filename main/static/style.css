@@ -1147,3 +1147,8 @@ th {
   background-position: center center;
   background-size: cover;
 }
+
+.quick_tile img {
+    object-fit: cover;
+}
+
