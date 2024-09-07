@@ -802,6 +802,7 @@ video {
     justify-content: space-evenly; /* space items evenly */
     align-items: center; /* Adjusts alignment along the vertical axis */
     border-radius: 15px;
+    box-shadow: 0px 0px 500px 1px #6e6be2;
 }
 
 .balance_info_cont {
