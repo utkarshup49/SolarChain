@@ -68,13 +68,16 @@ th, td {
 
 /* Paragraph inside status cell div */
 .bordered td.status p {
+    margin: 0;
+    padding: 5px 10px;
+    background-color: #28a745;
+    color: white;
+    border-radius: 4px;
     text-align: center;
 }
 
-/* Styling for different statuses */
 .green, .red, .yellow {
-    font: bold 0.9em Arial; /* Consistent font for green and red, yellow overrides this */
-    border-radius: 4rem; /* Rounded corners */
+    border-radius: 4px;
 }
 
 .green {
@@ -86,7 +89,6 @@ th, td {
 }
 
 .yellow {
-    font: bold 3em Arial; /* Larger font size for yellow status */
     background-color: yellow;
 }
 
@@ -1105,14 +1107,6 @@ th, td {
 }
 th {
     background-color: #f0f0f0;
-}
-.status p {
-    margin: 0;
-    padding: 5px 10px;
-    background-color: #28a745;
-    color: white;
-    border-radius: 4px;
-    text-align: center;
 }
 
 .horizontal_div {

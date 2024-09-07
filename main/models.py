@@ -16,7 +16,8 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), unique=True, nullable=False)
     units = db.Column(db.Integer, default=random.randint(1, 10))
     capacity = db.Column(db.Integer, default=random.randint(10, 100))
-    seller_rep = db.Column(db.Integer, default=0)
+    seller_rep = db.Column(db.Integer, default=random.randint(1, 5))
+    sell_orders = db.relationship("SellOrder", backref="seller", lazy=False)
 
     def __repr__(self) -> str:
         return f"{self.id} {self.username} {self.password} {self.image_file}"
@@ -24,7 +25,7 @@ class User(db.Model, UserMixin):
 
 class SellOrder(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.String(50), nullable=False)
+    user_id = db.Column(db.String(50), db.ForeignKey("user.id"), nullable=False)
     units = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Double, nullable=False)
     status = db.Column(db.Integer, nullable=False, default=0)
@@ -41,6 +42,11 @@ class Sellers(db.Model):
     reputation = db.Column(db.Integer, nullable=False, default=0)
     status = db.Column(db.Integer, nullable=False, default=0)
     price = db.Column(db.Float, nullable=False, default=0)
+
+
+class TransactionHistory(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
 
 
 # Connect to the SQLite database

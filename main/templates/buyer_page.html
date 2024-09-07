@@ -10,6 +10,8 @@
             <thead>
             <tr>
                 <th scope="col">Order ID</th>
+                <th scope="col">Seller Name</th>
+                <th scope="col">Seller Rating</th>
                 <th scope="col">Units Available</th>
                 <th scope="col">Price Per kWh</th>
                 <th scope="col">Status</th>
@@ -18,19 +20,21 @@
             </thead>
 
             <tbody>
-            {% for order in sell_orders %}
-            <tr>
-                <td>{{ order.id }}</td>
-                <td>{{ order.units }}</td>
-                <td>Rs. {{ order.price }}</td>
-                <td>
-                    <div class="status"><p>{{ order.status }}</p></div>
-                </td>
-                <td>
-                    <a class="button" href="{{ url_for('checkout_page', order_id=order.id) }}">Buy</a>
-                </td>
-            </tr>
-            {% endfor %}
+    {% for item in sell_orders %}
+    <tr>
+        <td>{{ item.order.id }}</td>
+        <td>{{ item.seller.username }}</td>
+        <td class="rep" data-rep="{{ item.seller.seller_rep }}"></td>
+        <td>{{ item.order.units }}</td>
+        <td>Rs. {{ item.order.price }}</td>
+        <td>
+            <div class="status"><p>{{ item.status }}</p></div>
+        </td>
+        <td>
+            <a class="button" href="{{ url_for('checkout_page', order_id=item.order.id) }}">Buy</a>
+        </td>
+    </tr>
+    {% endfor %}
             </tbody>
         </table>
     </div>

@@ -169,8 +169,18 @@ def get_user_sell_orders():
 
 def get_sell_orders():
     with app.app_context():
-        qry = SellOrder.query.filter(SellOrder.user_id != current_user.id).all()
-        return qry
+        sell_orders = SellOrder.query.all()  # Assuming you have a SellOrder model
+        orders_with_seller = []
+        for order in sell_orders:
+            seller = User.query.filter_by(id=order.user_id).first()  # Assuming User model has seller info
+            if seller.id == current_user.id:
+                continue
+            orders_with_seller.append({
+                'order': order,
+                'seller': seller,
+                'status': int(order.units > seller.units)
+            })
+        return orders_with_seller
 
 
 @app.route("/logout")
