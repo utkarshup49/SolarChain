@@ -56,6 +56,7 @@
                 <th scope="col">Units Available</th>
                 <th scope="col">Price Per kWh</th>
                 <th scope="col">Status</th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
@@ -66,6 +67,9 @@
                 <td>Rs. {{ order.price }}</td>
                 <td>
                     <div class="status"><p>{{ order.status }}</p></div>
+                </td>
+                <td>
+                    <a class="button" href="{{ url_for('cancel_sell_order', order_id=order.id) }}">Cancel</a>
                 </td>
             </tr>
             {% endfor %}

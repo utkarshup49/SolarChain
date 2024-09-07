@@ -87,6 +87,8 @@ def seller_page():
         if current_user.units >= units:
             with app.app_context():
                 order = SellOrder(user_id=current_user.id, units=units, price=price)
+                seller: User = User.query.filter_by(id=order.user_id).first()
+                seller.units -= units
                 db.session.add(order)
                 db.session.commit()
         else:
@@ -106,11 +108,32 @@ def buyer_page():
         units, price = form.unit.data, form.price.data
         with app.app_context():
             order = SellOrder(user_id=current_user.id, units=units, price=price)
+            buyer: User = User.query.filter_by(id=current_user.id).first()
+            buyer.units += units
             db.session.add(order)
             db.session.commit()
 
     sell_orders = get_sell_orders()
     return render_template("buyer_page.html", title="Buy Units", sell_orders=sell_orders, form=form)
+
+
+@app.route("/cancel_sell_order", methods=["GET", "POST"])
+@login_required
+def cancel_sell_order():
+    if not current_user.is_authenticated:
+        return redirect(url_for("login"))
+    order_id = request.args.get("order_id")
+    if order_id is None:
+        return redirect(url_for("home"))
+
+    with app.app_context():
+        order: SellOrder = SellOrder.query.filter_by(id=order_id).first()
+        buyer: User = User.query.filter_by(id=order.user_id).first()
+        buyer.units += order.units
+        db.session.delete(order)
+        db.session.commit()
+    flash(f"Order: {order.id} Closed")
+    return redirect(url_for('seller_page'))
 
 
 @app.route("/checkout_page", methods=["GET", "POST"])
@@ -130,6 +153,8 @@ def checkout_page():
             total_price = order.price * form.units.data
             with app.app_context():
                 order: SellOrder = SellOrder.query.filter_by(id=order_id).first()
+                buyer: User = User.query.filter_by(id=current_user.id).first()
+                buyer.units += form.units.data
                 order.units -= form.units.data
                 if order.units == 0:
                     db.session.delete(order)
