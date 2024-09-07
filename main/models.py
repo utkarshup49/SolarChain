@@ -1,3 +1,5 @@
+import random
+
 from main import db, login_manager
 from flask_login.mixins import UserMixin
 
@@ -12,6 +14,8 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(50), unique=True, nullable=False)
     image_file = db.Column(db.String(20), nullable=False, default="profile.jpg")
     password = db.Column(db.String(60), unique=True, nullable=False)
+    units = db.Column(db.Integer, default=random.randint(1, 10))
+    capacity = db.Column(db.Integer, default=random.randint(10, 100))
     seller_rep = db.Column(db.Integer, default=0)
 
     def __repr__(self) -> str:

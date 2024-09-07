@@ -17,7 +17,15 @@ def layout():
 def home():
     if not current_user.is_authenticated:
         return redirect(url_for("login"))
-    return render_template("index.html", user_data=dashboard_info)
+    current = current_user.units
+    total = current_user.capacity
+    units = units_used(current, total)
+    return render_template("index.html", user_data=dashboard_info, units_used=units)
+
+
+def units_used(current, total):
+    proportion = current / total
+    return int(proportion * 100)
 
 
 @app.route('/transactions')
