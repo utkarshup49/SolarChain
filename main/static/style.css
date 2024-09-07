@@ -1152,3 +1152,7 @@ th {
     object-fit: cover;
 }
 
+.feature_display img {
+    object-fit: cover;
+    border-radius: 1em;
+}
