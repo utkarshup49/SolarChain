@@ -84,10 +84,13 @@ def seller_page():
     form = SellOrderForm()
     if form.validate_on_submit():
         units, price = form.unit.data, form.price.data
-        with app.app_context():
-            order = SellOrder(user_id=current_user.id, units=units, price=price)
-            db.session.add(order)
-            db.session.commit()
+        if current_user.units >= units:
+            with app.app_context():
+                order = SellOrder(user_id=current_user.id, units=units, price=price)
+                db.session.add(order)
+                db.session.commit()
+        else:
+            flash('Units not Available!', 'error')
 
     sell_orders = get_user_sell_orders()
     return render_template("seller_page.html", title="Page", sell_orders=sell_orders, form=form)
