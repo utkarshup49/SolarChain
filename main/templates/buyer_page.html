@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="content">
+    <div class="page" style="width: 95vw;">
+        <!-- Form to place a new sell order -->
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <h1 class="heading">Available Sellers</h1>
+        </form>
+
+        <!-- Table for listing existing sell orders -->
+        <table class="bordered">
+            <thead>
+            <tr>
+                <th scope="col">Order ID</th>
+                <th scope="col">Units Available</th>
+                <th scope="col">Price Per kWh</th>
+                <th scope="col">Status</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for order in sell_orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.units }}</td>
+                <td>Rs. {{ order.price }}</td>
+                <td>
+                    <div class="status"><p>{{ order.status }}</p></div>
+                </td>
+                <td>
+                    <a class="button" href="{{ url_for('checkout_page', order_id=order.id) }}">Buy</a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

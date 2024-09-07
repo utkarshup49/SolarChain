@@ -2,7 +2,7 @@ from flask import flash, redirect, render_template, url_for, request
 from flask_login import login_required, login_user, current_user, logout_user
 
 from main import app, bcrypt, db
-from main.forms import LoginForm, RegistrationForm, SellOrderForm
+from main.forms import LoginForm, PurchaseForm, RegistrationForm, SellOrderForm
 from main.models import SellOrder, User, get_sellers
 
 dashboard_info = {"balance": "50"}
@@ -15,11 +15,15 @@ def layout():
 @app.route('/')
 @app.route('/home')
 def home():
+    if not current_user.is_authenticated:
+        return redirect(url_for("login"))
     return render_template("index.html", user_data=dashboard_info)
 
 
 @app.route('/transactions')
 def transactions():
+    if not current_user.is_authenticated:
+        return redirect(url_for("login"))
     return render_template("transaction.html", seller_data=get_sellers())
 
 
@@ -68,7 +72,24 @@ def login():
 @login_required
 def seller_page():
     if not current_user.is_authenticated:
-        return redirect(url_for("home"))
+        return redirect(url_for("login"))
+    form = SellOrderForm()
+    if form.validate_on_submit():
+        units, price = form.unit.data, form.price.data
+        with app.app_context():
+            order = SellOrder(user_id=current_user.id, units=units, price=price)
+            db.session.add(order)
+            db.session.commit()
+
+    sell_orders = get_user_sell_orders()
+    return render_template("seller_page.html", title="Page", sell_orders=sell_orders, form=form)
+
+
+@app.route("/buyer_page", methods=['GET', 'POST'])
+@login_required
+def buyer_page():
+    if not current_user.is_authenticated:
+        return redirect(url_for("login"))
     form = SellOrderForm()
     if form.validate_on_submit():
         units, price = form.unit.data, form.price.data
@@ -78,12 +99,39 @@ def seller_page():
             db.session.commit()
 
     sell_orders = get_sell_orders()
-    return render_template("seller_page.html", title="Page", sell_orders=sell_orders, form=form)
+    return render_template("buyer_page.html", title="Buy Units", sell_orders=sell_orders, form=form)
+
+
+@app.route("/checkout_page", methods=["GET", "POST"])
+@login_required
+def checkout_page():
+    if not current_user.is_authenticated:
+        return redirect(url_for("login"))
+    order_id = request.args.get("order_id")
+    if order_id is None:
+        return redirect(url_for("home"))
+    order: SellOrder = SellOrder.query.filter_by(id=order_id).first()
+    seller = User.query.filter_by(id=order.user_id).first()
+
+    form = PurchaseForm()
+    if form.validate_on_submit():
+        if form.units.data <= order.units:
+            total_price = order.price * form.units.data
+            flash(f"Purchase successful for {form.units.data} units at total {total_price}!")
+            return redirect(url_for('home'))
+        flash('Units exceeded!', 'error')
+    return render_template("checkout_page.html", title="Checkout", order=order, seller=seller, form=form)
+
+
+def get_user_sell_orders():
+    with app.app_context():
+        qry = SellOrder.query.filter_by(user_id=current_user.id)
+        return qry
 
 
 def get_sell_orders():
     with app.app_context():
-        qry = SellOrder.query.filter_by(user_id=current_user.id)
+        qry = SellOrder.query.filter(SellOrder.user_id != current_user.id).all()
         return qry
 
 

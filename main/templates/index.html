@@ -15,10 +15,17 @@
         <div class="pie">40 Units Left<br>50%</div>
         <div class="balance_info_cont">
             <div class="info_options">
-                <button>Buy More</button>
+                <a class="button" href="{{ url_for('buyer_page') }}">Buy More</a>
                 <a class="button" href="{{ url_for('seller_page') }}">Sell</a>
             </div>
         </div>
+    </div>
+    <div>
+        {% for message in get_flashed_messages() %}
+        <div class="invalid-feedback">
+            {{ message }}
+        </div>
+        {% endfor %}
     </div>
 </div>
 

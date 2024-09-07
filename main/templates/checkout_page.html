@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="content">
+    <div class="page" style="width: 95vw;">
+        <h1 class="heading">Checkout</h1>
+        <h2 class="heading">Order ID: {{ order.id }}</h2>
+        <h3>Seller Details: {{ seller.username }}</h3>
+
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <div>
+                <label>Units to Buy:</label>
+                {{ form.units(size=32) }}
+                {% for error in form.units.errors %}
+                <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div>
+                <button type="submit">{{ form.submit.label }}</button>
+            </div>
+            <div>
+                <label>Total Price:</label>
+                <span id="totalPrice">{{ form.units.data * 5 if form.units.data else 0 }}</span>
+            </div>
+        </form>
+        <div>
+            {% for message in get_flashed_messages() %}
+            <div class="invalid-feedback">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

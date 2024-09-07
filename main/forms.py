@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.fields.numeric import IntegerField
-from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
+from wtforms.validators import DataRequired, Length, EqualTo, ValidationError, NumberRange
 
 from main.models import User
 
@@ -31,3 +31,8 @@ class SellOrderForm(FlaskForm):
     unit = IntegerField('Units', validators=[DataRequired()])
     price = IntegerField('Price', validators=[DataRequired()])
     submit = SubmitField('Place Order')
+
+
+class PurchaseForm(FlaskForm):
+    units = IntegerField('Units', validators=[DataRequired(), NumberRange(0)])
+    submit = SubmitField('Buy')
