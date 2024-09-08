@@ -180,7 +180,7 @@ def get_transaction_history(user_id):
         transacts = TransactionHistory.query.filter(or_(
             TransactionHistory.buyer_id == user_id,
             TransactionHistory.seller_id == user_id
-        ))
+        )).order_by(TransactionHistory.date.desc())
         for transact in transacts:
             history.append({
                 'row': transact,

@@ -17,7 +17,7 @@
         </div>
 
         <div class="page" style="width: 90vw;">
-            <p style="text-align: center;">Transaction History</p>
+            <p style="text-align: center;">Past Transactions</p>
             <!--  Have a Table View thing here  -->
             <table class="bordered">
                 <thead>
@@ -43,7 +43,7 @@
                     <td>{{items.row.buyer_id}}</td>
                     <td>{{items.row.units}}</td>
                     <td>{{items.row.price}}</td>
-                    <td>{{items.row.date}}</td>
+                    <td>{{ items.row.date | formatdatetime }}</td>
                 </tr>
                 {% endfor %}
                 </tbody>

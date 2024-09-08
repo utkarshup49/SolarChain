@@ -12,3 +12,4 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 
 from main import routes
+from main import filters
