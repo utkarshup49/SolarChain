@@ -150,7 +150,7 @@ th, td {
 }
 
 .account-link{
-    margin-left: 66em;
+    margin-left: 56em;
     margin-right: 0;
 }
 
@@ -889,7 +889,7 @@ button:hover, .norm_btn:hover, .fill_button:hover  {
 .fill_button {
     text-decoration: none;
     color: white;
-    background-color: #0088a9;
+    background-color: #6f5ed7;
 }
 
 /* animations */
@@ -1144,14 +1144,6 @@ th {
     justify-content: center;
     align-items: center;
     gap: 3rem;
-}
-
-
-.horizontal_div {
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
-    gap: 0rem 3rem;
 }
 
 
