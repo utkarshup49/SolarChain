@@ -5,11 +5,11 @@
 
 <div class="dashboard_container">
     <div class="dashboard">
-        <div class="user_display">
+        <div class="user_display" style="width: 0.3rem;">
             <img class="profile_picture" src="static/Resources/images/profile.jpg">
             <p style="font-size: 0.5em; margin: 0;">{{ current_user.username }}</p>
-            <p style="font-size: 0.2em; margin: 0;">User ID: {{ current_user.id }}</p>
-            <a class="button" href="{{ url_for('logout') }}">Sign Out</a>
+            <p style="font-size: 0.2em; width:10rem; margin: 0;">User ID: {{ current_user.id }}</p>
+            <a class="button" style="width:8rem; margin-top:2em;" href="{{ url_for('logout') }}">Sign Out</a>
         </div>
 
         <div style="height: 100%; border: 2px solid white;" class="line"></div>
@@ -18,8 +18,11 @@
             <div role="progressbar" aria-valuenow="{{ units_used }}" aria-valuemin="0" aria-valuemax="100" style="--value:{{ units_used }}">
                 {{ current_user.units }}/{{ current_user.capacity }}
             </div>
-            <div>
+            <div style="text-align:center;">
                 <p style="font-size: 2rem;"> {{ current_user.units }}/{{ current_user.capacity }} Units Available </p>
+                <p style="font-size: 1.7rem;"> Max Battery Capacity: {{ current_user.capacity }} kW</p>
+                <p class="rep" style="font-size: 1.7rem;" data-rep="{{ current_user.seller_rep }}"></p>
+                <p style="font-size: 1.7rem;"> Seller Rating</p>
             </div>
 
             <div class="balance_info_cont">
