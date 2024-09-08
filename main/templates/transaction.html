@@ -2,25 +2,39 @@
 {% block content %}
 
 <div class="content">
-    <div class="page" style="width: 95vw;">
-        <p style="text-align: center;">Transaction History</p>
-        <!--  Have a Table View thing here  -->
-        <table class="bordered">
-            <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Type</th>
-                <th scope="col">Seller ID</th>
-                <th scope="col">Seller Name</th>
-                <th scope="col">Buyer ID</th>
-                <th scope="col">Units</th>
-                <th scope="col">Total Price</th>
-                <th scope="col">Date</th>
-            </tr>
-            </thead>
+    <div class="vertical_div" style="gap: 3em;">
+        <div class="horizontal_div" style="gap: 2em;">
+            <div class="page" style="width: 44vw; height: 50vh;">
+                <p style="text-align: center;">Pending Transactions</p>
 
-            <tbody>
-            {% for items in history %}
+                <p style="text-align: center; color: grey;">Any transaction in queue will be shown here.</p>
+            </div>
+            <div class="page" style="width: 44vw; height: 50vh;">
+                <p style="text-align: center;">Transactions Under Process</p>
+
+                <p style="text-align: center; color: grey;">Any transaction being processed will be shown here.<br>Transactions might take upto a few minutes to process.</p>
+            </div>
+        </div>
+
+        <div class="page" style="width: 90vw;">
+            <p style="text-align: center;">Transaction History</p>
+            <!--  Have a Table View thing here  -->
+            <table class="bordered">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Seller ID</th>
+                    <th scope="col">Seller Name</th>
+                    <th scope="col">Buyer ID</th>
+                    <th scope="col">Units</th>
+                    <th scope="col">Total Price</th>
+                    <th scope="col">Date</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for items in history %}
                 <tr>
                     <td>{{items.row.id}}</td>
                     <td>{{items.type}}</td>
@@ -31,10 +45,11 @@
                     <td>{{items.row.price}}</td>
                     <td>{{items.row.date}}</td>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                {% endfor %}
+                </tbody>
+            </table>
 
+        </div>
     </div>
 </div>
 

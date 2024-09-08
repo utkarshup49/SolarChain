@@ -435,6 +435,7 @@ body {
   align-items: center;
   transition: all 0.7s ease;
   transform: translatey(-6vh) scale(0.9);
+  text-align:center;
   opacity: 0;
   z-index: 2;
 }
@@ -802,7 +803,7 @@ video {
     justify-content: space-evenly; /* space items evenly */
     align-items: center; /* Adjusts alignment along the vertical axis */
     border-radius: 15px;
-    box-shadow: 0px 0px 500px 1px #6e6be2;
+    box-shadow: 0px 0px 25px 1px #ffffff;
 }
 
 .balance_info_cont {
