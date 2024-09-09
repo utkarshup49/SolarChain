@@ -16,11 +16,11 @@
 
         <div class="vertical_div">
             <div role="progressbar" aria-valuenow="{{ units_used }}" aria-valuemin="0" aria-valuemax="100" style="--value:{{ units_used }}">
-                {{ current_user.units }}/{{ current_user.capacity }}
+                {{ current_user.units }}/35
             </div>
             <div style="text-align:center;">
-                <p style="font-size: 2rem;"> {{ current_user.units }}/{{ current_user.capacity }} Units Available </p>
-                <p style="font-size: 1.7rem;"> Max Battery Capacity: {{ current_user.capacity }} kW</p>
+                <p style="font-size: 2rem;"> {{ current_user.units }}/35 Units Available </p>
+                <p style="font-size: 1.7rem;"> Max Battery Capacity: 35 Units</p>
                 <p class="rep" style="font-size: 1.7rem;" data-rep="{{ current_user.seller_rep }}"></p>
                 <p style="font-size: 1.7rem;"> Seller Rating</p>
             </div>

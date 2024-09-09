@@ -15,7 +15,6 @@ class User(db.Model, UserMixin):
     image_file = db.Column(db.String(20), nullable=False, default="profile.jpg")
     password = db.Column(db.String(60), unique=True, nullable=False)
     units = db.Column(db.Integer, default=random.randint(1, 10))
-    capacity = db.Column(db.Integer, default=random.randint(10, 100))
     seller_rep = db.Column(db.Integer, default=random.randint(1, 5))
     sell_orders = db.relationship("SellOrder", backref="seller", lazy=False)
 

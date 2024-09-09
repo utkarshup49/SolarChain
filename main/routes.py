@@ -21,12 +21,11 @@ def home():
     if not current_user.is_authenticated:
         return redirect(url_for("login"))
     current = current_user.units
-    total = current_user.capacity
-    units = units_used(current, total)
+    units = units_used(current)
     return render_template("index.html", user_data=dashboard_info, units_used=units)
 
 
-def units_used(current, total):
+def units_used(current, total:int = 35):
     proportion = current / total
     return int(proportion * 100)
 
@@ -146,7 +145,7 @@ def checkout_page():
                 seller: User = User.query.filter_by(id=order.user_id).first()
                 units = form.units.data
                 if seller.units >= units:
-                    if buyer.units + form.units.data <= buyer.capacity:
+                    if buyer.units + form.units.data <= 35:
                         buyer.units += units
                         order.units -= units
                         seller.units -= units

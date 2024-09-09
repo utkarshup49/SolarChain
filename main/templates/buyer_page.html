@@ -13,7 +13,8 @@
                 <th scope="col">Seller Name</th>
                 <th scope="col">Seller Rating</th>
                 <th scope="col">Units Available</th>
-                <th scope="col">Price Per kWh</th>
+                <th scope="col">Price Per Unit</th>
+                <th scope="col">Total Price</th>
                 <th scope="col">Status</th>
                 <th scope="col"></th>
             </tr>
@@ -27,6 +28,7 @@
         <td class="rep" data-rep="{{ item.seller.seller_rep }}"></td>
         <td>{{ item.order.units }}</td>
         <td>Rs. {{ item.order.price }}</td>
+        <td>{{ item.order.units * item.order.price }}</td>
         <td>
             <div class="status"><p>{{ item.status }}</p></div>
         </td>
