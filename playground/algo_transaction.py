@@ -11,27 +11,27 @@ headers = {"X-API-Key": algod_token}
 
 # Create the client
 algod_client: AlgodClient = algod.AlgodClient(algod_token, algod_address, headers)
-print("Algod Client Created:", algod_client.health())
-
-# Check the connection by fetching the node status
-try:
-    status = algod_client.status()
-    print("Connected to Algorand Network.")
-    print("Network Status:", status)
-except Exception as e:
-    print("Failed to connect:", e)
-
+# print("Algod Client Created:", algod_client.health())
+#
+# # Check the connection by fetching the node status
+# try:
+#     status = algod_client.status()
+#     print("Connected to Algorand Network.")
+#     print("Network Status:", status)
+# except Exception as e:
+#     print("Failed to connect:", e)
+#
 # Generate address and mnemonic if needed
 mnemonic_phrase = "balance ship reject pause bubble charge elegant envelope table prosper detail tonight shield source shiver asset senior fan matter kangaroo caught addict similar abstract drift"
 private_key = mnemonic.to_private_key(mnemonic_phrase)
 public_address = account.address_from_private_key(private_key)
 
 
-print("Public Address:", public_address)
+# print("Public Address:", public_address)
 
 # private_key, address = account.generate_account()
-# print("My address:", address)
-# print("My mnemonic:", mnemonic.from_private_key(private_key))
+print("My address:", public_address)
+print("My mnemonic:", mnemonic.from_private_key(private_key))
 
 from algosdk import transaction
 
