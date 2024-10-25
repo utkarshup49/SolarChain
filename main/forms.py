@@ -29,7 +29,7 @@ class LoginForm(FlaskForm):
 
 class SellOrderForm(FlaskForm):
     unit = IntegerField('Units', validators=[DataRequired()])
-    price = IntegerField('Price', validators=[DataRequired()])
+    price = IntegerField('Price Per unit', validators=[DataRequired()])
     submit = SubmitField('Sell Units')
 
 
