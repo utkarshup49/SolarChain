@@ -1,23 +1,38 @@
-import datetime
-from typing import List
+"""
+This module defines the Flask application routes, utility functions, and views for the core functionality.
+It includes user authentication, rendering templates, handling user actions like buying/selling units, and
+managing transaction history. This module integrates Flask, Flask-Login, SQLAlchemy, and forms for a complete web experience.
+"""
 
-from flask import flash, redirect, render_template, url_for, request
-from flask_login import login_required, login_user, current_user, logout_user
-from sqlalchemy import or_
+import datetime  # Used for timestamping transactions
+from typing import List  # Type hint for a list return type
 
-from main import app, bcrypt, db
-from main.forms import LoginForm, PurchaseForm, RegistrationForm, SellOrderForm
-from main.models import SellOrder, TransactionHistory, User, get_sellers
+from flask import flash, redirect, render_template, url_for, request  # Flask utilities for routing and responses
+from flask_login import login_required, login_user, current_user, logout_user  # Session management
+from sqlalchemy import or_  # SQLAlchemy operator for OR conditions
 
+from main import app, bcrypt, db  # Flask app instance, bcrypt for hashing, and database
+from main.forms import LoginForm, PurchaseForm, RegistrationForm, SellOrderForm  # WTForms for handling forms
+from main.models import SellOrder, TransactionHistory, User, get_sellers  # Database models and utility function
+
+# Static dashboard information for demonstration
 dashboard_info = {"balance": "50"}
 
 @app.route('/layout')
 def layout():
+    """
+    Render the base layout template for testing purposes.
+    """
     return render_template("layout.html")
+
 
 @app.route('/')
 @app.route('/home')
 def home():
+    """
+    Render the home page. Redirects to login if the user is not authenticated.
+    Displays user's current unit usage and dashboard information.
+    """
     if not current_user.is_authenticated:
         return redirect(url_for("login"))
     current = current_user.units
@@ -25,13 +40,27 @@ def home():
     return render_template("index.html", user_data=dashboard_info, units_used=units)
 
 
-def units_used(current, total:int = 35):
+def units_used(current, total: int = 35):
+    """
+    Calculate the percentage of units used by the user.
+
+    Args:
+        current (int): Current units of the user.
+        total (int): Total units available. Defaults to 35.
+
+    Returns:
+        int: Percentage of units used.
+    """
     proportion = current / total
     return int(proportion * 100)
 
 
 @app.route('/transactions')
 def transactions():
+    """
+    Render the transactions page, showing the transaction history for the current user.
+    Redirects to login if the user is not authenticated.
+    """
     if not current_user.is_authenticated:
         return redirect(url_for("login"))
     return render_template("transaction.html", history=get_transaction_history(current_user.id))
@@ -39,16 +68,26 @@ def transactions():
 
 @app.route('/about')
 def about():
+    """
+    Render the about page with static information about the application.
+    """
     return render_template("about.html")
 
 
 @app.route('/account')
 def account():
+    """
+    Render the account page to display user-specific details.
+    """
     return render_template("account.html")
 
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
+    """
+    Handle user registration. Redirects authenticated users to the home page.
+    On successful registration, hashes the password and stores the new user in the database.
+    """
     if current_user.is_authenticated:
         return redirect(url_for("home"))
     form = RegistrationForm()
@@ -65,6 +104,10 @@ def register():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    """
+    Handle user login. Redirects authenticated users to the home page.
+    Validates user credentials and starts a session on successful login.
+    """
     if current_user.is_authenticated:
         return redirect(url_for("home"))
     form = LoginForm()
@@ -81,8 +124,9 @@ def login():
 @app.route("/seller_page", methods=['GET', 'POST'])
 @login_required
 def seller_page():
-    if not current_user.is_authenticated:
-        return redirect(url_for("login"))
+    """
+    Display and handle actions on the seller page. Allows users to create sell orders.
+    """
     form = SellOrderForm()
     if form.validate_on_submit():
         units, price = form.unit.data, form.price.data
@@ -101,8 +145,9 @@ def seller_page():
 @app.route("/buyer_page", methods=['GET', 'POST'])
 @login_required
 def buyer_page():
-    if not current_user.is_authenticated:
-        return redirect(url_for("login"))
+    """
+    Display the buyer page with available sell orders from other users.
+    """
     sell_orders = get_sell_orders()
     return render_template("buyer_page.html", title="Buy Units", sell_orders=sell_orders)
 
@@ -110,8 +155,9 @@ def buyer_page():
 @app.route("/cancel_sell_order", methods=["GET", "POST"])
 @login_required
 def cancel_sell_order():
-    if not current_user.is_authenticated:
-        return redirect(url_for("login"))
+    """
+    Cancel an existing sell order for the current user.
+    """
     order_id = request.args.get("order_id")
     if order_id is None:
         return redirect(url_for("home"))
@@ -127,8 +173,9 @@ def cancel_sell_order():
 @app.route("/checkout_page", methods=["GET", "POST"])
 @login_required
 def checkout_page():
-    if not current_user.is_authenticated:
-        return redirect(url_for("login"))
+    """
+    Handle the checkout process when a user purchases units from a seller.
+    """
     order_id = request.args.get("order_id")
     if order_id is None:
         return redirect(url_for("home"))
@@ -140,9 +187,7 @@ def checkout_page():
         if form.units.data <= order.units:
             total_price = order.price * form.units.data
             with app.app_context():
-                order: SellOrder = SellOrder.query.filter_by(id=order_id).first()
                 buyer: User = User.query.filter_by(id=current_user.id).first()
-                seller: User = User.query.filter_by(id=order.user_id).first()
                 units = form.units.data
                 if seller.units >= units:
                     if buyer.units + form.units.data <= 35:
@@ -168,12 +213,27 @@ def checkout_page():
 
 
 def get_user_sell_orders():
+    """
+    Retrieve all sell orders created by the current user.
+
+    Returns:
+        List[SellOrder]: List of sell orders belonging to the current user.
+    """
     with app.app_context():
         qry = SellOrder.query.filter_by(user_id=current_user.id)
         return qry
 
 
 def get_transaction_history(user_id):
+    """
+    Retrieve the transaction history for a given user.
+
+    Args:
+        user_id (int): ID of the user.
+
+    Returns:
+        List[dict]: List of transactions with type (CREDIT/DEBIT) and details.
+    """
     with app.app_context():
         history = []
         transacts = TransactionHistory.query.filter(or_(
@@ -189,11 +249,17 @@ def get_transaction_history(user_id):
 
 
 def get_sell_orders():
+    """
+    Retrieve all active sell orders from the database along with their sellers.
+
+    Returns:
+        List[dict]: List of orders and their respective seller details.
+    """
     with app.app_context():
-        sell_orders = SellOrder.query.all()  # Assuming you have a SellOrder model
+        sell_orders = SellOrder.query.all()
         orders_with_seller = []
         for order in sell_orders:
-            seller = User.query.filter_by(id=order.user_id).first()  # Assuming User model has seller info
+            seller = User.query.filter_by(id=order.user_id).first()
             if seller.id == current_user.id:
                 continue
             orders_with_seller.append({
@@ -206,5 +272,8 @@ def get_sell_orders():
 
 @app.route("/logout")
 def logout():
+    """
+    Log the user out and redirect to the about page.
+    """
     logout_user()
     return redirect(url_for("about"))
