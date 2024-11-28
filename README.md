@@ -2,6 +2,15 @@
 - Make sure all packages are installed.
   - Run `pip install -r requirements.txt` to install all required packages.
 
+# Common Issues
+
+## Docker Errors
+Logged in but got `unauthorized: incorrect username or password error.`
+
+Right-Clicked on the system tray icon, does it show you logged in as username@domain.com? Sign out, the issue is that you must login to Docker using your hub username, which is different than your email address, even though in some cases, both are interchangeable.
+You can do this by signing out from the system tray icon, or by logging in at a command prompt, using the syntax `docker login --username your_username_here.`
+If you’re not sure of your username, you can login to the [Docker Hub](https://hub.docker.com/), and your username will be displayed on the far right hand side of the menu bar, next to “Dashboard”, “Explore” and such.
+
 # Project Structure
 
 ## Directories
