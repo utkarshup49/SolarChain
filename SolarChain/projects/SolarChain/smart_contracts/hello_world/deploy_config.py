@@ -34,3 +34,11 @@ def deploy(
         f"Called hello on {app_spec.contract.name} ({app_client.app_id}) "
         f"with name={name}, received: {response.return_value}"
     )
+
+
+    name = "TTGG"
+    response = app_client.hello(name=name)
+    logger.info(
+        f"Called hello on {app_spec.contract.name} ({app_client.app_id}) "
+        f"with name={name}, received: {response.return_value}"
+    )
