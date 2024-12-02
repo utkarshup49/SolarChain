@@ -5,7 +5,6 @@ from algosdk.v2client.algod import AlgodClient
 from algosdk import transaction
 
 from playground.account_constants import ACCOUNTS, Account
-from playground.algo_try import address
 
 # LocalNet configuration
 TOKEN = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"  # Default AlgoKit LocalNet token
