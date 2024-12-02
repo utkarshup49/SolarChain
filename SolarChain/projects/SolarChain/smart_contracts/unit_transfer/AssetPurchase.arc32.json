@@ -1,0 +1,66 @@
+{
+    "hints": {
+        "purchase(account,uint64,string)string": {
+            "call_config": {
+                "no_op": "CALL"
+            }
+        }
+    },
+    "source": {
+        "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgpzbWFydF9jb250cmFjdHMudW5pdF90cmFuc2Zlci51bml0X2NvbnRyYWN0LkFzc2V0UHVyY2hhc2UuYXBwcm92YWxfcHJvZ3JhbToKICAgIGludGNibG9jayAwIDEKICAgIGNhbGxzdWIgX19wdXlhX2FyYzRfcm91dGVyX18KICAgIHJldHVybgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy51bml0X3RyYW5zZmVyLnVuaXRfY29udHJhY3QuQXNzZXRQdXJjaGFzZS5fX3B1eWFfYXJjNF9yb3V0ZXJfXygpIC0+IHVpbnQ2NDoKX19wdXlhX2FyYzRfcm91dGVyX186CiAgICAvLyB1bml0X2NvbnRyYWN0LnB5OjUKICAgIC8vIGNsYXNzIEFzc2V0UHVyY2hhc2UoQVJDNENvbnRyYWN0KToKICAgIHByb3RvIDAgMQogICAgdHhuIE51bUFwcEFyZ3MKICAgIGJ6IF9fcHV5YV9hcmM0X3JvdXRlcl9fX2JhcmVfcm91dGluZ0A1CiAgICBwdXNoYnl0ZXMgMHg1OTdhOTZiNSAvLyBtZXRob2QgInB1cmNoYXNlKGFjY291bnQsdWludDY0LHN0cmluZylzdHJpbmciCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAwCiAgICBtYXRjaCBfX3B1eWFfYXJjNF9yb3V0ZXJfX19wdXJjaGFzZV9yb3V0ZUAyCiAgICBpbnRjXzAgLy8gMAogICAgcmV0c3ViCgpfX3B1eWFfYXJjNF9yb3V0ZXJfX19wdXJjaGFzZV9yb3V0ZUAyOgogICAgLy8gdW5pdF9jb250cmFjdC5weTo5CiAgICAvLyBAYWJpbWV0aG9kCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIG5vdCBOb09wCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBub3QgY3JlYXRpbmcKICAgIC8vIHVuaXRfY29udHJhY3QucHk6NQogICAgLy8gY2xhc3MgQXNzZXRQdXJjaGFzZShBUkM0Q29udHJhY3QpOgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQogICAgYnRvaQogICAgdHhuYXMgQWNjb3VudHMKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDIKICAgIGJ0b2kKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDMKICAgIGV4dHJhY3QgMiAwCiAgICAvLyB1bml0X2NvbnRyYWN0LnB5OjkKICAgIC8vIEBhYmltZXRob2QKICAgIGNhbGxzdWIgcHVyY2hhc2UKICAgIGR1cAogICAgbGVuCiAgICBpdG9iCiAgICBleHRyYWN0IDYgMgogICAgc3dhcAogICAgY29uY2F0CiAgICBwdXNoYnl0ZXMgMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludGNfMSAvLyAxCiAgICByZXRzdWIKCl9fcHV5YV9hcmM0X3JvdXRlcl9fX2JhcmVfcm91dGluZ0A1OgogICAgLy8gdW5pdF9jb250cmFjdC5weTo1CiAgICAvLyBjbGFzcyBBc3NldFB1cmNoYXNlKEFSQzRDb250cmFjdCk6CiAgICB0eG4gT25Db21wbGV0aW9uCiAgICBibnogX19wdXlhX2FyYzRfcm91dGVyX19fYWZ0ZXJfaWZfZWxzZUA5CiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgIQogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBjcmVhdGluZwogICAgaW50Y18xIC8vIDEKICAgIHJldHN1YgoKX19wdXlhX2FyYzRfcm91dGVyX19fYWZ0ZXJfaWZfZWxzZUA5OgogICAgLy8gdW5pdF9jb250cmFjdC5weTo1CiAgICAvLyBjbGFzcyBBc3NldFB1cmNoYXNlKEFSQzRDb250cmFjdCk6CiAgICBpbnRjXzAgLy8gMAogICAgcmV0c3ViCgoKLy8gc21hcnRfY29udHJhY3RzLnVuaXRfdHJhbnNmZXIudW5pdF9jb250cmFjdC5Bc3NldFB1cmNoYXNlLnB1cmNoYXNlKGJ1eWVyOiBieXRlcywgYW1vdW50OiB1aW50NjQsIHRlc3Q6IGJ5dGVzKSAtPiBieXRlczoKcHVyY2hhc2U6CiAgICAvLyB1bml0X2NvbnRyYWN0LnB5OjktMTAKICAgIC8vIEBhYmltZXRob2QKICAgIC8vIGRlZiBwdXJjaGFzZShzZWxmLCBidXllcjogQWNjb3VudCwgYW1vdW50OiBVSW50NjQsIHRlc3Q6IFN0cmluZykgLT4gU3RyaW5nOgogICAgcHJvdG8gMyAxCiAgICAvLyB1bml0X2NvbnRyYWN0LnB5OjE3CiAgICAvLyByZXR1cm4gIkJ1eWluZyB1bml0cyBmcm9tIGFuIGFjY291bnQgd2l0aCBiYWw6ICIgKyB0ZXN0CiAgICBwdXNoYnl0ZXMgIkJ1eWluZyB1bml0cyBmcm9tIGFuIGFjY291bnQgd2l0aCBiYWw6ICIKICAgIGZyYW1lX2RpZyAtMQogICAgY29uY2F0CiAgICByZXRzdWIK",
+        "clear": "I3ByYWdtYSB2ZXJzaW9uIDEwCgpzbWFydF9jb250cmFjdHMudW5pdF90cmFuc2Zlci51bml0X2NvbnRyYWN0LkFzc2V0UHVyY2hhc2UuY2xlYXJfc3RhdGVfcHJvZ3JhbToKICAgIHB1c2hpbnQgMSAvLyAxCiAgICByZXR1cm4K"
+    },
+    "state": {
+        "global": {
+            "num_byte_slices": 0,
+            "num_uints": 0
+        },
+        "local": {
+            "num_byte_slices": 0,
+            "num_uints": 0
+        }
+    },
+    "schema": {
+        "global": {
+            "declared": {},
+            "reserved": {}
+        },
+        "local": {
+            "declared": {},
+            "reserved": {}
+        }
+    },
+    "contract": {
+        "name": "AssetPurchase",
+        "methods": [
+            {
+                "name": "purchase",
+                "args": [
+                    {
+                        "type": "account",
+                        "name": "buyer",
+                        "desc": "Buyer account"
+                    },
+                    {
+                        "type": "uint64",
+                        "name": "amount",
+                        "desc": "Amount of units to buy"
+                    },
+                    {
+                        "type": "string",
+                        "name": "test"
+                    }
+                ],
+                "readonly": false,
+                "returns": {
+                    "type": "string"
+                },
+                "desc": "Purchase electrical units"
+            }
+        ],
+        "networks": {}
+    },
+    "bare_call_config": {
+        "no_op": "CREATE"
+    }
+}

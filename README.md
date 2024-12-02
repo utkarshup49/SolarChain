@@ -1,6 +1,7 @@
 - To run the website just run main.py
 - Make sure all packages are installed.
   - Run `pip install -r requirements.txt` to install all required packages.
+- For compiling contract: `algokit compile py <INPUT> --output-arc32 --no-output-teal`
 
 # Common Issues
 

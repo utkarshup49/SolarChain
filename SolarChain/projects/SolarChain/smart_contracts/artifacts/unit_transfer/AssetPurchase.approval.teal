@@ -1,0 +1,84 @@
+#pragma version 10
+
+smart_contracts.unit_transfer.unit_contract.AssetPurchase.approval_program:
+    intcblock 0 1
+    callsub __puya_arc4_router__
+    return
+
+
+// smart_contracts.unit_transfer.unit_contract.AssetPurchase.__puya_arc4_router__() -> uint64:
+__puya_arc4_router__:
+    // smart_contracts/unit_transfer/unit_contract.py:5
+    // class AssetPurchase(ARC4Contract):
+    proto 0 1
+    txn NumAppArgs
+    bz __puya_arc4_router___bare_routing@5
+    pushbytes 0x597a96b5 // method "purchase(account,uint64,string)string"
+    txna ApplicationArgs 0
+    match __puya_arc4_router___purchase_route@2
+    intc_0 // 0
+    retsub
+
+__puya_arc4_router___purchase_route@2:
+    // smart_contracts/unit_transfer/unit_contract.py:9
+    // @abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    // smart_contracts/unit_transfer/unit_contract.py:5
+    // class AssetPurchase(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txnas Accounts
+    txna ApplicationArgs 2
+    btoi
+    txna ApplicationArgs 3
+    extract 2 0
+    // smart_contracts/unit_transfer/unit_contract.py:9
+    // @abimethod
+    callsub purchase
+    dup
+    len
+    itob
+    extract 6 2
+    swap
+    concat
+    pushbytes 0x151f7c75
+    swap
+    concat
+    log
+    intc_1 // 1
+    retsub
+
+__puya_arc4_router___bare_routing@5:
+    // smart_contracts/unit_transfer/unit_contract.py:5
+    // class AssetPurchase(ARC4Contract):
+    txn OnCompletion
+    bnz __puya_arc4_router___after_if_else@9
+    txn ApplicationID
+    !
+    assert // can only call when creating
+    intc_1 // 1
+    retsub
+
+__puya_arc4_router___after_if_else@9:
+    // smart_contracts/unit_transfer/unit_contract.py:5
+    // class AssetPurchase(ARC4Contract):
+    intc_0 // 0
+    retsub
+
+
+// smart_contracts.unit_transfer.unit_contract.AssetPurchase.purchase(buyer: bytes, amount: uint64, test: bytes) -> bytes:
+purchase:
+    // smart_contracts/unit_transfer/unit_contract.py:9-10
+    // @abimethod
+    // def purchase(self, buyer: Account, amount: UInt64, test: String) -> String:
+    proto 3 1
+    // smart_contracts/unit_transfer/unit_contract.py:17
+    // return "Buying units from an account with bal: " + test
+    pushbytes "Buying units from an account with bal: "
+    frame_dig -1
+    concat
+    retsub

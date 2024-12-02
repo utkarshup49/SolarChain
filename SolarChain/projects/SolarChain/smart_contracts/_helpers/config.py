@@ -20,7 +20,7 @@ class SmartContract:
 
 def import_contract(folder: Path) -> Path:
     """Imports the contract from a folder if it exists."""
-    contract_path = folder / "contract.py"
+    contract_path = folder / "unit_contract.py"
     if contract_path.exists():
         return contract_path
     else:
@@ -44,8 +44,8 @@ def import_deploy_if_exists(
 
 
 def has_contract_file(directory: Path) -> bool:
-    """Checks whether the directory contains contract.py file."""
-    return (directory / "contract.py").exists()
+    """Checks whether the directory contains unit_contract.py file."""
+    return (directory / "unit_contract.py").exists()
 
 
 # define contracts to build and/or deploy
