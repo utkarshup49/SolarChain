@@ -7,8 +7,14 @@ from algosdk import transaction
 from playground.account_constants import ACCOUNTS, Account
 
 # LocalNet configuration
-TOKEN = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"  # Default AlgoKit LocalNet token
-SERVER_ADDRESS = "http://localhost:4001"  # Default AlgoKit LocalNet endpoint
+
+LOCAL_NET: bool = False
+if LOCAL_NET:
+    TOKEN = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"  # Default AlgoKit LocalNet token
+    SERVER_ADDRESS = "http://localhost:4001"  # Default AlgoKit LocalNet endpoint
+else:
+    TOKEN = ""  # Default AlgoKit LocalNet token
+    SERVER_ADDRESS = "https://testnet-api.algonode.cloud"  # Default AlgoKit LocalNet endpoint
 
 # Initialize the Algod client
 algod_client: AlgodClient = AlgodClient(TOKEN, SERVER_ADDRESS)
@@ -23,8 +29,12 @@ except Exception as e:
     print("Failed to connect:", e)
 
 # Generate address and mnemonic if needed
-acc1 = Account(ACCOUNTS[0])
-acc2 = Account(ACCOUNTS[1])
+if LOCAL_NET:
+    acc1 = Account(ACCOUNTS[0])
+    acc2 = Account(ACCOUNTS[1])
+else:
+    acc1 = Account(ACCOUNTS[3])
+    acc2 = Account(ACCOUNTS[4])
 
 print("Public Address:", acc1.address)
 print("My address:", acc1.private_key)
@@ -65,7 +75,7 @@ def create_asset():
     created_asset = results["asset-index"]
     print(f"Asset ID created: {created_asset}")
 
-created_asset = 1016
+created_asset = 730166188 if LOCAL_NET else 1016
 
 def receive_asset():
     optin_txn = transaction.AssetOptInTxn(
@@ -85,7 +95,7 @@ def transfer_asset():
         sender=acc1.address,
         sp=params,
         receiver=acc2.address,
-        amt=1,
+        amt=101,
         index=created_asset,
     )
     signed_xfer_txn = xfer_txn.sign(acc1.private_key)
@@ -95,4 +105,6 @@ def transfer_asset():
     results = transaction.wait_for_confirmation(algod_client, txid, 4)
     print(f"Result confirmed in round: {results['confirmed-round']}")
 
+# create_asset()
+# receive_asset()
 transfer_asset()
