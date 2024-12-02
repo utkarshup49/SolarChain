@@ -75,7 +75,7 @@ def create_asset():
     created_asset = results["asset-index"]
     print(f"Asset ID created: {created_asset}")
 
-created_asset = 730166188 if LOCAL_NET else 1016
+created_asset = 730166188 if not LOCAL_NET else 1016
 
 def receive_asset():
     optin_txn = transaction.AssetOptInTxn(
@@ -95,7 +95,7 @@ def transfer_asset():
         sender=acc1.address,
         sp=params,
         receiver=acc2.address,
-        amt=101,
+        amt=1,
         index=created_asset,
     )
     signed_xfer_txn = xfer_txn.sign(acc1.private_key)
