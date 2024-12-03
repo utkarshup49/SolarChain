@@ -23,14 +23,14 @@ from algosdk.atomic_transaction_composer import (
 
 _APP_SPEC_JSON = r"""{
     "hints": {
-        "purchase(account,uint64,string)string": {
+        "purchase(account,account,uint64,uint64,uint64)void": {
             "call_config": {
                 "no_op": "CALL"
             }
         }
     },
     "source": {
-        "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgpzbWFydF9jb250cmFjdHMudW5pdF90cmFuc2Zlci51bml0X2NvbnRyYWN0LkFzc2V0UHVyY2hhc2UuYXBwcm92YWxfcHJvZ3JhbToKICAgIGludGNibG9jayAwIDEKICAgIGNhbGxzdWIgX19wdXlhX2FyYzRfcm91dGVyX18KICAgIHJldHVybgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy51bml0X3RyYW5zZmVyLnVuaXRfY29udHJhY3QuQXNzZXRQdXJjaGFzZS5fX3B1eWFfYXJjNF9yb3V0ZXJfXygpIC0+IHVpbnQ2NDoKX19wdXlhX2FyYzRfcm91dGVyX186CiAgICAvLyBzbWFydF9jb250cmFjdHMvdW5pdF90cmFuc2Zlci91bml0X2NvbnRyYWN0LnB5OjUKICAgIC8vIGNsYXNzIEFzc2V0UHVyY2hhc2UoQVJDNENvbnRyYWN0KToKICAgIHByb3RvIDAgMQogICAgdHhuIE51bUFwcEFyZ3MKICAgIGJ6IF9fcHV5YV9hcmM0X3JvdXRlcl9fX2JhcmVfcm91dGluZ0A1CiAgICBwdXNoYnl0ZXMgMHg1OTdhOTZiNSAvLyBtZXRob2QgInB1cmNoYXNlKGFjY291bnQsdWludDY0LHN0cmluZylzdHJpbmciCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAwCiAgICBtYXRjaCBfX3B1eWFfYXJjNF9yb3V0ZXJfX19wdXJjaGFzZV9yb3V0ZUAyCiAgICBpbnRjXzAgLy8gMAogICAgcmV0c3ViCgpfX3B1eWFfYXJjNF9yb3V0ZXJfX19wdXJjaGFzZV9yb3V0ZUAyOgogICAgLy8gc21hcnRfY29udHJhY3RzL3VuaXRfdHJhbnNmZXIvdW5pdF9jb250cmFjdC5weTo5CiAgICAvLyBAYWJpbWV0aG9kCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIG5vdCBOb09wCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBub3QgY3JlYXRpbmcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy91bml0X3RyYW5zZmVyL3VuaXRfY29udHJhY3QucHk6NQogICAgLy8gY2xhc3MgQXNzZXRQdXJjaGFzZShBUkM0Q29udHJhY3QpOgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQogICAgYnRvaQogICAgdHhuYXMgQWNjb3VudHMKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDIKICAgIGJ0b2kKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDMKICAgIGV4dHJhY3QgMiAwCiAgICAvLyBzbWFydF9jb250cmFjdHMvdW5pdF90cmFuc2Zlci91bml0X2NvbnRyYWN0LnB5OjkKICAgIC8vIEBhYmltZXRob2QKICAgIGNhbGxzdWIgcHVyY2hhc2UKICAgIGR1cAogICAgbGVuCiAgICBpdG9iCiAgICBleHRyYWN0IDYgMgogICAgc3dhcAogICAgY29uY2F0CiAgICBwdXNoYnl0ZXMgMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludGNfMSAvLyAxCiAgICByZXRzdWIKCl9fcHV5YV9hcmM0X3JvdXRlcl9fX2JhcmVfcm91dGluZ0A1OgogICAgLy8gc21hcnRfY29udHJhY3RzL3VuaXRfdHJhbnNmZXIvdW5pdF9jb250cmFjdC5weTo1CiAgICAvLyBjbGFzcyBBc3NldFB1cmNoYXNlKEFSQzRDb250cmFjdCk6CiAgICB0eG4gT25Db21wbGV0aW9uCiAgICBibnogX19wdXlhX2FyYzRfcm91dGVyX19fYWZ0ZXJfaWZfZWxzZUA5CiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgIQogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBjcmVhdGluZwogICAgaW50Y18xIC8vIDEKICAgIHJldHN1YgoKX19wdXlhX2FyYzRfcm91dGVyX19fYWZ0ZXJfaWZfZWxzZUA5OgogICAgLy8gc21hcnRfY29udHJhY3RzL3VuaXRfdHJhbnNmZXIvdW5pdF9jb250cmFjdC5weTo1CiAgICAvLyBjbGFzcyBBc3NldFB1cmNoYXNlKEFSQzRDb250cmFjdCk6CiAgICBpbnRjXzAgLy8gMAogICAgcmV0c3ViCgoKLy8gc21hcnRfY29udHJhY3RzLnVuaXRfdHJhbnNmZXIudW5pdF9jb250cmFjdC5Bc3NldFB1cmNoYXNlLnB1cmNoYXNlKGJ1eWVyOiBieXRlcywgYW1vdW50OiB1aW50NjQsIHRlc3Q6IGJ5dGVzKSAtPiBieXRlczoKcHVyY2hhc2U6CiAgICAvLyBzbWFydF9jb250cmFjdHMvdW5pdF90cmFuc2Zlci91bml0X2NvbnRyYWN0LnB5OjktMTAKICAgIC8vIEBhYmltZXRob2QKICAgIC8vIGRlZiBwdXJjaGFzZShzZWxmLCBidXllcjogQWNjb3VudCwgYW1vdW50OiBVSW50NjQsIHRlc3Q6IFN0cmluZykgLT4gU3RyaW5nOgogICAgcHJvdG8gMyAxCiAgICAvLyBzbWFydF9jb250cmFjdHMvdW5pdF90cmFuc2Zlci91bml0X2NvbnRyYWN0LnB5OjE3CiAgICAvLyByZXR1cm4gIkJ1eWluZyB1bml0cyBmcm9tIGFuIGFjY291bnQgd2l0aCBiYWw6ICIgKyB0ZXN0CiAgICBwdXNoYnl0ZXMgIkJ1eWluZyB1bml0cyBmcm9tIGFuIGFjY291bnQgd2l0aCBiYWw6ICIKICAgIGZyYW1lX2RpZyAtMQogICAgY29uY2F0CiAgICByZXRzdWIK",
+        "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgpzbWFydF9jb250cmFjdHMudW5pdF90cmFuc2Zlci51bml0X2NvbnRyYWN0LkFzc2V0UHVyY2hhc2UuYXBwcm92YWxfcHJvZ3JhbToKICAgIGludGNibG9jayAwIDEKICAgIGNhbGxzdWIgX19wdXlhX2FyYzRfcm91dGVyX18KICAgIHJldHVybgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy51bml0X3RyYW5zZmVyLnVuaXRfY29udHJhY3QuQXNzZXRQdXJjaGFzZS5fX3B1eWFfYXJjNF9yb3V0ZXJfXygpIC0+IHVpbnQ2NDoKX19wdXlhX2FyYzRfcm91dGVyX186CiAgICAvLyBzbWFydF9jb250cmFjdHMvdW5pdF90cmFuc2Zlci91bml0X2NvbnRyYWN0LnB5OjcKICAgIC8vIGNsYXNzIEFzc2V0UHVyY2hhc2UoQVJDNENvbnRyYWN0KToKICAgIHByb3RvIDAgMQogICAgdHhuIE51bUFwcEFyZ3MKICAgIGJ6IF9fcHV5YV9hcmM0X3JvdXRlcl9fX2JhcmVfcm91dGluZ0A1CiAgICBwdXNoYnl0ZXMgMHgwM2Y0ZDU3ZiAvLyBtZXRob2QgInB1cmNoYXNlKGFjY291bnQsYWNjb3VudCx1aW50NjQsdWludDY0LHVpbnQ2NCl2b2lkIgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAogICAgbWF0Y2ggX19wdXlhX2FyYzRfcm91dGVyX19fcHVyY2hhc2Vfcm91dGVAMgogICAgaW50Y18wIC8vIDAKICAgIHJldHN1YgoKX19wdXlhX2FyYzRfcm91dGVyX19fcHVyY2hhc2Vfcm91dGVAMjoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy91bml0X3RyYW5zZmVyL3VuaXRfY29udHJhY3QucHk6OQogICAgLy8gQGFiaW1ldGhvZAogICAgdHhuIE9uQ29tcGxldGlvbgogICAgIQogICAgYXNzZXJ0IC8vIE9uQ29tcGxldGlvbiBpcyBub3QgTm9PcAogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgIGFzc2VydCAvLyBjYW4gb25seSBjYWxsIHdoZW4gbm90IGNyZWF0aW5nCiAgICAvLyBzbWFydF9jb250cmFjdHMvdW5pdF90cmFuc2Zlci91bml0X2NvbnRyYWN0LnB5OjcKICAgIC8vIGNsYXNzIEFzc2V0UHVyY2hhc2UoQVJDNENvbnRyYWN0KToKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDEKICAgIGJ0b2kKICAgIHR4bmFzIEFjY291bnRzCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAyCiAgICBidG9pCiAgICB0eG5hcyBBY2NvdW50cwogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwogICAgYnRvaQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgNAogICAgYnRvaQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgNQogICAgYnRvaQogICAgLy8gc21hcnRfY29udHJhY3RzL3VuaXRfdHJhbnNmZXIvdW5pdF9jb250cmFjdC5weTo5CiAgICAvLyBAYWJpbWV0aG9kCiAgICBjYWxsc3ViIHB1cmNoYXNlCiAgICBpbnRjXzEgLy8gMQogICAgcmV0c3ViCgpfX3B1eWFfYXJjNF9yb3V0ZXJfX19iYXJlX3JvdXRpbmdANToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy91bml0X3RyYW5zZmVyL3VuaXRfY29udHJhY3QucHk6NwogICAgLy8gY2xhc3MgQXNzZXRQdXJjaGFzZShBUkM0Q29udHJhY3QpOgogICAgdHhuIE9uQ29tcGxldGlvbgogICAgYm56IF9fcHV5YV9hcmM0X3JvdXRlcl9fX2FmdGVyX2lmX2Vsc2VAOQogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgICEKICAgIGFzc2VydCAvLyBjYW4gb25seSBjYWxsIHdoZW4gY3JlYXRpbmcKICAgIGludGNfMSAvLyAxCiAgICByZXRzdWIKCl9fcHV5YV9hcmM0X3JvdXRlcl9fX2FmdGVyX2lmX2Vsc2VAOToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy91bml0X3RyYW5zZmVyL3VuaXRfY29udHJhY3QucHk6NwogICAgLy8gY2xhc3MgQXNzZXRQdXJjaGFzZShBUkM0Q29udHJhY3QpOgogICAgaW50Y18wIC8vIDAKICAgIHJldHN1YgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy51bml0X3RyYW5zZmVyLnVuaXRfY29udHJhY3QuQXNzZXRQdXJjaGFzZS5wdXJjaGFzZShzZWxsZXI6IGJ5dGVzLCBidXllcjogYnl0ZXMsIHByaWNlOiB1aW50NjQsIHF0eTogdWludDY0LCBhc3NldDogdWludDY0KSAtPiB2b2lkOgpwdXJjaGFzZToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy91bml0X3RyYW5zZmVyL3VuaXRfY29udHJhY3QucHk6OS0xMAogICAgLy8gQGFiaW1ldGhvZAogICAgLy8gZGVmIHB1cmNoYXNlKHNlbGYsIHNlbGxlcjogQWNjb3VudCwgYnV5ZXI6IEFjY291bnQsIHByaWNlOiBVSW50NjQsIHF0eTogVUludDY0LCBhc3NldDogVUludDY0KSAtPiBOb25lOgogICAgcHJvdG8gNSAwCiAgICAvLyBzbWFydF9jb250cmFjdHMvdW5pdF90cmFuc2Zlci91bml0X2NvbnRyYWN0LnB5OjE5LTI1CiAgICAvLyBhbGdvcHkuaXR4bi5Bc3NldFRyYW5zZmVyKAogICAgLy8gICAgIHhmZXJfYXNzZXQ9YXNzZXQsCiAgICAvLyAgICAgYXNzZXRfcmVjZWl2ZXI9YnV5ZXIsCiAgICAvLyAgICAgYXNzZXRfYW1vdW50PXF0eSwKICAgIC8vICAgICBhc3NldF9zZW5kZXI9c2VsbGVyLAogICAgLy8gICAgIGZlZT0xMDAwCiAgICAvLyApLnN1Ym1pdCgpCiAgICBpdHhuX2JlZ2luCiAgICBmcmFtZV9kaWcgLTUKICAgIGl0eG5fZmllbGQgQXNzZXRTZW5kZXIKICAgIGZyYW1lX2RpZyAtMgogICAgaXR4bl9maWVsZCBBc3NldEFtb3VudAogICAgZnJhbWVfZGlnIC00CiAgICBpdHhuX2ZpZWxkIEFzc2V0UmVjZWl2ZXIKICAgIGZyYW1lX2RpZyAtMQogICAgaXR4bl9maWVsZCBYZmVyQXNzZXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy91bml0X3RyYW5zZmVyL3VuaXRfY29udHJhY3QucHk6MTkKICAgIC8vIGFsZ29weS5pdHhuLkFzc2V0VHJhbnNmZXIoCiAgICBwdXNoaW50IDQgLy8gYXhmZXIKICAgIGl0eG5fZmllbGQgVHlwZUVudW0KICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy91bml0X3RyYW5zZmVyL3VuaXRfY29udHJhY3QucHk6MjQKICAgIC8vIGZlZT0xMDAwCiAgICBwdXNoaW50IDEwMDAgLy8gMTAwMAogICAgaXR4bl9maWVsZCBGZWUKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy91bml0X3RyYW5zZmVyL3VuaXRfY29udHJhY3QucHk6MTktMjUKICAgIC8vIGFsZ29weS5pdHhuLkFzc2V0VHJhbnNmZXIoCiAgICAvLyAgICAgeGZlcl9hc3NldD1hc3NldCwKICAgIC8vICAgICBhc3NldF9yZWNlaXZlcj1idXllciwKICAgIC8vICAgICBhc3NldF9hbW91bnQ9cXR5LAogICAgLy8gICAgIGFzc2V0X3NlbmRlcj1zZWxsZXIsCiAgICAvLyAgICAgZmVlPTEwMDAKICAgIC8vICkuc3VibWl0KCkKICAgIGl0eG5fc3VibWl0CiAgICByZXRzdWIK",
         "clear": "I3ByYWdtYSB2ZXJzaW9uIDEwCgpzbWFydF9jb250cmFjdHMudW5pdF90cmFuc2Zlci51bml0X2NvbnRyYWN0LkFzc2V0UHVyY2hhc2UuY2xlYXJfc3RhdGVfcHJvZ3JhbToKICAgIHB1c2hpbnQgMSAvLyAxCiAgICByZXR1cm4K"
     },
     "state": {
@@ -61,21 +61,31 @@ _APP_SPEC_JSON = r"""{
                 "args": [
                     {
                         "type": "account",
+                        "name": "seller",
+                        "desc": "Seller Account"
+                    },
+                    {
+                        "type": "account",
                         "name": "buyer",
                         "desc": "Buyer account"
                     },
                     {
                         "type": "uint64",
-                        "name": "amount",
-                        "desc": "Amount of units to buy"
+                        "name": "price",
+                        "desc": "Unit Price"
                     },
                     {
-                        "type": "string",
-                        "name": "test"
+                        "type": "uint64",
+                        "name": "qty",
+                        "desc": "Unit Quantity"
+                    },
+                    {
+                        "type": "uint64",
+                        "name": "asset"
                     }
                 ],
                 "returns": {
-                    "type": "string"
+                    "type": "void"
                 },
                 "desc": "Purchase electrical units"
             }
@@ -160,18 +170,22 @@ def _convert_deploy_args(
 
 
 @dataclasses.dataclass(kw_only=True)
-class PurchaseArgs(_ArgsBase[str]):
+class PurchaseArgs(_ArgsBase[None]):
     """Purchase electrical units"""
 
+    seller: str | bytes
+    """Seller Account"""
     buyer: str | bytes
     """Buyer account"""
-    amount: int
-    """Amount of units to buy"""
-    test: str
+    price: int
+    """Unit Price"""
+    qty: int
+    """Unit Quantity"""
+    asset: int
 
     @staticmethod
     def method() -> str:
-        return "purchase(account,uint64,string)string"
+        return "purchase(account,account,uint64,uint64,uint64)void"
 
 
 @dataclasses.dataclass(kw_only=True)
@@ -208,25 +222,31 @@ class Composer:
     def purchase(
         self,
         *,
+        seller: str | bytes,
         buyer: str | bytes,
-        amount: int,
-        test: str,
+        price: int,
+        qty: int,
+        asset: int,
         transaction_parameters: algokit_utils.TransactionParameters | None = None,
     ) -> "Composer":
         """Purchase electrical units
         
-        Adds a call to `purchase(account,uint64,string)string` ABI method
+        Adds a call to `purchase(account,account,uint64,uint64,uint64)void` ABI method
         
+        :param str | bytes seller: Seller Account
         :param str | bytes buyer: Buyer account
-        :param int amount: Amount of units to buy
-        :param str test: The `test` ABI parameter
+        :param int price: Unit Price
+        :param int qty: Unit Quantity
+        :param int asset: The `asset` ABI parameter
         :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
         :returns Composer: This Composer instance"""
 
         args = PurchaseArgs(
+            seller=seller,
             buyer=buyer,
-            amount=amount,
-            test=test,
+            price=price,
+            qty=qty,
+            asset=asset,
         )
         self.app_client.compose_call(
             self.atc,
@@ -398,25 +418,31 @@ class AssetPurchaseClient:
     def purchase(
         self,
         *,
+        seller: str | bytes,
         buyer: str | bytes,
-        amount: int,
-        test: str,
+        price: int,
+        qty: int,
+        asset: int,
         transaction_parameters: algokit_utils.TransactionParameters | None = None,
-    ) -> algokit_utils.ABITransactionResponse[str]:
+    ) -> algokit_utils.ABITransactionResponse[None]:
         """Purchase electrical units
         
-        Calls `purchase(account,uint64,string)string` ABI method
+        Calls `purchase(account,account,uint64,uint64,uint64)void` ABI method
         
+        :param str | bytes seller: Seller Account
         :param str | bytes buyer: Buyer account
-        :param int amount: Amount of units to buy
-        :param str test: The `test` ABI parameter
+        :param int price: Unit Price
+        :param int qty: Unit Quantity
+        :param int asset: The `asset` ABI parameter
         :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
-        :returns algokit_utils.ABITransactionResponse[str]: The result of the transaction"""
+        :returns algokit_utils.ABITransactionResponse[None]: The result of the transaction"""
 
         args = PurchaseArgs(
+            seller=seller,
             buyer=buyer,
-            amount=amount,
-            test=test,
+            price=price,
+            qty=qty,
+            asset=asset,
         )
         result = self.app_client.call(
             call_abi_method=args.method(),

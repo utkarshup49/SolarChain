@@ -1,17 +1,26 @@
-from algopy import ARC4Contract, String, UInt64, Account
+import algopy.itxn
+from algopy import ARC4Contract, String, UInt64, Account, Global, Asset
 from algopy.arc4 import abimethod
+from algopy.itxn import AssetTransferInnerTransaction
 
 
 class AssetPurchase(ARC4Contract):
-    # PRICE_PER_UNIT = UInt64(100_000)
-    # ASSET_ID = 1016
 
     @abimethod
-    def purchase(self, buyer: Account, amount: UInt64, test: String) -> String:
+    def purchase(self, seller: Account, buyer: Account, price: UInt64, qty: UInt64, asset: UInt64) -> None:
         """
         Purchase electrical units
+        :param seller: Seller Account
         :param buyer: Buyer account
-        :param amount: Amount of units to buy
+        :param price: Unit Price
+        :param qty:  Unit Quantity
         :return:
         """
-        return "Buying units from an account with bal: " + test
+        algopy.itxn.AssetTransfer(
+            xfer_asset=asset,
+            asset_receiver=buyer,
+            asset_amount=qty,
+            asset_sender=seller,
+            fee=1000
+        ).submit()
+

@@ -2,8 +2,6 @@ import re
 
 from algosdk import mnemonic, account
 
-from playground.algo_transaction import mnemonic_phrase
-
 ACCOUNTS = [
     # Local net
     "ordinary trick boost jar hand census comfort again lamp multiply rude material wet garlic banner beef image champion resemble cloud runway apple gas absorb reason",
@@ -12,7 +10,8 @@ ACCOUNTS = [
 
     # Test Net
     "about speed cupboard cushion middle catalog twenty mango nest produce tortoise orient shoe obvious gloom half fortune pride uncover member divert today dad abandon hire",
-    "surge doctor duck usage clog congress claw number lucky cannon label illness limit business volcano peace result member tribe wagon vendor senior crane about job"
+    "surge doctor duck usage clog congress claw number lucky cannon label illness limit business volcano peace result member tribe wagon vendor senior crane about job",
+    "cup shallow usage network direct bulk night wash know boring confirm congress recycle client year river owner lamp film ginger father absorb rhythm tape clean"
 ]
 
 class Account:

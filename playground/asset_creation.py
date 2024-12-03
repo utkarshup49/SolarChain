@@ -1,9 +1,15 @@
+import algokit_utils
+from algokit_utils import get_account, get_account_from_mnemonic, get_default_localnet_config, get_indexer_client, \
+    get_localnet_default_account
 from algosdk import account, mnemonic
 from algosdk.transaction import SuggestedParams, PaymentTxn, SignedTransaction, AssetConfigTxn
 from algosdk.v2client import algod
 from algosdk.v2client.algod import AlgodClient
 from algosdk import transaction
+from algosdk.v2client.indexer import IndexerClient
 
+from SolarChain.projects.SolarChain.smart_contracts.artifacts.unit_transfer.asset_purchase_client import \
+    AssetPurchaseClient
 from playground.account_constants import ACCOUNTS, Account
 
 # LocalNet configuration
@@ -105,6 +111,25 @@ def transfer_asset():
     results = transaction.wait_for_confirmation(algod_client, txid, 4)
     print(f"Result confirmed in round: {results['confirmed-round']}")
 
+def transfer_contract():
+    indexer_client = IndexerClient(TOKEN, "https://testnet-idx.algonode.cloud")
+    client = AssetPurchaseClient(
+        algod_client,
+        creator=get_account_from_mnemonic(ACCOUNTS[3]),
+        indexer_client=indexer_client,
+    )
+
+    client.deploy(
+        on_schema_break=algokit_utils.OnSchemaBreak.AppendApp,
+        on_update=algokit_utils.OnUpdate.AppendApp,
+    )
+
+    client.purchase(buyer=acc2.address, seller=acc1.address, price=10, qty=10, asset=created_asset)
+
+
+
 # create_asset()
 # receive_asset()
-transfer_asset()
+# transfer_asset()
+
+transfer_contract()
