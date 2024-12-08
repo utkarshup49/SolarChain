@@ -2,14 +2,13 @@ import re
 
 from algosdk import mnemonic, account
 
-from playground.algo_transaction import mnemonic_phrase
-
-ACCOUNTS = [
+ACCOUNTS_LOCAL = [
     # Local net
-    "ordinary trick boost jar hand census comfort again lamp multiply rude material wet garlic banner beef image champion resemble cloud runway apple gas absorb reason",
-    "eager suit quarter income spider goat web present talent sail dutch method spike welcome skate between soldier reveal ethics hover like october obvious absent raccoon",
-    "blush tornado delay draw slide item little fame pig bind banner tomato person deposit expire board clap range comic panel sand human verify about dust",
+    "exhaust beach nephew harbor obscure vacuum advance dizzy concert fossil episode vote salon ozone acquire just taste high twenty public melody frozen august abandon insane",
+    "author step unique discover theory tobacco flock short industry desk rabbit weekend glue aware crazy hill vendor match glimpse benefit neutral armed swap absorb shadow"
+]
 
+ACCOUNTS_TEST_NET = [
     # Test Net
     "about speed cupboard cushion middle catalog twenty mango nest produce tortoise orient shoe obvious gloom half fortune pride uncover member divert today dad abandon hire",
     "surge doctor duck usage clog congress claw number lucky cannon label illness limit business volcano peace result member tribe wagon vendor senior crane about job"

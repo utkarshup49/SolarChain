@@ -4,12 +4,12 @@ from algokit_utils import get_localnet_default_account
 from algokit_utils.config import config
 from algosdk.v2client.algod import AlgodClient
 from algosdk.v2client.indexer import IndexerClient
-from algopy import ARC4Contract, String, UInt64, Account
 
 from smart_contracts.artifacts.unit_transfer.asset_purchase_client import AssetPurchaseClient
 
+
 @pytest.fixture(scope="session")
-def unit_contract_client(
+def asset_purchase_client(
     algod_client: AlgodClient, indexer_client: IndexerClient
 ) -> AssetPurchaseClient:
     config.configure(
@@ -29,19 +29,21 @@ def unit_contract_client(
     )
     return client
 
-
-def test_says_text(unit_contract_client: AssetPurchaseClient) -> None:
-    buyer = Account("about speed cupboard cushion middle catalog twenty mango nest produce tortoise orient shoe obvious gloom half fortune pride uncover member divert today dad abandon hire")
-    result = unit_contract_client.purchase(buyer=buyer, amount=1, test="World")
-
-    assert result.return_value == "Hello, World"
+def test_basic_txn(asset_purchase_client: AssetPurchaseClient) -> None:
+    result = asset_purchase_client.purchase()
 
 
+# def test_says_hello(hello_world_client: AssetPurchaseClient) -> None:
+#     result = hello_world_client.hello(name="World")
+#
+#     assert result.return_value == "Hello, World"
+#
+#
 # def test_simulate_says_hello_with_correct_budget_consumed(
-#         unit_contract_client: AssetPurchaseClient, algod_client: AlgodClient
+#     hello_world_client: AssetPurchaseClient, algod_client: AlgodClient
 # ) -> None:
 #     result = (
-#         unit_contract_client.compose().hello(name="World").hello(name="Jane").simulate()
+#         hello_world_client.compose().hello(name="World").hello(name="Jane").simulate()
 #     )
 #
 #     assert result.abi_results[0].return_value == "Hello, World"

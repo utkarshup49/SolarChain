@@ -23,20 +23,30 @@ from algosdk.atomic_transaction_composer import (
 
 _APP_SPEC_JSON = r"""{
     "hints": {
-        "purchase(account,uint64,string)string": {
+        "contract(account,account,uint64,uint64,asset)void": {
+            "call_config": {
+                "no_op": "CALL"
+            }
+        },
+        "asset_opt_in(asset)void": {
+            "call_config": {
+                "no_op": "CALL"
+            }
+        },
+        "begin_transfer(asset,account,account,uint64,uint64)void": {
             "call_config": {
                 "no_op": "CALL"
             }
         }
     },
     "source": {
-        "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgpzbWFydF9jb250cmFjdHMudW5pdF90cmFuc2Zlci51bml0X2NvbnRyYWN0LkFzc2V0UHVyY2hhc2UuYXBwcm92YWxfcHJvZ3JhbToKICAgIGludGNibG9jayAwIDEKICAgIGNhbGxzdWIgX19wdXlhX2FyYzRfcm91dGVyX18KICAgIHJldHVybgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy51bml0X3RyYW5zZmVyLnVuaXRfY29udHJhY3QuQXNzZXRQdXJjaGFzZS5fX3B1eWFfYXJjNF9yb3V0ZXJfXygpIC0+IHVpbnQ2NDoKX19wdXlhX2FyYzRfcm91dGVyX186CiAgICAvLyBzbWFydF9jb250cmFjdHMvdW5pdF90cmFuc2Zlci91bml0X2NvbnRyYWN0LnB5OjUKICAgIC8vIGNsYXNzIEFzc2V0UHVyY2hhc2UoQVJDNENvbnRyYWN0KToKICAgIHByb3RvIDAgMQogICAgdHhuIE51bUFwcEFyZ3MKICAgIGJ6IF9fcHV5YV9hcmM0X3JvdXRlcl9fX2JhcmVfcm91dGluZ0A1CiAgICBwdXNoYnl0ZXMgMHg1OTdhOTZiNSAvLyBtZXRob2QgInB1cmNoYXNlKGFjY291bnQsdWludDY0LHN0cmluZylzdHJpbmciCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAwCiAgICBtYXRjaCBfX3B1eWFfYXJjNF9yb3V0ZXJfX19wdXJjaGFzZV9yb3V0ZUAyCiAgICBpbnRjXzAgLy8gMAogICAgcmV0c3ViCgpfX3B1eWFfYXJjNF9yb3V0ZXJfX19wdXJjaGFzZV9yb3V0ZUAyOgogICAgLy8gc21hcnRfY29udHJhY3RzL3VuaXRfdHJhbnNmZXIvdW5pdF9jb250cmFjdC5weTo5CiAgICAvLyBAYWJpbWV0aG9kCiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIGlzIG5vdCBOb09wCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBub3QgY3JlYXRpbmcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy91bml0X3RyYW5zZmVyL3VuaXRfY29udHJhY3QucHk6NQogICAgLy8gY2xhc3MgQXNzZXRQdXJjaGFzZShBUkM0Q29udHJhY3QpOgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQogICAgYnRvaQogICAgdHhuYXMgQWNjb3VudHMKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDIKICAgIGJ0b2kKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDMKICAgIGV4dHJhY3QgMiAwCiAgICAvLyBzbWFydF9jb250cmFjdHMvdW5pdF90cmFuc2Zlci91bml0X2NvbnRyYWN0LnB5OjkKICAgIC8vIEBhYmltZXRob2QKICAgIGNhbGxzdWIgcHVyY2hhc2UKICAgIGR1cAogICAgbGVuCiAgICBpdG9iCiAgICBleHRyYWN0IDYgMgogICAgc3dhcAogICAgY29uY2F0CiAgICBwdXNoYnl0ZXMgMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludGNfMSAvLyAxCiAgICByZXRzdWIKCl9fcHV5YV9hcmM0X3JvdXRlcl9fX2JhcmVfcm91dGluZ0A1OgogICAgLy8gc21hcnRfY29udHJhY3RzL3VuaXRfdHJhbnNmZXIvdW5pdF9jb250cmFjdC5weTo1CiAgICAvLyBjbGFzcyBBc3NldFB1cmNoYXNlKEFSQzRDb250cmFjdCk6CiAgICB0eG4gT25Db21wbGV0aW9uCiAgICBibnogX19wdXlhX2FyYzRfcm91dGVyX19fYWZ0ZXJfaWZfZWxzZUA5CiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgIQogICAgYXNzZXJ0IC8vIGNhbiBvbmx5IGNhbGwgd2hlbiBjcmVhdGluZwogICAgaW50Y18xIC8vIDEKICAgIHJldHN1YgoKX19wdXlhX2FyYzRfcm91dGVyX19fYWZ0ZXJfaWZfZWxzZUA5OgogICAgLy8gc21hcnRfY29udHJhY3RzL3VuaXRfdHJhbnNmZXIvdW5pdF9jb250cmFjdC5weTo1CiAgICAvLyBjbGFzcyBBc3NldFB1cmNoYXNlKEFSQzRDb250cmFjdCk6CiAgICBpbnRjXzAgLy8gMAogICAgcmV0c3ViCgoKLy8gc21hcnRfY29udHJhY3RzLnVuaXRfdHJhbnNmZXIudW5pdF9jb250cmFjdC5Bc3NldFB1cmNoYXNlLnB1cmNoYXNlKGJ1eWVyOiBieXRlcywgYW1vdW50OiB1aW50NjQsIHRlc3Q6IGJ5dGVzKSAtPiBieXRlczoKcHVyY2hhc2U6CiAgICAvLyBzbWFydF9jb250cmFjdHMvdW5pdF90cmFuc2Zlci91bml0X2NvbnRyYWN0LnB5OjktMTAKICAgIC8vIEBhYmltZXRob2QKICAgIC8vIGRlZiBwdXJjaGFzZShzZWxmLCBidXllcjogQWNjb3VudCwgYW1vdW50OiBVSW50NjQsIHRlc3Q6IFN0cmluZykgLT4gU3RyaW5nOgogICAgcHJvdG8gMyAxCiAgICAvLyBzbWFydF9jb250cmFjdHMvdW5pdF90cmFuc2Zlci91bml0X2NvbnRyYWN0LnB5OjE3CiAgICAvLyByZXR1cm4gIkJ1eWluZyB1bml0cyBmcm9tIGFuIGFjY291bnQgd2l0aCBiYWw6ICIgKyB0ZXN0CiAgICBwdXNoYnl0ZXMgIkJ1eWluZyB1bml0cyBmcm9tIGFuIGFjY291bnQgd2l0aCBiYWw6ICIKICAgIGZyYW1lX2RpZyAtMQogICAgY29uY2F0CiAgICByZXRzdWIK",
+        "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgpzbWFydF9jb250cmFjdHMudW5pdF90cmFuc2Zlci51bml0X2NvbnRyYWN0LkFzc2V0UHVyY2hhc2UuYXBwcm92YWxfcHJvZ3JhbToKICAgIGludGNibG9jayAxIDAgMTAwMCA0CiAgICBjYWxsc3ViIF9fcHV5YV9hcmM0X3JvdXRlcl9fCiAgICByZXR1cm4KCgovLyBzbWFydF9jb250cmFjdHMudW5pdF90cmFuc2Zlci51bml0X2NvbnRyYWN0LkFzc2V0UHVyY2hhc2UuX19wdXlhX2FyYzRfcm91dGVyX18oKSAtPiB1aW50NjQ6Cl9fcHV5YV9hcmM0X3JvdXRlcl9fOgogICAgLy8gc21hcnRfY29udHJhY3RzL3VuaXRfdHJhbnNmZXIvdW5pdF9jb250cmFjdC5weTo2CiAgICAvLyBjbGFzcyBBc3NldFB1cmNoYXNlKEFSQzRDb250cmFjdCk6CiAgICBwcm90byAwIDEKICAgIHR4biBOdW1BcHBBcmdzCiAgICBieiBfX3B1eWFfYXJjNF9yb3V0ZXJfX19iYXJlX3JvdXRpbmdANwogICAgcHVzaGJ5dGVzcyAweDMyZDUzNDEwIDB4YjZjMmIxNDggMHhjZWRiNjU3MyAvLyBtZXRob2QgImNvbnRyYWN0KGFjY291bnQsYWNjb3VudCx1aW50NjQsdWludDY0LGFzc2V0KXZvaWQiLCBtZXRob2QgImFzc2V0X29wdF9pbihhc3NldCl2b2lkIiwgbWV0aG9kICJiZWdpbl90cmFuc2Zlcihhc3NldCxhY2NvdW50LGFjY291bnQsdWludDY0LHVpbnQ2NCl2b2lkIgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAogICAgbWF0Y2ggX19wdXlhX2FyYzRfcm91dGVyX19fY29udHJhY3Rfcm91dGVAMiBfX3B1eWFfYXJjNF9yb3V0ZXJfX19hc3NldF9vcHRfaW5fcm91dGVAMyBfX3B1eWFfYXJjNF9yb3V0ZXJfX19iZWdpbl90cmFuc2Zlcl9yb3V0ZUA0CiAgICBpbnRjXzEgLy8gMAogICAgcmV0c3ViCgpfX3B1eWFfYXJjNF9yb3V0ZXJfX19jb250cmFjdF9yb3V0ZUAyOgogICAgLy8gc21hcnRfY29udHJhY3RzL3VuaXRfdHJhbnNmZXIvdW5pdF9jb250cmFjdC5weToxNAogICAgLy8gQGFiaW1ldGhvZAogICAgdHhuIE9uQ29tcGxldGlvbgogICAgIQogICAgYXNzZXJ0IC8vIE9uQ29tcGxldGlvbiBpcyBub3QgTm9PcAogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgIGFzc2VydCAvLyBjYW4gb25seSBjYWxsIHdoZW4gbm90IGNyZWF0aW5nCiAgICAvLyBzbWFydF9jb250cmFjdHMvdW5pdF90cmFuc2Zlci91bml0X2NvbnRyYWN0LnB5OjYKICAgIC8vIGNsYXNzIEFzc2V0UHVyY2hhc2UoQVJDNENvbnRyYWN0KToKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDEKICAgIGJ0b2kKICAgIHR4bmFzIEFjY291bnRzCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAyCiAgICBidG9pCiAgICB0eG5hcyBBY2NvdW50cwogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwogICAgYnRvaQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgNAogICAgYnRvaQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgNQogICAgYnRvaQogICAgdHhuYXMgQXNzZXRzCiAgICAvLyBzbWFydF9jb250cmFjdHMvdW5pdF90cmFuc2Zlci91bml0X2NvbnRyYWN0LnB5OjE0CiAgICAvLyBAYWJpbWV0aG9kCiAgICBjYWxsc3ViIGNvbnRyYWN0CiAgICBpbnRjXzAgLy8gMQogICAgcmV0c3ViCgpfX3B1eWFfYXJjNF9yb3V0ZXJfX19hc3NldF9vcHRfaW5fcm91dGVAMzoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy91bml0X3RyYW5zZmVyL3VuaXRfY29udHJhY3QucHk6NDMKICAgIC8vIEBhYmltZXRob2QKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gaXMgbm90IE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQgLy8gY2FuIG9ubHkgY2FsbCB3aGVuIG5vdCBjcmVhdGluZwogICAgLy8gc21hcnRfY29udHJhY3RzL3VuaXRfdHJhbnNmZXIvdW5pdF9jb250cmFjdC5weTo2CiAgICAvLyBjbGFzcyBBc3NldFB1cmNoYXNlKEFSQzRDb250cmFjdCk6CiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICBidG9pCiAgICB0eG5hcyBBc3NldHMKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy91bml0X3RyYW5zZmVyL3VuaXRfY29udHJhY3QucHk6NDMKICAgIC8vIEBhYmltZXRob2QKICAgIGNhbGxzdWIgYXNzZXRfb3B0X2luCiAgICBpbnRjXzAgLy8gMQogICAgcmV0c3ViCgpfX3B1eWFfYXJjNF9yb3V0ZXJfX19iZWdpbl90cmFuc2Zlcl9yb3V0ZUA0OgogICAgLy8gc21hcnRfY29udHJhY3RzL3VuaXRfdHJhbnNmZXIvdW5pdF9jb250cmFjdC5weTo1MgogICAgLy8gQGFiaW1ldGhvZAogICAgdHhuIE9uQ29tcGxldGlvbgogICAgIQogICAgYXNzZXJ0IC8vIE9uQ29tcGxldGlvbiBpcyBub3QgTm9PcAogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgIGFzc2VydCAvLyBjYW4gb25seSBjYWxsIHdoZW4gbm90IGNyZWF0aW5nCiAgICAvLyBzbWFydF9jb250cmFjdHMvdW5pdF90cmFuc2Zlci91bml0X2NvbnRyYWN0LnB5OjYKICAgIC8vIGNsYXNzIEFzc2V0UHVyY2hhc2UoQVJDNENvbnRyYWN0KToKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDEKICAgIGJ0b2kKICAgIHR4bmFzIEFzc2V0cwogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgogICAgYnRvaQogICAgdHhuYXMgQWNjb3VudHMKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDMKICAgIGJ0b2kKICAgIHR4bmFzIEFjY291bnRzCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyA0CiAgICBidG9pCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyA1CiAgICBidG9pCiAgICAvLyBzbWFydF9jb250cmFjdHMvdW5pdF90cmFuc2Zlci91bml0X2NvbnRyYWN0LnB5OjUyCiAgICAvLyBAYWJpbWV0aG9kCiAgICBjYWxsc3ViIGJlZ2luX3RyYW5zZmVyCiAgICBpbnRjXzAgLy8gMQogICAgcmV0c3ViCgpfX3B1eWFfYXJjNF9yb3V0ZXJfX19iYXJlX3JvdXRpbmdANzoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy91bml0X3RyYW5zZmVyL3VuaXRfY29udHJhY3QucHk6NgogICAgLy8gY2xhc3MgQXNzZXRQdXJjaGFzZShBUkM0Q29udHJhY3QpOgogICAgdHhuIE9uQ29tcGxldGlvbgogICAgYm56IF9fcHV5YV9hcmM0X3JvdXRlcl9fX2FmdGVyX2lmX2Vsc2VAMTEKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICAhCiAgICBhc3NlcnQgLy8gY2FuIG9ubHkgY2FsbCB3aGVuIGNyZWF0aW5nCiAgICBpbnRjXzAgLy8gMQogICAgcmV0c3ViCgpfX3B1eWFfYXJjNF9yb3V0ZXJfX19hZnRlcl9pZl9lbHNlQDExOgogICAgLy8gc21hcnRfY29udHJhY3RzL3VuaXRfdHJhbnNmZXIvdW5pdF9jb250cmFjdC5weTo2CiAgICAvLyBjbGFzcyBBc3NldFB1cmNoYXNlKEFSQzRDb250cmFjdCk6CiAgICBpbnRjXzEgLy8gMAogICAgcmV0c3ViCgoKLy8gc21hcnRfY29udHJhY3RzLnVuaXRfdHJhbnNmZXIudW5pdF9jb250cmFjdC5Bc3NldFB1cmNoYXNlLmNvbnRyYWN0KHNlbGxlcjogYnl0ZXMsIGJ1eWVyOiBieXRlcywgcHJpY2U6IHVpbnQ2NCwgcXR5OiB1aW50NjQsIGFzc2V0OiB1aW50NjQpIC0+IHZvaWQ6CmNvbnRyYWN0OgogICAgLy8gc21hcnRfY29udHJhY3RzL3VuaXRfdHJhbnNmZXIvdW5pdF9jb250cmFjdC5weToxNC0xNQogICAgLy8gQGFiaW1ldGhvZAogICAgLy8gZGVmIGNvbnRyYWN0KHNlbGYsIHNlbGxlcjogQWNjb3VudCwgYnV5ZXI6IEFjY291bnQsIHByaWNlOiBVSW50NjQsIHF0eTogVUludDY0LCBhc3NldDogQXNzZXQpIC0+IE5vbmU6CiAgICBwcm90byA1IDAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy91bml0X3RyYW5zZmVyL3VuaXRfY29udHJhY3QucHk6MTYKICAgIC8vIHNlbGYuc2VsbGVyID0gc2VsbGVyCiAgICBwdXNoYnl0ZXMgInNlbGxlciIKICAgIGZyYW1lX2RpZyAtNQogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy91bml0X3RyYW5zZmVyL3VuaXRfY29udHJhY3QucHk6MTcKICAgIC8vIHNlbGYuYnV5ZXIgPSBidXllcgogICAgcHVzaGJ5dGVzICJidXllciIKICAgIGZyYW1lX2RpZyAtNAogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy91bml0X3RyYW5zZmVyL3VuaXRfY29udHJhY3QucHk6MTgKICAgIC8vIHNlbGYucHJpY2UgPSBwcmljZQogICAgcHVzaGJ5dGVzICJwcmljZSIKICAgIGZyYW1lX2RpZyAtMwogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy91bml0X3RyYW5zZmVyL3VuaXRfY29udHJhY3QucHk6MTkKICAgIC8vIHNlbGYucXR5ID0gcXR5CiAgICBwdXNoYnl0ZXMgInF0eSIKICAgIGZyYW1lX2RpZyAtMgogICAgYXBwX2dsb2JhbF9wdXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy91bml0X3RyYW5zZmVyL3VuaXRfY29udHJhY3QucHk6MjAKICAgIC8vIHNlbGYuYXNzZXQgPSBhc3NldAogICAgcHVzaGJ5dGVzICJhc3NldCIKICAgIGZyYW1lX2RpZyAtMQogICAgYXBwX2dsb2JhbF9wdXQKICAgIHJldHN1YgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy51bml0X3RyYW5zZmVyLnVuaXRfY29udHJhY3QuQXNzZXRQdXJjaGFzZS5hc3NldF9vcHRfaW4oYXNzZXQ6IHVpbnQ2NCkgLT4gdm9pZDoKYXNzZXRfb3B0X2luOgogICAgLy8gc21hcnRfY29udHJhY3RzL3VuaXRfdHJhbnNmZXIvdW5pdF9jb250cmFjdC5weTo0My00NAogICAgLy8gQGFiaW1ldGhvZAogICAgLy8gZGVmIGFzc2V0X29wdF9pbihzZWxmLCBhc3NldDogQXNzZXQpIC0+IE5vbmU6CiAgICBwcm90byAxIDAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy91bml0X3RyYW5zZmVyL3VuaXRfY29udHJhY3QucHk6NDUtNTAKICAgIC8vIGl0eG4uQXNzZXRUcmFuc2ZlcigKICAgIC8vICAgICBhc3NldF9yZWNlaXZlcj1HbG9iYWwuY3VycmVudF9hcHBsaWNhdGlvbl9hZGRyZXNzLAogICAgLy8gICAgIHhmZXJfYXNzZXQ9YXNzZXQsCiAgICAvLyAgICAgYXNzZXRfYW1vdW50PTAsCiAgICAvLyAgICAgZmVlPTEwMDAsCiAgICAvLyApLnN1Ym1pdCgpCiAgICBpdHhuX2JlZ2luCiAgICAvLyBzbWFydF9jb250cmFjdHMvdW5pdF90cmFuc2Zlci91bml0X2NvbnRyYWN0LnB5OjQ2CiAgICAvLyBhc3NldF9yZWNlaXZlcj1HbG9iYWwuY3VycmVudF9hcHBsaWNhdGlvbl9hZGRyZXNzLAogICAgZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy91bml0X3RyYW5zZmVyL3VuaXRfY29udHJhY3QucHk6NDgKICAgIC8vIGFzc2V0X2Ftb3VudD0wLAogICAgaW50Y18xIC8vIDAKICAgIGl0eG5fZmllbGQgQXNzZXRBbW91bnQKICAgIGZyYW1lX2RpZyAtMQogICAgaXR4bl9maWVsZCBYZmVyQXNzZXQKICAgIGl0eG5fZmllbGQgQXNzZXRSZWNlaXZlcgogICAgLy8gc21hcnRfY29udHJhY3RzL3VuaXRfdHJhbnNmZXIvdW5pdF9jb250cmFjdC5weTo0NQogICAgLy8gaXR4bi5Bc3NldFRyYW5zZmVyKAogICAgaW50Y18zIC8vIGF4ZmVyCiAgICBpdHhuX2ZpZWxkIFR5cGVFbnVtCiAgICAvLyBzbWFydF9jb250cmFjdHMvdW5pdF90cmFuc2Zlci91bml0X2NvbnRyYWN0LnB5OjQ5CiAgICAvLyBmZWU9MTAwMCwKICAgIGludGNfMiAvLyAxMDAwCiAgICBpdHhuX2ZpZWxkIEZlZQogICAgLy8gc21hcnRfY29udHJhY3RzL3VuaXRfdHJhbnNmZXIvdW5pdF9jb250cmFjdC5weTo0NS01MAogICAgLy8gaXR4bi5Bc3NldFRyYW5zZmVyKAogICAgLy8gICAgIGFzc2V0X3JlY2VpdmVyPUdsb2JhbC5jdXJyZW50X2FwcGxpY2F0aW9uX2FkZHJlc3MsCiAgICAvLyAgICAgeGZlcl9hc3NldD1hc3NldCwKICAgIC8vICAgICBhc3NldF9hbW91bnQ9MCwKICAgIC8vICAgICBmZWU9MTAwMCwKICAgIC8vICkuc3VibWl0KCkKICAgIGl0eG5fc3VibWl0CiAgICByZXRzdWIKCgovLyBzbWFydF9jb250cmFjdHMudW5pdF90cmFuc2Zlci51bml0X2NvbnRyYWN0LkFzc2V0UHVyY2hhc2UuYmVnaW5fdHJhbnNmZXIoYXNzZXQ6IHVpbnQ2NCwgYnV5ZXI6IGJ5dGVzLCBzZWxsZXI6IGJ5dGVzLCBwcmljZTogdWludDY0LCBxdHk6IHVpbnQ2NCkgLT4gdm9pZDoKYmVnaW5fdHJhbnNmZXI6CiAgICAvLyBzbWFydF9jb250cmFjdHMvdW5pdF90cmFuc2Zlci91bml0X2NvbnRyYWN0LnB5OjUyLTUzCiAgICAvLyBAYWJpbWV0aG9kCiAgICAvLyBkZWYgYmVnaW5fdHJhbnNmZXIoc2VsZiwgYXNzZXQ6IEFzc2V0LCBidXllcjogQWNjb3VudCwgc2VsbGVyOiBBY2NvdW50LCBwcmljZTogVUludDY0LCBxdHk6IFVJbnQ2NCkgLT4gTm9uZToKICAgIHByb3RvIDUgMAogICAgLy8gc21hcnRfY29udHJhY3RzL3VuaXRfdHJhbnNmZXIvdW5pdF9jb250cmFjdC5weTo1NC01OQogICAgLy8gaXR4bi5Bc3NldFRyYW5zZmVyKAogICAgLy8gICAgIHhmZXJfYXNzZXQgPSBhc3NldCwKICAgIC8vICAgICBhc3NldF9yZWNlaXZlcj1idXllciwKICAgIC8vICAgICBhc3NldF9hbW91bnQ9cXR5LAogICAgLy8gICAgIGZlZT0xMDAwCiAgICAvLyApLnN1Ym1pdCgpCiAgICBpdHhuX2JlZ2luCiAgICBmcmFtZV9kaWcgLTEKICAgIGl0eG5fZmllbGQgQXNzZXRBbW91bnQKICAgIGZyYW1lX2RpZyAtNAogICAgaXR4bl9maWVsZCBBc3NldFJlY2VpdmVyCiAgICBmcmFtZV9kaWcgLTUKICAgIGl0eG5fZmllbGQgWGZlckFzc2V0CiAgICAvLyBzbWFydF9jb250cmFjdHMvdW5pdF90cmFuc2Zlci91bml0X2NvbnRyYWN0LnB5OjU0CiAgICAvLyBpdHhuLkFzc2V0VHJhbnNmZXIoCiAgICBpbnRjXzMgLy8gYXhmZXIKICAgIGl0eG5fZmllbGQgVHlwZUVudW0KICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy91bml0X3RyYW5zZmVyL3VuaXRfY29udHJhY3QucHk6NTgKICAgIC8vIGZlZT0xMDAwCiAgICBpbnRjXzIgLy8gMTAwMAogICAgaXR4bl9maWVsZCBGZWUKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy91bml0X3RyYW5zZmVyL3VuaXRfY29udHJhY3QucHk6NTQtNTkKICAgIC8vIGl0eG4uQXNzZXRUcmFuc2ZlcigKICAgIC8vICAgICB4ZmVyX2Fzc2V0ID0gYXNzZXQsCiAgICAvLyAgICAgYXNzZXRfcmVjZWl2ZXI9YnV5ZXIsCiAgICAvLyAgICAgYXNzZXRfYW1vdW50PXF0eSwKICAgIC8vICAgICBmZWU9MTAwMAogICAgLy8gKS5zdWJtaXQoKQogICAgaXR4bl9zdWJtaXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy91bml0X3RyYW5zZmVyL3VuaXRfY29udHJhY3QucHk6NjEtNjUKICAgIC8vIGl0eG4uUGF5bWVudCgKICAgIC8vICAgICByZWNlaXZlcj1zZWxsZXIsCiAgICAvLyAgICAgYW1vdW50PXByaWNlICogcXR5LAogICAgLy8gICAgIGZlZT0xMDAwCiAgICAvLyApLnN1Ym1pdCgpCiAgICBpdHhuX2JlZ2luCiAgICAvLyBzbWFydF9jb250cmFjdHMvdW5pdF90cmFuc2Zlci91bml0X2NvbnRyYWN0LnB5OjYzCiAgICAvLyBhbW91bnQ9cHJpY2UgKiBxdHksCiAgICBmcmFtZV9kaWcgLTIKICAgIGZyYW1lX2RpZyAtMQogICAgKgogICAgaXR4bl9maWVsZCBBbW91bnQKICAgIGZyYW1lX2RpZyAtMwogICAgaXR4bl9maWVsZCBSZWNlaXZlcgogICAgLy8gc21hcnRfY29udHJhY3RzL3VuaXRfdHJhbnNmZXIvdW5pdF9jb250cmFjdC5weTo2MQogICAgLy8gaXR4bi5QYXltZW50KAogICAgaW50Y18wIC8vIHBheQogICAgaXR4bl9maWVsZCBUeXBlRW51bQogICAgLy8gc21hcnRfY29udHJhY3RzL3VuaXRfdHJhbnNmZXIvdW5pdF9jb250cmFjdC5weTo2NAogICAgLy8gZmVlPTEwMDAKICAgIGludGNfMiAvLyAxMDAwCiAgICBpdHhuX2ZpZWxkIEZlZQogICAgLy8gc21hcnRfY29udHJhY3RzL3VuaXRfdHJhbnNmZXIvdW5pdF9jb250cmFjdC5weTo2MS02NQogICAgLy8gaXR4bi5QYXltZW50KAogICAgLy8gICAgIHJlY2VpdmVyPXNlbGxlciwKICAgIC8vICAgICBhbW91bnQ9cHJpY2UgKiBxdHksCiAgICAvLyAgICAgZmVlPTEwMDAKICAgIC8vICkuc3VibWl0KCkKICAgIGl0eG5fc3VibWl0CiAgICByZXRzdWIK",
         "clear": "I3ByYWdtYSB2ZXJzaW9uIDEwCgpzbWFydF9jb250cmFjdHMudW5pdF90cmFuc2Zlci51bml0X2NvbnRyYWN0LkFzc2V0UHVyY2hhc2UuY2xlYXJfc3RhdGVfcHJvZ3JhbToKICAgIHB1c2hpbnQgMSAvLyAxCiAgICByZXR1cm4K"
     },
     "state": {
         "global": {
-            "num_byte_slices": 0,
-            "num_uints": 0
+            "num_byte_slices": 2,
+            "num_uints": 3
         },
         "local": {
             "num_byte_slices": 0,
@@ -45,7 +55,28 @@ _APP_SPEC_JSON = r"""{
     },
     "schema": {
         "global": {
-            "declared": {},
+            "declared": {
+                "asset": {
+                    "type": "uint64",
+                    "key": "asset"
+                },
+                "buyer": {
+                    "type": "bytes",
+                    "key": "buyer"
+                },
+                "price": {
+                    "type": "uint64",
+                    "key": "price"
+                },
+                "qty": {
+                    "type": "uint64",
+                    "key": "qty"
+                },
+                "seller": {
+                    "type": "bytes",
+                    "key": "seller"
+                }
+            },
             "reserved": {}
         },
         "local": {
@@ -57,27 +88,72 @@ _APP_SPEC_JSON = r"""{
         "name": "AssetPurchase",
         "methods": [
             {
-                "name": "purchase",
+                "name": "contract",
                 "args": [
                     {
                         "type": "account",
-                        "name": "buyer",
-                        "desc": "Buyer account"
+                        "name": "seller"
+                    },
+                    {
+                        "type": "account",
+                        "name": "buyer"
                     },
                     {
                         "type": "uint64",
-                        "name": "amount",
-                        "desc": "Amount of units to buy"
+                        "name": "price"
                     },
                     {
-                        "type": "string",
-                        "name": "test"
+                        "type": "uint64",
+                        "name": "qty"
+                    },
+                    {
+                        "type": "asset",
+                        "name": "asset"
                     }
                 ],
                 "returns": {
-                    "type": "string"
-                },
-                "desc": "Purchase electrical units"
+                    "type": "void"
+                }
+            },
+            {
+                "name": "asset_opt_in",
+                "args": [
+                    {
+                        "type": "asset",
+                        "name": "asset"
+                    }
+                ],
+                "returns": {
+                    "type": "void"
+                }
+            },
+            {
+                "name": "begin_transfer",
+                "args": [
+                    {
+                        "type": "asset",
+                        "name": "asset"
+                    },
+                    {
+                        "type": "account",
+                        "name": "buyer"
+                    },
+                    {
+                        "type": "account",
+                        "name": "seller"
+                    },
+                    {
+                        "type": "uint64",
+                        "name": "price"
+                    },
+                    {
+                        "type": "uint64",
+                        "name": "qty"
+                    }
+                ],
+                "returns": {
+                    "type": "void"
+                }
             }
         ],
         "networks": {}
@@ -160,18 +236,68 @@ def _convert_deploy_args(
 
 
 @dataclasses.dataclass(kw_only=True)
-class PurchaseArgs(_ArgsBase[str]):
-    """Purchase electrical units"""
-
+class ContractArgs(_ArgsBase[None]):
+    seller: str | bytes
     buyer: str | bytes
-    """Buyer account"""
-    amount: int
-    """Amount of units to buy"""
-    test: str
+    price: int
+    qty: int
+    asset: int
 
     @staticmethod
     def method() -> str:
-        return "purchase(account,uint64,string)string"
+        return "contract(account,account,uint64,uint64,asset)void"
+
+
+@dataclasses.dataclass(kw_only=True)
+class AssetOptInArgs(_ArgsBase[None]):
+    asset: int
+
+    @staticmethod
+    def method() -> str:
+        return "asset_opt_in(asset)void"
+
+
+@dataclasses.dataclass(kw_only=True)
+class BeginTransferArgs(_ArgsBase[None]):
+    asset: int
+    buyer: str | bytes
+    seller: str | bytes
+    price: int
+    qty: int
+
+    @staticmethod
+    def method() -> str:
+        return "begin_transfer(asset,account,account,uint64,uint64)void"
+
+
+class ByteReader:
+    def __init__(self, data: bytes):
+        self._data = data
+
+    @property
+    def as_bytes(self) -> bytes:
+        return self._data
+
+    @property
+    def as_str(self) -> str:
+        return self._data.decode("utf8")
+
+    @property
+    def as_base64(self) -> str:
+        return base64.b64encode(self._data).decode("utf8")
+
+    @property
+    def as_hex(self) -> str:
+        return self._data.hex()
+
+
+class GlobalState:
+    def __init__(self, data: dict[bytes, bytes | int]):
+        self.asset = typing.cast(int, data.get(b"asset"))
+        self.buyer = ByteReader(typing.cast(bytes, data.get(b"buyer")))
+        self.price = typing.cast(int, data.get(b"price"))
+        self.qty = typing.cast(int, data.get(b"qty"))
+        self.seller = ByteReader(typing.cast(bytes, data.get(b"seller")))
 
 
 @dataclasses.dataclass(kw_only=True)
@@ -205,28 +331,90 @@ class Composer:
     def execute(self) -> AtomicTransactionResponse:
         return self.app_client.execute_atc(self.atc)
 
-    def purchase(
+    def contract(
         self,
         *,
+        seller: str | bytes,
         buyer: str | bytes,
-        amount: int,
-        test: str,
+        price: int,
+        qty: int,
+        asset: int,
         transaction_parameters: algokit_utils.TransactionParameters | None = None,
     ) -> "Composer":
-        """Purchase electrical units
+        """Adds a call to `contract(account,account,uint64,uint64,asset)void` ABI method
         
-        Adds a call to `purchase(account,uint64,string)string` ABI method
-        
-        :param str | bytes buyer: Buyer account
-        :param int amount: Amount of units to buy
-        :param str test: The `test` ABI parameter
+        :param str | bytes seller: The `seller` ABI parameter
+        :param str | bytes buyer: The `buyer` ABI parameter
+        :param int price: The `price` ABI parameter
+        :param int qty: The `qty` ABI parameter
+        :param int asset: The `asset` ABI parameter
         :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
         :returns Composer: This Composer instance"""
 
-        args = PurchaseArgs(
+        args = ContractArgs(
+            seller=seller,
             buyer=buyer,
-            amount=amount,
-            test=test,
+            price=price,
+            qty=qty,
+            asset=asset,
+        )
+        self.app_client.compose_call(
+            self.atc,
+            call_abi_method=args.method(),
+            transaction_parameters=_convert_call_transaction_parameters(transaction_parameters),
+            **_as_dict(args, convert_all=True),
+        )
+        return self
+
+    def asset_opt_in(
+        self,
+        *,
+        asset: int,
+        transaction_parameters: algokit_utils.TransactionParameters | None = None,
+    ) -> "Composer":
+        """Adds a call to `asset_opt_in(asset)void` ABI method
+        
+        :param int asset: The `asset` ABI parameter
+        :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
+        :returns Composer: This Composer instance"""
+
+        args = AssetOptInArgs(
+            asset=asset,
+        )
+        self.app_client.compose_call(
+            self.atc,
+            call_abi_method=args.method(),
+            transaction_parameters=_convert_call_transaction_parameters(transaction_parameters),
+            **_as_dict(args, convert_all=True),
+        )
+        return self
+
+    def begin_transfer(
+        self,
+        *,
+        asset: int,
+        buyer: str | bytes,
+        seller: str | bytes,
+        price: int,
+        qty: int,
+        transaction_parameters: algokit_utils.TransactionParameters | None = None,
+    ) -> "Composer":
+        """Adds a call to `begin_transfer(asset,account,account,uint64,uint64)void` ABI method
+        
+        :param int asset: The `asset` ABI parameter
+        :param str | bytes buyer: The `buyer` ABI parameter
+        :param str | bytes seller: The `seller` ABI parameter
+        :param int price: The `price` ABI parameter
+        :param int qty: The `qty` ABI parameter
+        :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
+        :returns Composer: This Composer instance"""
+
+        args = BeginTransferArgs(
+            asset=asset,
+            buyer=buyer,
+            seller=seller,
+            price=price,
+            qty=qty,
         )
         self.app_client.compose_call(
             self.atc,
@@ -395,28 +583,94 @@ class AssetPurchaseClient:
     def suggested_params(self, value: algosdk.transaction.SuggestedParams | None) -> None:
         self.app_client.suggested_params = value
 
-    def purchase(
+    def get_global_state(self) -> GlobalState:
+        """Returns the application's global state wrapped in a strongly typed class with options to format the stored value"""
+
+        state = typing.cast(dict[bytes, bytes | int], self.app_client.get_global_state(raw=True))
+        return GlobalState(state)
+
+    def contract(
         self,
         *,
+        seller: str | bytes,
         buyer: str | bytes,
-        amount: int,
-        test: str,
+        price: int,
+        qty: int,
+        asset: int,
         transaction_parameters: algokit_utils.TransactionParameters | None = None,
-    ) -> algokit_utils.ABITransactionResponse[str]:
-        """Purchase electrical units
+    ) -> algokit_utils.ABITransactionResponse[None]:
+        """Calls `contract(account,account,uint64,uint64,asset)void` ABI method
         
-        Calls `purchase(account,uint64,string)string` ABI method
-        
-        :param str | bytes buyer: Buyer account
-        :param int amount: Amount of units to buy
-        :param str test: The `test` ABI parameter
+        :param str | bytes seller: The `seller` ABI parameter
+        :param str | bytes buyer: The `buyer` ABI parameter
+        :param int price: The `price` ABI parameter
+        :param int qty: The `qty` ABI parameter
+        :param int asset: The `asset` ABI parameter
         :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
-        :returns algokit_utils.ABITransactionResponse[str]: The result of the transaction"""
+        :returns algokit_utils.ABITransactionResponse[None]: The result of the transaction"""
 
-        args = PurchaseArgs(
+        args = ContractArgs(
+            seller=seller,
             buyer=buyer,
-            amount=amount,
-            test=test,
+            price=price,
+            qty=qty,
+            asset=asset,
+        )
+        result = self.app_client.call(
+            call_abi_method=args.method(),
+            transaction_parameters=_convert_call_transaction_parameters(transaction_parameters),
+            **_as_dict(args, convert_all=True),
+        )
+        return result
+
+    def asset_opt_in(
+        self,
+        *,
+        asset: int,
+        transaction_parameters: algokit_utils.TransactionParameters | None = None,
+    ) -> algokit_utils.ABITransactionResponse[None]:
+        """Calls `asset_opt_in(asset)void` ABI method
+        
+        :param int asset: The `asset` ABI parameter
+        :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
+        :returns algokit_utils.ABITransactionResponse[None]: The result of the transaction"""
+
+        args = AssetOptInArgs(
+            asset=asset,
+        )
+        result = self.app_client.call(
+            call_abi_method=args.method(),
+            transaction_parameters=_convert_call_transaction_parameters(transaction_parameters),
+            **_as_dict(args, convert_all=True),
+        )
+        return result
+
+    def begin_transfer(
+        self,
+        *,
+        asset: int,
+        buyer: str | bytes,
+        seller: str | bytes,
+        price: int,
+        qty: int,
+        transaction_parameters: algokit_utils.TransactionParameters | None = None,
+    ) -> algokit_utils.ABITransactionResponse[None]:
+        """Calls `begin_transfer(asset,account,account,uint64,uint64)void` ABI method
+        
+        :param int asset: The `asset` ABI parameter
+        :param str | bytes buyer: The `buyer` ABI parameter
+        :param str | bytes seller: The `seller` ABI parameter
+        :param int price: The `price` ABI parameter
+        :param int qty: The `qty` ABI parameter
+        :param algokit_utils.TransactionParameters transaction_parameters: (optional) Additional transaction parameters
+        :returns algokit_utils.ABITransactionResponse[None]: The result of the transaction"""
+
+        args = BeginTransferArgs(
+            asset=asset,
+            buyer=buyer,
+            seller=seller,
+            price=price,
+            qty=qty,
         )
         result = self.app_client.call(
             call_abi_method=args.method(),

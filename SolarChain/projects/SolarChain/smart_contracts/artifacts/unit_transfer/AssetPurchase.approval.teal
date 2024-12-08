@@ -1,84 +1,260 @@
 #pragma version 10
 
 smart_contracts.unit_transfer.unit_contract.AssetPurchase.approval_program:
-    intcblock 0 1
+    intcblock 1 0 1000 4
     callsub __puya_arc4_router__
     return
 
 
 // smart_contracts.unit_transfer.unit_contract.AssetPurchase.__puya_arc4_router__() -> uint64:
 __puya_arc4_router__:
-    // smart_contracts/unit_transfer/unit_contract.py:5
+    // smart_contracts/unit_transfer/unit_contract.py:6
     // class AssetPurchase(ARC4Contract):
     proto 0 1
     txn NumAppArgs
-    bz __puya_arc4_router___bare_routing@5
-    pushbytes 0x597a96b5 // method "purchase(account,uint64,string)string"
+    bz __puya_arc4_router___bare_routing@7
+    pushbytess 0x32d53410 0xb6c2b148 0xcedb6573 // method "contract(account,account,uint64,uint64,asset)void", method "asset_opt_in(asset)void", method "begin_transfer(asset,account,account,uint64,uint64)void"
     txna ApplicationArgs 0
-    match __puya_arc4_router___purchase_route@2
-    intc_0 // 0
+    match __puya_arc4_router___contract_route@2 __puya_arc4_router___asset_opt_in_route@3 __puya_arc4_router___begin_transfer_route@4
+    intc_1 // 0
     retsub
 
-__puya_arc4_router___purchase_route@2:
-    // smart_contracts/unit_transfer/unit_contract.py:9
+__puya_arc4_router___contract_route@2:
+    // smart_contracts/unit_transfer/unit_contract.py:14
     // @abimethod
     txn OnCompletion
     !
     assert // OnCompletion is not NoOp
     txn ApplicationID
     assert // can only call when not creating
-    // smart_contracts/unit_transfer/unit_contract.py:5
+    // smart_contracts/unit_transfer/unit_contract.py:6
     // class AssetPurchase(ARC4Contract):
     txna ApplicationArgs 1
     btoi
     txnas Accounts
     txna ApplicationArgs 2
     btoi
+    txnas Accounts
     txna ApplicationArgs 3
-    extract 2 0
-    // smart_contracts/unit_transfer/unit_contract.py:9
+    btoi
+    txna ApplicationArgs 4
+    btoi
+    txna ApplicationArgs 5
+    btoi
+    txnas Assets
+    // smart_contracts/unit_transfer/unit_contract.py:14
     // @abimethod
-    callsub purchase
-    dup
-    len
-    itob
-    extract 6 2
-    swap
-    concat
-    pushbytes 0x151f7c75
-    swap
-    concat
-    log
-    intc_1 // 1
+    callsub contract
+    intc_0 // 1
     retsub
 
-__puya_arc4_router___bare_routing@5:
-    // smart_contracts/unit_transfer/unit_contract.py:5
+__puya_arc4_router___asset_opt_in_route@3:
+    // smart_contracts/unit_transfer/unit_contract.py:43
+    // @abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    // smart_contracts/unit_transfer/unit_contract.py:6
+    // class AssetPurchase(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txnas Assets
+    // smart_contracts/unit_transfer/unit_contract.py:43
+    // @abimethod
+    callsub asset_opt_in
+    intc_0 // 1
+    retsub
+
+__puya_arc4_router___begin_transfer_route@4:
+    // smart_contracts/unit_transfer/unit_contract.py:52
+    // @abimethod
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    // smart_contracts/unit_transfer/unit_contract.py:6
+    // class AssetPurchase(ARC4Contract):
+    txna ApplicationArgs 1
+    btoi
+    txnas Assets
+    txna ApplicationArgs 2
+    btoi
+    txnas Accounts
+    txna ApplicationArgs 3
+    btoi
+    txnas Accounts
+    txna ApplicationArgs 4
+    btoi
+    txna ApplicationArgs 5
+    btoi
+    // smart_contracts/unit_transfer/unit_contract.py:52
+    // @abimethod
+    callsub begin_transfer
+    intc_0 // 1
+    retsub
+
+__puya_arc4_router___bare_routing@7:
+    // smart_contracts/unit_transfer/unit_contract.py:6
     // class AssetPurchase(ARC4Contract):
     txn OnCompletion
-    bnz __puya_arc4_router___after_if_else@9
+    bnz __puya_arc4_router___after_if_else@11
     txn ApplicationID
     !
     assert // can only call when creating
-    intc_1 // 1
+    intc_0 // 1
     retsub
 
-__puya_arc4_router___after_if_else@9:
-    // smart_contracts/unit_transfer/unit_contract.py:5
+__puya_arc4_router___after_if_else@11:
+    // smart_contracts/unit_transfer/unit_contract.py:6
     // class AssetPurchase(ARC4Contract):
-    intc_0 // 0
+    intc_1 // 0
     retsub
 
 
-// smart_contracts.unit_transfer.unit_contract.AssetPurchase.purchase(buyer: bytes, amount: uint64, test: bytes) -> bytes:
-purchase:
-    // smart_contracts/unit_transfer/unit_contract.py:9-10
+// smart_contracts.unit_transfer.unit_contract.AssetPurchase.contract(seller: bytes, buyer: bytes, price: uint64, qty: uint64, asset: uint64) -> void:
+contract:
+    // smart_contracts/unit_transfer/unit_contract.py:14-15
     // @abimethod
-    // def purchase(self, buyer: Account, amount: UInt64, test: String) -> String:
-    proto 3 1
+    // def contract(self, seller: Account, buyer: Account, price: UInt64, qty: UInt64, asset: Asset) -> None:
+    proto 5 0
+    // smart_contracts/unit_transfer/unit_contract.py:16
+    // self.seller = seller
+    pushbytes "seller"
+    frame_dig -5
+    app_global_put
     // smart_contracts/unit_transfer/unit_contract.py:17
-    // return "Buying units from an account with bal: " + test
-    pushbytes "Buying units from an account with bal: "
+    // self.buyer = buyer
+    pushbytes "buyer"
+    frame_dig -4
+    app_global_put
+    // smart_contracts/unit_transfer/unit_contract.py:18
+    // self.price = price
+    pushbytes "price"
+    frame_dig -3
+    app_global_put
+    // smart_contracts/unit_transfer/unit_contract.py:19
+    // self.qty = qty
+    pushbytes "qty"
+    frame_dig -2
+    app_global_put
+    // smart_contracts/unit_transfer/unit_contract.py:20
+    // self.asset = asset
+    pushbytes "asset"
     frame_dig -1
-    concat
+    app_global_put
+    retsub
+
+
+// smart_contracts.unit_transfer.unit_contract.AssetPurchase.asset_opt_in(asset: uint64) -> void:
+asset_opt_in:
+    // smart_contracts/unit_transfer/unit_contract.py:43-44
+    // @abimethod
+    // def asset_opt_in(self, asset: Asset) -> None:
+    proto 1 0
+    // smart_contracts/unit_transfer/unit_contract.py:45-50
+    // itxn.AssetTransfer(
+    //     asset_receiver=Global.current_application_address,
+    //     xfer_asset=asset,
+    //     asset_amount=0,
+    //     fee=1000,
+    // ).submit()
+    itxn_begin
+    // smart_contracts/unit_transfer/unit_contract.py:46
+    // asset_receiver=Global.current_application_address,
+    global CurrentApplicationAddress
+    // smart_contracts/unit_transfer/unit_contract.py:48
+    // asset_amount=0,
+    intc_1 // 0
+    itxn_field AssetAmount
+    frame_dig -1
+    itxn_field XferAsset
+    itxn_field AssetReceiver
+    // smart_contracts/unit_transfer/unit_contract.py:45
+    // itxn.AssetTransfer(
+    intc_3 // axfer
+    itxn_field TypeEnum
+    // smart_contracts/unit_transfer/unit_contract.py:49
+    // fee=1000,
+    intc_2 // 1000
+    itxn_field Fee
+    // smart_contracts/unit_transfer/unit_contract.py:45-50
+    // itxn.AssetTransfer(
+    //     asset_receiver=Global.current_application_address,
+    //     xfer_asset=asset,
+    //     asset_amount=0,
+    //     fee=1000,
+    // ).submit()
+    itxn_submit
+    retsub
+
+
+// smart_contracts.unit_transfer.unit_contract.AssetPurchase.begin_transfer(asset: uint64, buyer: bytes, seller: bytes, price: uint64, qty: uint64) -> void:
+begin_transfer:
+    // smart_contracts/unit_transfer/unit_contract.py:52-53
+    // @abimethod
+    // def begin_transfer(self, asset: Asset, buyer: Account, seller: Account, price: UInt64, qty: UInt64) -> None:
+    proto 5 0
+    // smart_contracts/unit_transfer/unit_contract.py:54-59
+    // itxn.AssetTransfer(
+    //     xfer_asset = asset,
+    //     asset_receiver=buyer,
+    //     asset_amount=qty,
+    //     fee=1000
+    // ).submit()
+    itxn_begin
+    frame_dig -1
+    itxn_field AssetAmount
+    frame_dig -4
+    itxn_field AssetReceiver
+    frame_dig -5
+    itxn_field XferAsset
+    // smart_contracts/unit_transfer/unit_contract.py:54
+    // itxn.AssetTransfer(
+    intc_3 // axfer
+    itxn_field TypeEnum
+    // smart_contracts/unit_transfer/unit_contract.py:58
+    // fee=1000
+    intc_2 // 1000
+    itxn_field Fee
+    // smart_contracts/unit_transfer/unit_contract.py:54-59
+    // itxn.AssetTransfer(
+    //     xfer_asset = asset,
+    //     asset_receiver=buyer,
+    //     asset_amount=qty,
+    //     fee=1000
+    // ).submit()
+    itxn_submit
+    // smart_contracts/unit_transfer/unit_contract.py:61-65
+    // itxn.Payment(
+    //     receiver=seller,
+    //     amount=price * qty,
+    //     fee=1000
+    // ).submit()
+    itxn_begin
+    // smart_contracts/unit_transfer/unit_contract.py:63
+    // amount=price * qty,
+    frame_dig -2
+    frame_dig -1
+    *
+    itxn_field Amount
+    frame_dig -3
+    itxn_field Receiver
+    // smart_contracts/unit_transfer/unit_contract.py:61
+    // itxn.Payment(
+    intc_0 // pay
+    itxn_field TypeEnum
+    // smart_contracts/unit_transfer/unit_contract.py:64
+    // fee=1000
+    intc_2 // 1000
+    itxn_field Fee
+    // smart_contracts/unit_transfer/unit_contract.py:61-65
+    // itxn.Payment(
+    //     receiver=seller,
+    //     amount=price * qty,
+    //     fee=1000
+    // ).submit()
+    itxn_submit
     retsub
