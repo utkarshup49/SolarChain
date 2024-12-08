@@ -15,7 +15,7 @@ from playground.account_constants import ACCOUNTS_LOCAL, ACCOUNTS_TEST_NET
 
 # LocalNet configuration
 
-LOCAL_NET: bool = True
+LOCAL_NET: bool = False
 if LOCAL_NET:
     TOKEN = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"  # Default AlgoKit LocalNet token
     SERVER_ADDRESS = "http://localhost:4001"  # Default AlgoKit LocalNet endpoint
@@ -40,8 +40,8 @@ if LOCAL_NET:
     acc1: Account = get_account_from_mnemonic(ACCOUNTS_LOCAL[0])
     acc2: Account = get_account_from_mnemonic(ACCOUNTS_LOCAL[1])
 else:
-    acc1: Account = get_account_from_mnemonic(ACCOUNTS_TEST_NET[3])
-    acc2: Account = get_account_from_mnemonic(ACCOUNTS_TEST_NET[4])
+    acc1: Account = get_account_from_mnemonic(ACCOUNTS_TEST_NET[0])
+    acc2: Account = get_account_from_mnemonic(ACCOUNTS_TEST_NET[1])
 
 params: SuggestedParams = algod_client.suggested_params()
 params.min_fee = 0
@@ -60,14 +60,14 @@ app_client.deploy(
     on_update=OnUpdate.AppendApp,
 )
 
-price = 1_000_000
+price = 10_000
 qty = 3
 
 
 transfer(
     algod_client,
     TransferParameters(
-        from_account=get_localnet_default_account(algod_client),
+        from_account=acc2,
         to_address=app_client.app_address,
         micro_algos=(100_000+price)*(qty+2),
     )
