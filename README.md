@@ -21,6 +21,7 @@ If you’re not sure of your username, you can login to the [Docker Hub](https:/
 - *tests*: Contain all the tests for our project
 - *util*: Helpful tools
 - *playground*: Standalone testing before full implementation.
+- *Solar Chain*: Algokit Project containing the [Smart Contract](SolarChain/projects/SolarChain/smart_contracts/unit_transfer/unit_contract.py)
 
 # Running the program.
 Run `main.py` and navigate to the [website](http://127.0.0.1:5000/).

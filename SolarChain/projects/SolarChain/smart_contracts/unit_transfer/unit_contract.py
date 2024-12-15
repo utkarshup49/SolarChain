@@ -64,6 +64,7 @@ class AssetPurchase(ARC4Contract):
             fee=1000
         ).submit()
 
+        # TODO
         # group_id: int = transaction.assign_group_id([from_buyer, from_seller])
 
 
