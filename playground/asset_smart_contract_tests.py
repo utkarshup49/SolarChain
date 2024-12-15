@@ -13,7 +13,7 @@ from playground.account_constants import ACCOUNTS_LOCAL, ACCOUNTS_TEST_NET, ASSE
 # LocalNet configuration
 
 # Make sure all accounts are properly setup
-LOCAL_NET: bool = False # Set to False for Test Net, and True to use Local Net
+LOCAL_NET: bool = False  # Set to False for Test Net, and True to use Local Net
 if LOCAL_NET:
     TOKEN = "a" * 64  # Default AlgoKit LocalNet token
     SERVER_ADDRESS = "http://localhost:4001"  # Default AlgoKit LocalNet endpoint
