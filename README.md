@@ -1,7 +1,3 @@
-- Make sure all packages are installed.
-  - Run `pip install -r requirements.txt` to install all required packages.
-- For compiling contract after modification run: `algokit compile py <INPUT> --output-arc32 --no-output-teal`
-
 # Project Structure
 
 ## Directories
@@ -15,20 +11,15 @@
 - [*playground*](playground): Standalone testing before full implementation.
 - [*Solar Chain*](SolarChain/projects/SolarChain): Algokit Project containing the [Smart Contract](SolarChain/projects/SolarChain/smart_contracts/unit_transfer/unit_contract.py)
 
-# Running the program.
-Run [`main.py`](main.py) and navigate to the [website](http://127.0.0.1:5000/).
-
-For standalone smart contract testing navigate to [Standalone file](playground/asset_smart_contract_tests.py)
-> NOTE: If using localnet you will have to create new localnet accounts and asset for testing on localnet. If doing so then mention the new accounts' mnemonic in [this file](playground/account_constants.py) in the `ACCOUNTS_LOCAL` list and update the `ASSET_ID_LOCAL_NET` variable to the new asset's ID. See [this file](playground/asset_creation.py) to create a new asset for localnet.
->
-> For using test net make sure that in the file the variable `LOCAL_NET` is set to false. This will make it automatically use the testnet accounts mentioned in the [accounts file](playground/account_constants.py).
-
 # Setup
 
 ### Pre-requisites
 
 - [Python 3.12](https://www.python.org/downloads/) or later
 - [Docker](https://www.docker.com/) (only required for LocalNet)
+- Make sure all packages are installed.
+  - Run `pip install -r requirements.txt` to install all required packages.
+- For compiling contract after modification run: `algokit compile py <INPUT> --output-arc32 --no-output-teal`. *No need to run this if contract is not modified.*
 
 ### Initial Setup
 
@@ -45,6 +36,14 @@ Ensure the following pre-requisites are installed and properly configured:
 > For test net just run [this file](playground/asset_smart_contract_tests.py) and make sure the variable `LOCAL_NET` is set to false and accounts are properly setup in the [accounts file](playground/account_constants.py).
 
 > Pycharm was the IDE used.
+
+# Running the program.
+Run [`main.py`](main.py) and navigate to the [website](http://127.0.0.1:5000/).
+
+For standalone smart contract testing navigate to [Standalone file](playground/asset_smart_contract_tests.py)
+> NOTE: If using localnet you will have to create new localnet accounts and asset for testing on localnet. If doing so then mention the new accounts' mnemonic in [this file](playground/account_constants.py) in the `ACCOUNTS_LOCAL` list and update the `ASSET_ID_LOCAL_NET` variable to the new asset's ID. See [this file](playground/asset_creation.py) to create a new asset for localnet.
+>
+> For using test net make sure that in the file the variable `LOCAL_NET` is set to false. This will make it automatically use the testnet accounts mentioned in the [accounts file](playground/account_constants.py).
 
 # Common Issues
 ## Docker Errors
