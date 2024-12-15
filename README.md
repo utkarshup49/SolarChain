@@ -1,6 +1,7 @@
 - To run the website just run main.py
 - Make sure all packages are installed.
   - Run `pip install -r requirements.txt` to install all required packages.
+  - This is "master" branch , not the latest, use algo-try branch to run the smart contract and to connect with PeraWallet
 
 # Project Structure
 
