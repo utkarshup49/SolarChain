@@ -1,8 +1,10 @@
 import algokit_utils
-from algokit_utils import get_indexer_client, get_default_localnet_config, OnSchemaBreak, \
-    OnUpdate, transfer, TransferParameters, TransferAssetParameters, get_account_from_mnemonic, Account
+from algokit_utils import OnSchemaBreak, \
+    OnUpdate, transfer, TransferParameters, TransferAssetParameters, get_account_from_mnemonic, Account, \
+    get_indexer_client, get_default_localnet_config
 from algosdk.transaction import SuggestedParams
 from algosdk.v2client.algod import AlgodClient
+from algosdk.v2client.indexer import IndexerClient
 
 from SolarChain.projects.SolarChain.smart_contracts.artifacts.unit_transfer.asset_purchase_client import \
     AssetPurchaseClient
@@ -10,13 +12,18 @@ from playground.account_constants import ACCOUNTS_LOCAL, ACCOUNTS_TEST_NET
 
 # LocalNet configuration
 
-LOCAL_NET: bool = False
+# Make sure all accounts are properly setup
+LOCAL_NET: bool = False # Set to False for Test Net, and True to use Local Net
 if LOCAL_NET:
-    TOKEN = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"  # Default AlgoKit LocalNet token
+    TOKEN = "a" * 64  # Default AlgoKit LocalNet token
     SERVER_ADDRESS = "http://localhost:4001"  # Default AlgoKit LocalNet endpoint
+    INDEXER_ADDRESS = "http://localhost:8980"
+    INDEXER_TOKEN = TOKEN
 else:
     TOKEN = ""  # Default AlgoKit LocalNet token
-    SERVER_ADDRESS = "https://testnet-api.algonode.cloud"  # Default AlgoKit LocalNet endpoint
+    SERVER_ADDRESS = "https://testnet-api.4160.nodely.dev"  # Default AlgoKit LocalNet endpoint
+    INDEXER_ADDRESS = "https://testnet-idx.4160.nodely.dev"
+    INDEXER_TOKEN = ""
 
 # Initialize the Algod client
 algod_client: AlgodClient = AlgodClient(TOKEN, SERVER_ADDRESS)
@@ -43,7 +50,7 @@ params.min_fee = 0
 params.flat_fee = True
 created_asset = 730166188 if not LOCAL_NET else 1006
 
-app_indexer_client = get_indexer_client(get_default_localnet_config("indexer"))
+app_indexer_client: IndexerClient = IndexerClient(indexer_address=INDEXER_ADDRESS, indexer_token=INDEXER_TOKEN)
 app_client = AssetPurchaseClient(
     algod_client=algod_client,
     creator=acc1,
