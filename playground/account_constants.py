@@ -1,7 +1,3 @@
-import re
-
-from algosdk import mnemonic, account
-
 ACCOUNTS_LOCAL = [
     # Local net
     "exhaust beach nephew harbor obscure vacuum advance dizzy concert fossil episode vote salon ozone acquire just taste high twenty public melody frozen august abandon insane",
@@ -17,22 +13,23 @@ ACCOUNTS_TEST_NET = [
 ASSET_ID_LOCAL_NET = 1006
 ASSET_ID_TEST_NET = 730166188
 
-class Account:
-
-    def __init__(self, account_mnemonic_phrase: str):
-        super().__init__()
-        self._mnemonic_phrase: str = account_mnemonic_phrase
-        self._private_key = mnemonic.to_private_key(account_mnemonic_phrase)
-        self._public_address: str = account.address_from_private_key(self._private_key)
-
-    @property
-    def private_key(self) -> str:
-        return self._private_key
-
-    @property
-    def mnemonic(self):
-        return self._mnemonic_phrase
-
-    @property
-    def address(self):
-        return self._public_address
+# @deprecated
+# class Account:
+#
+#     def __init__(self, account_mnemonic_phrase: str):
+#         super().__init__()
+#         self._mnemonic_phrase: str = account_mnemonic_phrase
+#         self._private_key = mnemonic.to_private_key(account_mnemonic_phrase)
+#         self._public_address: str = account.address_from_private_key(self._private_key)
+#
+#     @property
+#     def private_key(self) -> str:
+#         return self._private_key
+#
+#     @property
+#     def mnemonic(self):
+#         return self._mnemonic_phrase
+#
+#     @property
+#     def address(self):
+#         return self._public_address
