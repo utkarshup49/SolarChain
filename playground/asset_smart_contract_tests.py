@@ -15,7 +15,7 @@ from playground.account_constants import ACCOUNTS_LOCAL, ACCOUNTS_TEST_NET
 
 # LocalNet configuration
 
-LOCAL_NET: bool = True
+LOCAL_NET: bool = False
 if LOCAL_NET:
     TOKEN = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"  # Default AlgoKit LocalNet token
     SERVER_ADDRESS = "http://localhost:4001"  # Default AlgoKit LocalNet endpoint
@@ -60,8 +60,8 @@ app_client.deploy(
     on_update=OnUpdate.AppendApp,
 )
 
-price = 10_000
-qty = 3
+price = 1_000_000
+qty = 1
 
 FEES = 3_000
 transfer(
@@ -69,7 +69,7 @@ transfer(
     TransferParameters(
         from_account=acc2,
         to_address=app_client.app_address,
-        micro_algos=(FEES+price)*qty,
+        micro_algos=(FEES+price)*qty+200_000,
     )
 )
 
