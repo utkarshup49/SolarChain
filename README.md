@@ -2,14 +2,6 @@
   - Run `pip install -r requirements.txt` to install all required packages.
 - For compiling contract after modification run: `algokit compile py <INPUT> --output-arc32 --no-output-teal`
 
-# Common Issues
-## Docker Errors
-Logged in but got `unauthorized: incorrect username or password error.`
-
-Right-Click on the system tray icon, does it show you logged in as username@domain.com? If so, Sign out, the issue is that you must login to Docker using your hub username, which is different than your email address, even though in some cases, both are interchangeable.
-You can do this by signing out from the system tray icon, or by logging in at a command prompt, using the syntax `docker login --username your_username_here.`
-If you’re not sure of your username, you can login to the [Docker Hub](https://hub.docker.com/), and your username will be displayed on the far right hand side of the menu bar, next to “Dashboard”, “Explore” and such.
-
 # Project Structure
 
 ## Directories
@@ -27,12 +19,9 @@ If you’re not sure of your username, you can login to the [Docker Hub](https:/
 Run `main.py` and navigate to the [website](http://127.0.0.1:5000/).
 
 For standalone smart contract testing navigate to [Standalone file](playground/asset_smart_contract_tests.py)
-> NOTE: You will have to create new localnet accounts for testing on localnet so mention the new accounts' mnemonic in [this file](playground/account_constants.py) in the `ACCOUNTS_LOCAL` list.
+> NOTE: If using localnet you will have to create new localnet accounts and asset for testing on localnet. If doing so then mention the new accounts' mnemonic in [this file](playground/account_constants.py) in the `ACCOUNTS_LOCAL` list and update the `ASSET_ID_LOCAL_NET` variable to the new asset's ID. See [this file](playground/asset_creation.py) to create a new asset for localnet.
+>
 > For using test net make sure that in the file the variable `LOCAL_NET` is set to false. This will make it automatically use the testnet accounts mentioned in the [accounts file](playground/account_constants.py).
-
-# SolarChain
-
-This project has been generated using AlgoKit. See below for default getting started instructions.
 
 # Setup
 
@@ -56,6 +45,14 @@ Ensure the following pre-requisites are installed and properly configured:
 > For test net just run [this file](playground/asset_smart_contract_tests.py) and make sure the variable `LOCAL_NET` is set to false and accounts are properly setup in the [accounts file](playground/account_constants.py).
 
 > Pycharm was the IDE used.
+
+# Common Issues
+## Docker Errors
+Logged in but got `unauthorized: incorrect username or password error.`
+
+Right-Click on the system tray icon, does it show you logged in as username@domain.com? If so, Sign out, the issue is that you must login to Docker using your hub username, which is different than your email address, even though in some cases, both are interchangeable.
+You can do this by signing out from the system tray icon, or by logging in at a command prompt, using the syntax `docker login --username your_username_here.`
+If you’re not sure of your username, you can login to the [Docker Hub](https://hub.docker.com/), and your username will be displayed on the far right hand side of the menu bar, next to “Dashboard”, “Explore” and such.
 
 # Tools
 

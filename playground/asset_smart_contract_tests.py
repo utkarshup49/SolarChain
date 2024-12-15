@@ -1,14 +1,14 @@
 import algokit_utils
 from algokit_utils import OnSchemaBreak, \
-    OnUpdate, transfer, TransferParameters, TransferAssetParameters, get_account_from_mnemonic, Account, \
-    get_indexer_client, get_default_localnet_config
+    OnUpdate, transfer, TransferParameters, TransferAssetParameters, get_account_from_mnemonic, Account
 from algosdk.transaction import SuggestedParams
 from algosdk.v2client.algod import AlgodClient
 from algosdk.v2client.indexer import IndexerClient
 
 from SolarChain.projects.SolarChain.smart_contracts.artifacts.unit_transfer.asset_purchase_client import \
     AssetPurchaseClient
-from playground.account_constants import ACCOUNTS_LOCAL, ACCOUNTS_TEST_NET
+from playground.account_constants import ACCOUNTS_LOCAL, ACCOUNTS_TEST_NET, ASSET_ID_TEST_NET, \
+    ASSET_ID_LOCAL_NET
 
 # LocalNet configuration
 
@@ -48,7 +48,7 @@ else:
 params: SuggestedParams = algod_client.suggested_params()
 params.min_fee = 0
 params.flat_fee = True
-created_asset = 730166188 if not LOCAL_NET else 1006
+created_asset = ASSET_ID_TEST_NET if not LOCAL_NET else ASSET_ID_LOCAL_NET
 
 app_indexer_client: IndexerClient = IndexerClient(indexer_address=INDEXER_ADDRESS, indexer_token=INDEXER_TOKEN)
 app_client = AssetPurchaseClient(
@@ -89,12 +89,3 @@ algokit_utils.transfer_asset(
 )
 
 app_client.begin_transfer(asset=created_asset, seller=acc1.address, buyer=acc2.address, price=price, qty=qty)
-
-
-# app_client.send_purchase_asset(seller=acc1.address, price=1, qty=1, asset_id=created_asset)
-# app_client.purchase(buyer=acc2, price=1, qty=1, asset_id=created_asset)
-# print("Ret", app_client.test(hh="T").return_value)
-# app_client.basic_transfer()
-# asset_id = app_client.non_fungible_asset_create().return_value
-# print(asset_id)
-# app_client.asset_opt_in(asset=1036)

@@ -14,6 +14,9 @@ ACCOUNTS_TEST_NET = [
     "surge doctor duck usage clog congress claw number lucky cannon label illness limit business volcano peace result member tribe wagon vendor senior crane about job"
 ]
 
+ASSET_ID_LOCAL_NET = 1006
+ASSET_ID_TEST_NET = 730166188
+
 class Account:
 
     def __init__(self, account_mnemonic_phrase: str):
