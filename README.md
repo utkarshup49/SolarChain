@@ -20,6 +20,7 @@ If you’re not sure of your username, you can login to the [Docker Hub](https:/
   - *templates*: HTML webpages
 - *tests*: Contain all the tests for our project
 - *util*: Helpful tools
+- *playground*: Standalone testing before full implementation.
 
 # Running the program.
 Run `main.py` and navigate to the [website](http://127.0.0.1:5000/).
@@ -54,8 +55,6 @@ Ensure the following pre-requisites are installed and properly configured:
 > For test net just run [this file](playground/asset_smart_contract_tests.py) and make sure the variable `LOCAL_NET` is set to false and accounts are properly setup in the [accounts file](playground/account_constants.py).
 
 > Pycharm was the IDE used.
-
-> NOTE: By default smart contract artifacts are compiled with `--debug-level` set to 0, to change this, modify the compiler invocation under `smart_contracts/_helpers/build.py`
 
 # Tools
 
