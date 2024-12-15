@@ -5,15 +5,15 @@
 # Project Structure
 
 ## Directories
-- *doc*: Documentations
-- *instance*: Database location and other files 
-- *scripts*:  Contains all the main scripts
-  - *static*: JS, CSS and other resources
-  - *templates*: HTML webpages
-- *tests*: Contain all the tests for our project
-- *util*: Helpful tools
-- *playground*: Standalone testing before full implementation.
-- *Solar Chain*: Algokit Project containing the [Smart Contract](SolarChain/projects/SolarChain/smart_contracts/unit_transfer/unit_contract.py)
+- [*doc*](doc): Documentations
+- [*instance*](instance): Database location and other files 
+- [*main*](main):  Contains all the main scripts
+  - [*static*](main/static): JS, CSS and other resources
+  - [*templates*](main/templates): HTML webpages
+- [*tests*](tests): Contain all the tests for our project
+- [*util*](util): Helpful tools
+- [*playground*](playground): Standalone testing before full implementation.
+- [*Solar Chain*](SolarChain/projects/SolarChain): Algokit Project containing the [Smart Contract](SolarChain/projects/SolarChain/smart_contracts/unit_transfer/unit_contract.py)
 
 # Running the program.
 Run [`main.py`](main.py) and navigate to the [website](http://127.0.0.1:5000/).
