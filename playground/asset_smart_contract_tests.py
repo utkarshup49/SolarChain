@@ -1,13 +1,8 @@
 import algokit_utils
-import algopy
-from algokit_utils import get_indexer_client, get_default_localnet_config, get_localnet_default_account, OnSchemaBreak, \
-    OnUpdate, transfer, TransferParameters, TransferAssetParameters, get_kmd_wallet_account, \
-    get_kmd_client_from_algod_client, get_account_from_mnemonic, Account
-from algopy import UInt64
+from algokit_utils import get_indexer_client, get_default_localnet_config, OnSchemaBreak, \
+    OnUpdate, transfer, TransferParameters, TransferAssetParameters, get_account_from_mnemonic, Account
 from algosdk.transaction import SuggestedParams
 from algosdk.v2client.algod import AlgodClient
-from algosdk import account, mnemonic
-from algosdk.v2client.models import Asset
 
 from SolarChain.projects.SolarChain.smart_contracts.artifacts.unit_transfer.asset_purchase_client import \
     AssetPurchaseClient
