@@ -8,7 +8,7 @@
   - [*templates*](main/templates): HTML webpages
 - [*tests*](tests): Contain all the tests for our project
 - [*util*](util): Helpful tools
-- [*playground*](playground): Standalone testing before full implementation.
+- [*playground*](playground): Standalone testing before full implementation. See [Smart Contract Run Example](playground/asset_smart_contract_tests.py) and [Asset Creation](playground/asset_creation.py) file
 - [*Solar Chain*](SolarChain/projects/SolarChain): Algokit Project containing the [Smart Contract](SolarChain/projects/SolarChain/smart_contracts/unit_transfer/unit_contract.py)
 
 # Setup
@@ -30,7 +30,7 @@ Start by cloning this repository to your local machine.
 Ensure the following pre-requisites are installed and properly configured:
 
 - **Docker**: Required for running a local Algorand network. [Install Docker](https://www.docker.com/).
-- **AlgoKit CLI**: Essential for project setup and operations. Install the latest version from [AlgoKit CLI Installation Guide](https://github.com/algorandfoundation/algokit-cli#install). Verify installation with `algokit --version`, expecting `2.0.0` or later.
+- **AlgoKit CLI**: Essential for project setup and operations. Install the latest version from [AlgoKit CLI Installation Guide](https://github.com/algorandfoundation/algokit-cli#install). Verify installation with `algokit --version`, expecting `2.5.0` or later.
 - **Start LocalNet**: Use `algokit localnet start` to initiate a local Algorand network.
 
 > For test net just run [this file](playground/asset_smart_contract_tests.py) and make sure the variable `LOCAL_NET` is set to false and accounts are properly setup in the [accounts file](playground/account_constants.py).
