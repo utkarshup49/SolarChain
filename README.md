@@ -16,7 +16,7 @@
 - *Solar Chain*: Algokit Project containing the [Smart Contract](SolarChain/projects/SolarChain/smart_contracts/unit_transfer/unit_contract.py)
 
 # Running the program.
-Run `main.py` and navigate to the [website](http://127.0.0.1:5000/).
+Run [`main.py`](main.py) and navigate to the [website](http://127.0.0.1:5000/).
 
 For standalone smart contract testing navigate to [Standalone file](playground/asset_smart_contract_tests.py)
 > NOTE: If using localnet you will have to create new localnet accounts and asset for testing on localnet. If doing so then mention the new accounts' mnemonic in [this file](playground/account_constants.py) in the `ACCOUNTS_LOCAL` list and update the `ASSET_ID_LOCAL_NET` variable to the new asset's ID. See [this file](playground/asset_creation.py) to create a new asset for localnet.
