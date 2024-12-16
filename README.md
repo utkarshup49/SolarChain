@@ -13,7 +13,6 @@
 # About
 This project enables a decentralized platform for trading surplus solar energy using blockchain technology. Our solution empowers individuals and businesses to take full control of their surplus energy. We’re building a future where clean energy is accessible, affordable, and efficient for everyone.
 ![blockchain.png](main%2Fstatic%2FResources%2Fimages%2Fblockchain.png)
-![SC.mp4](main%2Fstatic%2FResources%2FVideos%2FSC.mp4)
 Our platform ensures transparency, security, and efficiency using blockchain technology.
 # Project Structure
 
