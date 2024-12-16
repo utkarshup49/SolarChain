@@ -1,3 +1,20 @@
+# Solar Chain
+![](main%2Fstatic%2FResources%2FScreenshots%2Fimg.png)
+*A Peer-to-Peer Energy Trading Platform*
+
+# Table of Contents
+- [About](#about)
+- [Project Structure](#project-structure)
+- [Setup](#setup)
+- [Running the Program](#running-the-program)
+- [Common Issues](#common-issues)
+- [Tools Used](#tools-used)
+
+# About
+This project enables a decentralized platform for trading surplus solar energy using blockchain technology. Our solution empowers individuals and businesses to take full control of their surplus energy. We’re building a future where clean energy is accessible, affordable, and efficient for everyone.
+![blockchain.png](main%2Fstatic%2FResources%2Fimages%2Fblockchain.png)
+![SC.mp4](main%2Fstatic%2FResources%2FVideos%2FSC.mp4)
+Our platform ensures transparency, security, and efficiency using blockchain technology.
 # Project Structure
 
 ## Directories
@@ -53,7 +70,7 @@ Right-Click on the system tray icon, does it show you logged in as username@doma
 You can do this by signing out from the system tray icon, or by logging in at a command prompt, using the syntax `docker login --username your_username_here.`
 If you’re not sure of your username, you can login to the [Docker Hub](https://hub.docker.com/), and your username will be displayed on the far right hand side of the menu bar, next to “Dashboard”, “Explore” and such.
 
-# Tools
+# Tools Used
 
 This project makes use of Algorand Python to build Algorand smart contracts.
 
@@ -65,3 +82,5 @@ The following tools are in use:
 - [pytest](https://docs.pytest.org/): Automated testing.
 - [Docker](https://www.docker.com/): For localnet testing
 - [Flask](https://flask.palletsprojects.com/en/stable/): For backend
+
+Contributions are welcome—check out our code and join us in revolutionizing energy sharing!
