@@ -1,6 +1,6 @@
 # Solar Chain
 ![](main%2Fstatic%2FResources%2FScreenshots%2Fimg.png)
-*A Peer-to-Peer Energy Trading Platform*
+*A Peer-to-Peer Energy Trading Platform *
 
 # Table of Contents
 - [About](#about)
