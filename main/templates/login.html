@@ -4,13 +4,7 @@
     <div class="login_page">
         <h1 class="heading">Login</h1>
 
-        <div>
-            {% for message in get_flashed_messages() %}
-            <div class="invalid-feedback">
-                {{ message }}
-            </div>
-            {% endfor %}
-        </div>
+        {{ display_messages() }}
 
         <form method="POST" action="">
             {{ form.hidden_tag() }}

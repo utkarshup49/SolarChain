@@ -40,13 +40,7 @@
             </div>
         </form>
 
-        <div>
-            {% for message in get_flashed_messages() %}
-            <div class="invalid-feedback">
-                {{ message }}
-            </div>
-            {% endfor %}
-        </div>
+        {{ display_messages() }}
 
         <!-- Table for listing existing sell orders -->
         <table class="bordered">

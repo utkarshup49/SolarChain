@@ -21,13 +21,7 @@
                 <button type="submit" style="width: max-content;">Save Changes</button>
             </form>
         </div>
-        <div>
-            {% for message in get_flashed_messages() %}
-            <div class="invalid-feedback">
-                {{ message }}
-            </div>
-            {% endfor %}
-        </div>
+        {{ display_messages() }}
     </div>
 </div>
 

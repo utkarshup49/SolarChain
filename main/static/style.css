@@ -1059,7 +1059,6 @@ div[role="progressbar"] {
     --fg: #369;
     --bg: #def;
     --pgPercentage: var(--value);
-    animation: growProgressBar 3s 1 forwards;
     width: var(--size);
     height: var(--size);
     border-radius: 50%;
