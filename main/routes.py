@@ -79,8 +79,45 @@ def account():
     """
     Render the account page to display user-specific details.
     """
-    return render_template("account.html")
+    if not current_user.is_authenticated:
+        return redirect(url_for("login"))
+    return render_template("account_info.html")
 
+@app.route('/update_account', methods=['GET', 'POST'])
+@login_required
+def update_account():
+    if request.method == 'POST':
+        new_username = request.form.get('username')
+        if not new_username:
+            flash('Please a valid username.', 'danger')
+        else:
+            current_user.username = new_username
+            db.session.commit()
+            flash("Profile updated successfully!", "success")
+    return redirect(url_for('account'))  # Redirect to the same page after updating
+
+
+@app.route('/update_wallet', methods=['GET', 'POST'])
+@login_required
+def update_wallet():
+    if request.method == 'POST':
+        wallet_key = request.form.get("wallet_key")
+        if not wallet_key:
+            flash("Invalid Wallet Key!", "danger")
+        else:
+            current_user.wallet_public_key = wallet_key
+            db.session.commit()
+            flash("Wallet updated successfully!", "success")
+    return redirect(url_for('account_wallet'))
+
+@app.route('/account_wallet')
+def account_wallet():
+    """
+    Render the account page to display user-specific details.
+    """
+    if not current_user.is_authenticated:
+        return redirect(url_for("login"))
+    return render_template("account_wallet.html")
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -89,7 +126,7 @@ def register():
     On successful registration, hashes the password and stores the new user in the database.
     """
     if current_user.is_authenticated:
-        return redirect(url_for("home"))
+        return redirect(url_for("account"))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
