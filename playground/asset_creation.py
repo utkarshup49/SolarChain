@@ -1,4 +1,4 @@
-from algokit_utils import get_account_from_mnemonic
+from algokit_utils import get_account_from_mnemonic, get_account
 from algopy import Account
 from algosdk import transaction
 from algosdk.transaction import SuggestedParams, SignedTransaction
@@ -36,6 +36,7 @@ except Exception as e:
 if LOCAL_NET:
     acc1: Account = get_account_from_mnemonic(ACCOUNTS_LOCAL[0])
     acc2: Account = get_account_from_mnemonic(ACCOUNTS_LOCAL[1])
+    get_account
 else:
     acc1: Account = get_account_from_mnemonic(ACCOUNTS_TEST_NET[0])
     acc2: Account = get_account_from_mnemonic(ACCOUNTS_TEST_NET[1])

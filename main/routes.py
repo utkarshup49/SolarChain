@@ -11,7 +11,7 @@ from flask import flash, redirect, render_template, url_for, request  # Flask ut
 from flask_login import login_required, login_user, current_user, logout_user  # Session management
 from sqlalchemy import or_  # SQLAlchemy operator for OR conditions
 
-from main import app, bcrypt, db  # Flask app instance, bcrypt for hashing, and database
+from main import app, bcrypt, db, algod_client  # Flask app instance, bcrypt for hashing, and database
 from main.forms import LoginForm, PurchaseForm, RegistrationForm, SellOrderForm  # WTForms for handling forms
 from main.models import SellOrder, TransactionHistory, User, get_sellers  # Database models and utility function
 
@@ -89,7 +89,7 @@ def update_account():
     if request.method == 'POST':
         new_username = request.form.get('username')
         if not new_username:
-            flash('Please a valid username.', 'danger')
+            flash('Please a valid username.', 'error')
         else:
             current_user.username = new_username
             db.session.commit()
@@ -103,11 +103,16 @@ def update_wallet():
     if request.method == 'POST':
         wallet_key = request.form.get("wallet_key")
         if not wallet_key:
-            flash("Invalid Wallet Key!", "danger")
+            flash("Invalid Wallet Key!", "error")
         else:
-            current_user.wallet_public_key = wallet_key
-            db.session.commit()
-            flash("Wallet updated successfully!", "success")
+            try:
+                acc_info = algod_client.account_info(wallet_key)
+                print(acc_info)
+                current_user.wallet_public_key = wallet_key
+                db.session.commit()
+                flash("Wallet updated successfully!", "success")
+            except Exception as e:
+                flash(f"Wallet could not be updated: {str(e)}", "error")
     return redirect(url_for('account_wallet'))
 
 @app.route('/account_wallet')

@@ -1018,7 +1018,25 @@ button::before,
 .invalid-feedback {
     font-size: 1rem;
     text-align: center;
+    color: black;
+}
+
+.flash-error {
+    font-size: 1rem;
+    text-align: center;
     color: red;
+}
+
+.flash-danger {
+    font-size: 1rem;
+    text-align: center;
+    color: darkred;
+}
+
+.flash-success {
+    font-size: 1rem;
+    text-align: center;
+    color: lawngreen;
 }
 
 @keyframes growProgressBar {
