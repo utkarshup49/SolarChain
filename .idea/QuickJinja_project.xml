@@ -3,7 +3,7 @@
   <component name="de.achimonline.quickjinja.settings.QuickJinjaProjectSettingsState">
     <option name="settings">
       <QuickJinjaProjectSettings>
-        <option name="templateFilePath" value="$PROJECT_DIR$/playground/asset_creation.py" />
+        <option name="templateFilePath" value="$PROJECT_DIR$/main/routes.py" />
       </QuickJinjaProjectSettings>
     </option>
   </component>
