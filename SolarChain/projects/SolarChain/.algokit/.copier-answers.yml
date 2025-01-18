@@ -1,0 +1,21 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: 1.4.2
+_src_path: gh:algorandfoundation/algokit-python-template
+author_email: 42350280+GlaucousGlaucus@users.noreply.github.com
+author_name: Arpit
+code_tours: false
+contract_name: hello_world
+deployment_language: python
+ide_jetbrains: true
+ide_vscode: false
+preset_name: custom
+project_name: SolarChain
+python_linter: none
+use_dispenser: true
+use_github_actions: true
+use_pre_commit: false
+use_python_black: false
+use_python_mypy: false
+use_python_pip_audit: false
+use_python_pytest: true
+

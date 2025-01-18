@@ -1,16 +1,13 @@
-from algosdk import account, mnemonic
-from algosdk.v2client import algod
-from algosdk.v2client.algod import AlgodClient
-
-# Replace with your own Algod token and address
-algod_token = "RkdKl_fL-TBRy2lhOQmQgBRxPNUrEBc4VLuuIpvI.kZo8GTe_vgxGjNOaiod8RdCfJR4156g_Gtr8WZhSvPw"
-algod_address = "https://testnet-algorand.api.purestake.io/ps2"
-
-# Headers needed if you're using PureStake
-headers = {"X-API-Key": algod_token}
-
-# Create the client
-algod_client: AlgodClient = algod.AlgodClient(algod_token, algod_address, headers)
+# from algosdk import account, mnemonic
+# from algosdk.v2client import algod
+# from algosdk.v2client.algod import AlgodClient
+#
+# # LocalNet configuration
+# algod_token = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"  # Default AlgoKit LocalNet token
+# algod_address = "http://localhost:4001"  # Default AlgoKit LocalNet endpoint
+#
+# # Initialize the Algod client
+# algod_client = algod.AlgodClient(algod_token, algod_address)
 # print("Algod Client Created:", algod_client.health())
 #
 # # Check the connection by fetching the node status
@@ -21,31 +18,31 @@ algod_client: AlgodClient = algod.AlgodClient(algod_token, algod_address, header
 # except Exception as e:
 #     print("Failed to connect:", e)
 #
-# Generate address and mnemonic if needed
-mnemonic_phrase = "balance ship reject pause bubble charge elegant envelope table prosper detail tonight shield source shiver asset senior fan matter kangaroo caught addict similar abstract drift"
-private_key = mnemonic.to_private_key(mnemonic_phrase)
-public_address = account.address_from_private_key(private_key)
-
-
+# # Generate address and mnemonic if needed
+# mnemonic_phrase = "bench where kingdom avocado candy bomb before mammal model rough oak snap satoshi belt tongue fold wide equal juice ripple wide galaxy reject above cover"
+#
+# private_key = mnemonic.to_private_key(mnemonic_phrase)
+# public_address = account.address_from_private_key(private_key)
+#
 # print("Public Address:", public_address)
-
-# private_key, address = account.generate_account()
-print("My address:", public_address)
-print("My mnemonic:", mnemonic.from_private_key(private_key))
-
-from algosdk import transaction
-
-# Details for the transaction
-# receiver_address = "HL34LEN2JX24MJWW6ZRUD7IQGTANY4O35MMLTHHLBTXUHYUL4ZEADLBVP4"  # Replace with the recipient's address
-# amount = 1  # Amount in microAlgos (0.1 ALGO)
-
-# Get suggested transaction parameters
+#
+# # private_key, address = account.generate_account()
+# print("My address:", public_address)
+# print("My mnemonic:", mnemonic.from_private_key(private_key))
+#
+# from algosdk import transaction
+#
+# # Details for the transaction
+# receiver_address = "FDUYNCSL64XEJNYNQZ3IJMBRI64T4CB66DDDUPVIEGNY5GEJNIKCOZMV5A"  # Replace with the recipient's address
+# amount = 1000000  # Amount in microAlgos (0.1 ALGO)
+#
+# # Get suggested transaction parameters
 # params = algod_client.suggested_params()
-
-# Create the transaction
+#
+# # Create the transaction
 # txn = transaction.PaymentTxn(public_address, params, receiver_address, amount)
-
-# Sign the transaction with the private key
+#
+# # Sign the transaction with the private key
 # signed_txn = txn.sign(private_key)
 #
 # # Send the transaction

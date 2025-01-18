@@ -1,0 +1,5 @@
+#pragma version 10
+
+smart_contracts.unit_transfer.unit_contract.AssetPurchase.clear_state_program:
+    pushint 1 // 1
+    return

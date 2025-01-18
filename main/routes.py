@@ -11,7 +11,7 @@ from flask import flash, redirect, render_template, url_for, request  # Flask ut
 from flask_login import login_required, login_user, current_user, logout_user  # Session management
 from sqlalchemy import or_  # SQLAlchemy operator for OR conditions
 
-from main import app, bcrypt, db  # Flask app instance, bcrypt for hashing, and database
+from main import app, bcrypt, db, algod_client  # Flask app instance, bcrypt for hashing, and database
 from main.forms import LoginForm, PurchaseForm, RegistrationForm, SellOrderForm  # WTForms for handling forms
 from main.models import SellOrder, TransactionHistory, User, get_sellers  # Database models and utility function
 
@@ -79,8 +79,50 @@ def account():
     """
     Render the account page to display user-specific details.
     """
-    return render_template("account.html")
+    if not current_user.is_authenticated:
+        return redirect(url_for("login"))
+    return render_template("account_info.html")
 
+@app.route('/update_account', methods=['GET', 'POST'])
+@login_required
+def update_account():
+    if request.method == 'POST':
+        new_username = request.form.get('username')
+        if not new_username:
+            flash('Please a valid username.', 'error')
+        else:
+            current_user.username = new_username
+            db.session.commit()
+            flash("Profile updated successfully!", "success")
+    return redirect(url_for('account'))  # Redirect to the same page after updating
+
+
+@app.route('/update_wallet', methods=['GET', 'POST'])
+@login_required
+def update_wallet():
+    if request.method == 'POST':
+        wallet_key = request.form.get("wallet_key")
+        if not wallet_key:
+            flash("Invalid Wallet Key!", "error")
+        else:
+            try:
+                acc_info = algod_client.account_info(wallet_key)
+                print(acc_info)
+                current_user.wallet_public_key = wallet_key
+                db.session.commit()
+                flash("Wallet updated successfully!", "success")
+            except Exception as e:
+                flash(f"Wallet could not be updated: {str(e)}", "error")
+    return redirect(url_for('account_wallet'))
+
+@app.route('/account_wallet')
+def account_wallet():
+    """
+    Render the account page to display user-specific details.
+    """
+    if not current_user.is_authenticated:
+        return redirect(url_for("login"))
+    return render_template("account_wallet.html")
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -89,14 +131,13 @@ def register():
     On successful registration, hashes the password and stores the new user in the database.
     """
     if current_user.is_authenticated:
-        return redirect(url_for("home"))
+        return redirect(url_for("account"))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
-        with app.app_context():
-            user = User(username=form.username.data, password=hashed_password)
-            db.session.add(user)
-            db.session.commit()
+        user = User(username=form.username.data, password=hashed_password)
+        db.session.add(user)
+        db.session.commit()
         flash(f'Account created for {form.username.data}!', 'success')
         return redirect(url_for('home'))
     return render_template('register.html', title='Register', form=form)
@@ -131,10 +172,9 @@ def seller_page():
     if form.validate_on_submit():
         units, price = form.unit.data, form.price.data
         if current_user.units >= units:
-            with app.app_context():
-                order = SellOrder(user_id=current_user.id, units=units, price=price)
-                db.session.add(order)
-                db.session.commit()
+            order = SellOrder(user_id=current_user.id, units=units, price=price)
+            db.session.add(order)
+            db.session.commit()
         else:
             flash('Units not Available!', 'error')
 
@@ -162,11 +202,10 @@ def cancel_sell_order():
     if order_id is None:
         return redirect(url_for("home"))
 
-    with app.app_context():
-        order: SellOrder = SellOrder.query.filter_by(id=order_id).first()
-        db.session.delete(order)
-        db.session.commit()
-        flash(f"Order: {order.id} Closed")
+    order: SellOrder = SellOrder.query.filter_by(id=order_id).first()
+    db.session.delete(order)
+    db.session.commit()
+    flash(f"Order: {order.id} Closed")
     return redirect(url_for('seller_page'))
 
 
@@ -182,31 +221,38 @@ def checkout_page():
 
     order: SellOrder = SellOrder.query.filter_by(id=order_id).first()
     seller: User = User.query.filter_by(id=order.user_id).first()
+
+    if not order or not seller:
+        flash("Order or seller not found!", "error")
+        return redirect(url_for("home"))
+
     form = PurchaseForm()
     if form.validate_on_submit():
         if form.units.data <= order.units:
             total_price = order.price * form.units.data
-            with app.app_context():
-                buyer: User = User.query.filter_by(id=current_user.id).first()
-                units = form.units.data
-                if seller.units >= units:
-                    if buyer.units + form.units.data <= 35:
-                        buyer.units += units
-                        order.units -= units
-                        seller.units -= units
-                        if order.units == 0:
-                            db.session.delete(order)
-                        history = TransactionHistory(seller_id=seller.id, seller_username=seller.username, buyer_id=buyer.id,
-                                                     units=units, price=total_price, date=datetime.datetime.now())
-                        db.session.add(history)
+            buyer: User = User.query.filter_by(id=current_user.id).first()
+            units = form.units.data
 
-                        db.session.commit()
-                        flash(f"Purchase successful for {form.units.data} units at total {total_price}!")
-                        return redirect(url_for('home'))
-                    else:
-                        flash(f"Purchase unsuccessful for {form.units.data} units. Your Battery is Full!")
+            if seller.units >= units:
+                if buyer.units + form.units.data <= 35:
+
+                    buyer.units += units
+                    order.units -= units
+                    seller.units -= units
+
+                    history = TransactionHistory(seller_id=seller.id, seller_username=seller.username, buyer_id=buyer.id,
+                                                 units=units, price=total_price, date=datetime.datetime.now())
+                    db.session.add(history)
+                    if order.units == 0:
+                        db.session.delete(order)
+                    db.session.commit()
+
+                    flash(f"Purchase successful for {form.units.data} units at total {total_price}!", "success")
+                    return redirect(url_for('home'))
                 else:
-                    flash(f"Purchase unsuccessful for {form.units.data} units. Seller Does Not have these Units!")
+                    flash(f"Purchase unsuccessful for {form.units.data} units. Your Battery is Full!")
+            else:
+                flash(f"Purchase unsuccessful for {form.units.data} units. Seller Does Not have these Units!", "error")
         else:
             flash('Units exceeded!', 'error')
     return render_template("checkout_page.html", title="Checkout", order=order, seller=seller, form=form)
@@ -219,9 +265,8 @@ def get_user_sell_orders():
     Returns:
         List[SellOrder]: List of sell orders belonging to the current user.
     """
-    with app.app_context():
-        qry = SellOrder.query.filter_by(user_id=current_user.id)
-        return qry
+    qry = SellOrder.query.filter_by(user_id=current_user.id)
+    return qry
 
 
 def get_transaction_history(user_id):
@@ -234,18 +279,17 @@ def get_transaction_history(user_id):
     Returns:
         List[dict]: List of transactions with type (CREDIT/DEBIT) and details.
     """
-    with app.app_context():
-        history = []
-        transacts = TransactionHistory.query.filter(or_(
-            TransactionHistory.buyer_id == user_id,
-            TransactionHistory.seller_id == user_id
-        )).order_by(TransactionHistory.date.desc())
-        for transact in transacts:
-            history.append({
-                'row': transact,
-                'type': "CREDIT" if transact.buyer_id == user_id else "DEBIT"
-            })
-        return history
+    history = []
+    transacts = TransactionHistory.query.filter(or_(
+        TransactionHistory.buyer_id == user_id,
+        TransactionHistory.seller_id == user_id
+    )).order_by(TransactionHistory.date.desc())
+    for transact in transacts:
+        history.append({
+            'row': transact,
+            'type': "CREDIT" if transact.buyer_id == user_id else "DEBIT"
+        })
+    return history
 
 
 def get_sell_orders():
@@ -255,19 +299,18 @@ def get_sell_orders():
     Returns:
         List[dict]: List of orders and their respective seller details.
     """
-    with app.app_context():
-        sell_orders = SellOrder.query.all()
-        orders_with_seller = []
-        for order in sell_orders:
-            seller = User.query.filter_by(id=order.user_id).first()
-            if seller.id == current_user.id:
-                continue
-            orders_with_seller.append({
-                'order': order,
-                'seller': seller,
-                'status': int(order.units > seller.units)
-            })
-        return orders_with_seller
+    sell_orders = SellOrder.query.all()
+    orders_with_seller = []
+    for order in sell_orders:
+        seller = User.query.filter_by(id=order.user_id).first()
+        if seller.id == current_user.id:
+            continue
+        orders_with_seller.append({
+            'order': order,
+            'seller': seller,
+            'status': int(order.units > seller.units)
+        })
+    return orders_with_seller
 
 
 @app.route("/logout")
