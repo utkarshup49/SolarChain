@@ -11,6 +11,11 @@ if LOCAL_NET:
     INDEXER_TOKEN = ALGOD_TOKEN
 else:
     ALGOD_TOKEN = ""  # Default AlgoKit LocalNet token
-    ALGOD_SERVER_ADDRESS = "https://testnet-api.4160.nodely.dev"  # Default AlgoKit LocalNet endpoint
-    INDEXER_ADDRESS = "https://testnet-idx.4160.nodely.dev"
+    # ALGOD_SERVER_ADDRESS = "https://testnet-api.4160.nodely.dev"  # Default AlgoKit LocalNet endpoint
+    # INDEXER_ADDRESS = "https://testnet-idx.4160.nodely.dev"
+    ALGOD_SERVER_ADDRESS = "https://mainnet-api.4160.nodely.dev"  # Default AlgoKit LocalNet endpoint
+    INDEXER_ADDRESS = "https://mainnet-idx.4160.nodely.dev"
     INDEXER_TOKEN = ""
+
+MASTER_ACCOUNT_ADDRESS = "KHMMSV6OJASOZLWBZUFG6RBXA5RR6XSUCSUTLNI6PT5ALCADAAOYZKTC5E"
+T = "DK4H2SNR3FGDL27W5MXZFQKJ6EWQVGSSA4LXKGVQWFGBNPTKZBEFA6KSGI"

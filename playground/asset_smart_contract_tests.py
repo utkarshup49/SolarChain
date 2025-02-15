@@ -21,8 +21,10 @@ if LOCAL_NET:
     INDEXER_TOKEN = TOKEN
 else:
     TOKEN = ""  # Default AlgoKit LocalNet token
-    SERVER_ADDRESS = "https://testnet-api.4160.nodely.dev"  # Default AlgoKit LocalNet endpoint
-    INDEXER_ADDRESS = "https://testnet-idx.4160.nodely.dev"
+    SERVER_ADDRESS = "https://mainnet-api.4160.nodely.dev"  # Default AlgoKit LocalNet endpoint
+    INDEXER_ADDRESS = "https://mainnet-idx.4160.nodely.dev"
+    # SERVER_ADDRESS = "https://testnet-api.4160.nodely.dev"  # Default AlgoKit LocalNet endpoint
+    # INDEXER_ADDRESS = "https://testnet-idx.4160.nodely.dev"
     INDEXER_TOKEN = ""
 
 # Initialize the Algod client
@@ -62,16 +64,16 @@ app_client.deploy(
     on_update=OnUpdate.AppendApp,
 )
 
-price = 1_000_000
+price = 1_000
 qty = 1
 
-FEES = 3_000
+FEES = 1_000
 transfer(
     algod_client,
     TransferParameters(
         from_account=acc2,
         to_address=app_client.app_address,
-        micro_algos=(FEES+price)*qty+200_000,
+        micro_algos=(FEES+price)*qty+1_000,
     )
 )
 

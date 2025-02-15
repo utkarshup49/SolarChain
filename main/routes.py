@@ -7,6 +7,7 @@ managing transaction history. This module integrates Flask, Flask-Login, SQLAlch
 import datetime  # Used for timestamping transactions
 from typing import List  # Type hint for a list return type
 
+from algokit_utils import Account, get_account, transfer, TransferParameters, get_account_from_mnemonic
 from flask import flash, redirect, render_template, url_for, request  # Flask utilities for routing and responses
 from flask_login import login_required, login_user, current_user, logout_user  # Session management
 from sqlalchemy import or_  # SQLAlchemy operator for OR conditions
@@ -235,17 +236,25 @@ def checkout_page():
 
             if seller.units >= units:
                 if buyer.units + form.units.data <= 35:
+                    transfer(
+                        algod_client,
+                        TransferParameters(
+                            from_account=get_account_from_mnemonic(buyer.wallet_public_key),
+                            to_address=get_account_from_mnemonic(seller.wallet_public_key).private_key,
+                            micro_algos=1_000,
+                        )
+                    )
 
-                    buyer.units += units
-                    order.units -= units
-                    seller.units -= units
-
-                    history = TransactionHistory(seller_id=seller.id, seller_username=seller.username, buyer_id=buyer.id,
-                                                 units=units, price=total_price, date=datetime.datetime.now())
-                    db.session.add(history)
-                    if order.units == 0:
-                        db.session.delete(order)
-                    db.session.commit()
+                    # buyer.units += units
+                    # order.units -= units
+                    # seller.units -= units
+                    #
+                    # history = TransactionHistory(seller_id=seller.id, seller_username=seller.username, buyer_id=buyer.id,
+                    #                              units=units, price=total_price, date=datetime.datetime.now())
+                    # db.session.add(history)
+                    # if order.units == 0:
+                    #     db.session.delete(order)
+                    # db.session.commit()
 
                     flash(f"Purchase successful for {form.units.data} units at total {total_price}!", "success")
                     return redirect(url_for('home'))
