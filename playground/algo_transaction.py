@@ -36,7 +36,7 @@ from algosdk import transaction
 # Reciever side of the transaction
 receiver_address = "3DTW4CHRDJSOKNNZKVVDON455CQB5CWKCZYBHKB3MVRYL5NB6SWML73CJU"  # Replace with the recipient's address
 amount = 5 * 1000000  # 1 algo = 1,000,000 microalgos
-print("Reciever address is: ", receiver_address)
+print("Receiver address is: ", receiver_address)
 
 # Get suggested transaction parameters
 params = algod_client.suggested_params()
