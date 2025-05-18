@@ -6,6 +6,7 @@
     <script src="static/home_page.js"></script>
     <script src="static/transaction.js"></script>
 </head>
+{% from "_flash_messages.html" import display_messages %}
 <body>
 
 <div class="header">
@@ -30,11 +31,13 @@
                 </a>
             </div>
         </div>
-        <div class="account-link">
+        <div class="account-link" style="width: max-content; margin-left: 50em; ">
             <div class="horizontal_div" style="gap: 0rem;">
                 <a href="/register" style="display: flex; flex-direction:row;">
                     <img src="static/Resources/Icons/account.svg" width="32" height="28">
-                    <p style="margin: 0; margin-top: 0.4rem; margin-left: 0.2rem;">Account</p>
+                    <p style="margin: 0; margin-top: 0.4rem; margin-left: 0.2rem;">
+                        {{ current_user.username if current_user.is_authenticated else "Sign Up or Log-in" }}
+                    </p>
                 </a>
             </div>
         </div>

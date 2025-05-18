@@ -33,13 +33,7 @@
             </div>
         </div>
     </div>
-    <div>
-        {% for message in get_flashed_messages() %}
-        <div class="invalid-feedback">
-            {{ message }}
-        </div>
-        {% endfor %}
-    </div>
+    {{ display_messages() }}
 </div>
 
 {% endblock content %}

@@ -24,13 +24,7 @@
                 <span id="totalPrice">{{ form.units.data * 5 if form.units.data else 0 }}</span>
             </div>
         </form>
-        <div>
-            {% for message in get_flashed_messages() %}
-            <div class="invalid-feedback">
-                {{ message }}
-            </div>
-            {% endfor %}
-        </div>
+        {{ display_messages() }}
     </div>
 </div>
 

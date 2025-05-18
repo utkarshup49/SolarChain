@@ -48,6 +48,7 @@ class User(db.Model, UserMixin):
     units = db.Column(db.Integer, default=random.randint(1, 10))
     seller_rep = db.Column(db.Integer, default=random.randint(1, 5))
     sell_orders = db.relationship("SellOrder", backref="seller", lazy=False)
+    wallet_public_key = db.Column(db.String(100), nullable=True)
 
     def __repr__(self) -> str:
         return f"{self.id} {self.username} {self.password} {self.image_file}"

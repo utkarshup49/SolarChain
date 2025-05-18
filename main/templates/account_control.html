@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<script src="static/home_page.js"></script>
+
+<div class="account_settings_container" style="justify-content: left; align-items: normal">
+    <nav class="menu1">
+        <ul>
+            <li>
+                <div class="text_container">
+                    <img class="account_menubar" src="static/Resources/Icons/person.svg">
+                    <a href="{{ url_for('account') }}">Account</a>
+                </div>
+            </li>
+          <li>
+              <div class="text_container">
+                  <img class="account_menubar" src="static/Resources/Icons/wallet.svg">
+                  <a href="{{ url_for('account_wallet') }}">Wallet</a>
+              </div>
+          </li>
+        </ul>
+    </nav>
+    {% block settings_area %}{% endblock %}
+</div>
+
+{% endblock content %}

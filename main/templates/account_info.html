@@ -1,0 +1,28 @@
+{% extends "account_control.html" %}
+{% block settings_area %}
+
+<script src="static/home_page.js"></script>
+
+<div style="display: flex; flex-direction: column; width: 100%; height: 100%; overflow: hidden">
+    <div class="settings_content_container">
+        <div class="settings_content_container" style="flex-direction: row" id="profile_info">
+            <img class="profile_picture" style="width: 2em; height: 2em;" src="static/Resources/images/profile.jpg" alt="profile_photo">
+            <div style="margin-left: 0.4em;">
+                <p style="font-size: 0.5em; margin: 0;">{{ current_user.username }}</p>
+                <p style="font-size: 0.2em; width:10rem; margin: 0;">User ID: {{ current_user.id }}</p>
+            </div>
+        </div>
+        <div class="settings_content_container" style="padding: 0; margin: 0; width: 70%;">
+            <h1>Account Info</h1>
+            <hr style="width: 100%;">
+            <form class="text_input_container" action="{{ url_for('update_account') }}" method="POST" style="display: flex; flex-direction: column; ">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" value="{{ current_user.username }}" required>
+                <button type="submit" style="width: max-content;">Save Changes</button>
+            </form>
+        </div>
+        {{ display_messages() }}
+    </div>
+</div>
+
+{% endblock settings_area %}
