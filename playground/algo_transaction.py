@@ -22,35 +22,34 @@ algod_client: AlgodClient = algod.AlgodClient(algod_token, algod_address, header
 #     print("Failed to connect:", e)
 #
 # Generate address and mnemonic if needed
-mnemonic_phrase = "balance ship reject pause bubble charge elegant envelope table prosper detail tonight shield source shiver asset senior fan matter kangaroo caught addict similar abstract drift"
+mnemonic_phrase = "soup salon intact broccoli trumpet wet correct job bless add adult buffalo october mammal tool zoo skate bench since success despair symptom direct about left"
 private_key = mnemonic.to_private_key(mnemonic_phrase)
 public_address = account.address_from_private_key(private_key)
 
-
-# print("Public Address:", public_address)
+print("Sender Address", public_address)
 
 # private_key, address = account.generate_account()
-print("My address:", public_address)
-print("My mnemonic:", mnemonic.from_private_key(private_key))
+# print("My mnemonic:", mnemonic.from_private_key(private_key))
 
 from algosdk import transaction
 
-# Details for the transaction
-# receiver_address = "HL34LEN2JX24MJWW6ZRUD7IQGTANY4O35MMLTHHLBTXUHYUL4ZEADLBVP4"  # Replace with the recipient's address
-# amount = 1  # Amount in microAlgos (0.1 ALGO)
+# Reciever side of the transaction
+receiver_address = "3DTW4CHRDJSOKNNZKVVDON455CQB5CWKCZYBHKB3MVRYL5NB6SWML73CJU"  # Replace with the recipient's address
+amount = 5 * 1000000  # 1 algo = 1,000,000 microalgos
+print("Reciever address is: ", receiver_address)
 
 # Get suggested transaction parameters
-# params = algod_client.suggested_params()
+params = algod_client.suggested_params()
 
 # Create the transaction
-# txn = transaction.PaymentTxn(public_address, params, receiver_address, amount)
+txn = transaction.PaymentTxn(public_address, params, receiver_address, amount)
 
 # Sign the transaction with the private key
-# signed_txn = txn.sign(private_key)
-#
+signed_txn = txn.sign(private_key)
+
 # # Send the transaction
-# tx_id = algod_client.send_transaction(signed_txn)
-# print("Transaction ID:", tx_id)
+tx_id = algod_client.send_transaction(signed_txn)
+print("Transaction ID:", tx_id)
 #
 # # Optional: Wait for confirmation
 # import time
